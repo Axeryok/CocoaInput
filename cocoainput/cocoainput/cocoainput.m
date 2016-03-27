@@ -51,6 +51,7 @@ void addInstance(const char* uuid,
   mc.firstRectForCharacterRange = firstRectForCharacterRange_p;
   mc.hasMark = NO;
   mc.isSentedInsertText = NO;
+  mc.isBeforeActionSetMarkedText = NO;
   [[[DataManager sharedManager] dic]
       setObject:mc
          forKey:[[NSString alloc] initWithCString:uuid

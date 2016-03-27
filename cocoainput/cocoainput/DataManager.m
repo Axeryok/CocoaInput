@@ -33,9 +33,12 @@ static DataManager* instance = nil;
     [[[DataManager sharedManager] activeView] interpretKeyEvents:@[ theEvent ]];
   }
   if ([[DataManager sharedManager] activeView].hasMark == NO &&
-      [[DataManager sharedManager] activeView].isSentedInsertText == NO)
+      [[DataManager sharedManager] activeView].isSentedInsertText == NO &&
+      [[DataManager sharedManager] activeView].isBeforeActionSetMarkedText ==
+          NO)
     [self org_keyDown:theEvent];
   [[DataManager sharedManager] activeView].isSentedInsertText = NO;
+  [[DataManager sharedManager] activeView].isBeforeActionSetMarkedText = NO;
 }
 
 - (BOOL)enterFullScreenMode:(NSScreen*)screen

@@ -42,9 +42,7 @@ public class IMEOperator {
 			}
 			
 		};
-		System.out.println("add");
 		Handle.INSTANCE.addInstance(owner.getUUID(), insertText_p, setMarkedText_p, firstRectForCharacterRange_p);
-		System.out.println("added");
 	}
 	
 	public void discardMarkedText(){
