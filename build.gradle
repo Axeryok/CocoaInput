@@ -92,6 +92,9 @@ build.doFirst{
 	String cm="xcodebuild -project cocoainput/cocoainput.xcodeproj"
 	Process p=cm.execute()
 	p.waitFor();
+	cm="mkdir src/main/resources/darwin"
+	p=cm.execute()
+	p.waitFor();
 	cm="cp cocoainput/build/Release/libcocoainput.dylib src/main/resources/darwin"
 	p=cm.execute()
 	p.waitFor();
