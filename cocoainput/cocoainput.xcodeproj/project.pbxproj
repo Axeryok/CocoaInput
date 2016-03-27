@@ -1,0 +1,271 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7A94A2A21CA2EEAE0098B161 /* cocoainput.h in Headers */ = {isa = PBXBuildFile; fileRef = 7A94A2A11CA2EEAE0098B161 /* cocoainput.h */; };
+		7A94A2A41CA2EEAE0098B161 /* cocoainput.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A94A2A31CA2EEAE0098B161 /* cocoainput.m */; };
+		7A94A2AC1CA2EF210098B161 /* MinecraftView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7A94A2AA1CA2EF210098B161 /* MinecraftView.h */; };
+		7A94A2AD1CA2EF210098B161 /* MinecraftView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A94A2AB1CA2EF210098B161 /* MinecraftView.m */; };
+		7A94A2B01CA520A80098B161 /* DataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7A94A2AE1CA520A80098B161 /* DataManager.h */; };
+		7A94A2B11CA520A80098B161 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A94A2AF1CA520A80098B161 /* DataManager.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7A94A29E1CA2EEAE0098B161 /* libcocoainput.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libcocoainput.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A94A2A11CA2EEAE0098B161 /* cocoainput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cocoainput.h; sourceTree = "<group>"; };
+		7A94A2A31CA2EEAE0098B161 /* cocoainput.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cocoainput.m; sourceTree = "<group>"; };
+		7A94A2AA1CA2EF210098B161 /* MinecraftView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MinecraftView.h; sourceTree = "<group>"; };
+		7A94A2AB1CA2EF210098B161 /* MinecraftView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MinecraftView.m; sourceTree = "<group>"; };
+		7A94A2AE1CA520A80098B161 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
+		7A94A2AF1CA520A80098B161 /* DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataManager.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7A94A29B1CA2EEAE0098B161 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7A94A2951CA2EEAE0098B161 = {
+			isa = PBXGroup;
+			children = (
+				7A94A2A01CA2EEAE0098B161 /* cocoainput */,
+				7A94A29F1CA2EEAE0098B161 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7A94A29F1CA2EEAE0098B161 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7A94A29E1CA2EEAE0098B161 /* libcocoainput.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7A94A2A01CA2EEAE0098B161 /* cocoainput */ = {
+			isa = PBXGroup;
+			children = (
+				7A94A2A11CA2EEAE0098B161 /* cocoainput.h */,
+				7A94A2A31CA2EEAE0098B161 /* cocoainput.m */,
+				7A94A2AA1CA2EF210098B161 /* MinecraftView.h */,
+				7A94A2AB1CA2EF210098B161 /* MinecraftView.m */,
+				7A94A2AE1CA520A80098B161 /* DataManager.h */,
+				7A94A2AF1CA520A80098B161 /* DataManager.m */,
+			);
+			path = cocoainput;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		7A94A29C1CA2EEAE0098B161 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7A94A2AC1CA2EF210098B161 /* MinecraftView.h in Headers */,
+				7A94A2B01CA520A80098B161 /* DataManager.h in Headers */,
+				7A94A2A21CA2EEAE0098B161 /* cocoainput.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		7A94A29D1CA2EEAE0098B161 /* cocoainput */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7A94A2A71CA2EEAE0098B161 /* Build configuration list for PBXNativeTarget "cocoainput" */;
+			buildPhases = (
+				7A94A29A1CA2EEAE0098B161 /* Sources */,
+				7A94A29B1CA2EEAE0098B161 /* Frameworks */,
+				7A94A29C1CA2EEAE0098B161 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = cocoainput;
+			productName = cocoainput;
+			productReference = 7A94A29E1CA2EEAE0098B161 /* libcocoainput.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7A94A2961CA2EEAE0098B161 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = Axer;
+				TargetAttributes = {
+					7A94A29D1CA2EEAE0098B161 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
+			};
+			buildConfigurationList = 7A94A2991CA2EEAE0098B161 /* Build configuration list for PBXProject "cocoainput" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7A94A2951CA2EEAE0098B161;
+			productRefGroup = 7A94A29F1CA2EEAE0098B161 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7A94A29D1CA2EEAE0098B161 /* cocoainput */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7A94A29A1CA2EEAE0098B161 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7A94A2A41CA2EEAE0098B161 /* cocoainput.m in Sources */,
+				7A94A2B11CA520A80098B161 /* DataManager.m in Sources */,
+				7A94A2AD1CA2EF210098B161 /* MinecraftView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		7A94A2A51CA2EEAE0098B161 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		7A94A2A61CA2EEAE0098B161 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		7A94A2A81CA2EEAE0098B161 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7A94A2A91CA2EEAE0098B161 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7A94A2991CA2EEAE0098B161 /* Build configuration list for PBXProject "cocoainput" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7A94A2A51CA2EEAE0098B161 /* Debug */,
+				7A94A2A61CA2EEAE0098B161 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7A94A2A71CA2EEAE0098B161 /* Build configuration list for PBXNativeTarget "cocoainput" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7A94A2A81CA2EEAE0098B161 /* Debug */,
+				7A94A2A91CA2EEAE0098B161 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7A94A2961CA2EEAE0098B161 /* Project object */;
+}
