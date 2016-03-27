@@ -1,0 +1,12 @@
+/*
+
+.DS_Store
+*.dylib
+
+!.gitignore
+!src
+!cocoainput
+!build.gradle
+!README.MD
+
+cocoainput/build
