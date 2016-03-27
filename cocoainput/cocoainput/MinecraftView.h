@@ -12,6 +12,7 @@
 
 @property BOOL hasMark;
 @property BOOL isSentedInsertText;
+@property BOOL isBeforeActionSetMarkedText;
 @property void (*insertText)(const char*, const int, const int);
 @property void (*setMarkedText)
     (const char*, const int, const int, const int, const int);

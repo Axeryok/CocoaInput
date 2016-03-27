@@ -13,6 +13,7 @@
 @implementation MinecraftView
 @synthesize hasMark;
 @synthesize isSentedInsertText;
+@synthesize isBeforeActionSetMarkedText;
 
 - (id)init {
   self = [super init];
@@ -20,6 +21,7 @@
 }
 
 - (void)unmarkText {
+  self.isBeforeActionSetMarkedText = YES;
   self.hasMark = NO;
 }
 

@@ -1,6 +1,9 @@
 package net.minecraft.client.gui;
 
+import java.io.IOException;
 import java.util.UUID;
+
+import org.lwjgl.input.Keyboard;
 
 import com.Axeryok.CocoaInput.Handle;
 import com.Axeryok.CocoaInput.IME;
@@ -8,6 +11,7 @@ import com.Axeryok.CocoaInput.IMEOperator;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -897,12 +901,21 @@ public class GuiTextField extends Gui implements IME
 	@Override
 	public void insertText(String aString, int position, int lengthp) {
 		// TODO 自動生成されたメソッド・スタブ
+		if(aString.length()==0){
+			text = (new StringBuffer(text)).replace(cursorPosition,
+					cursorPosition + length,"").toString();
+			length = 0;
+			return;
+		}
 		text = (new StringBuffer(text)).replace(cursorPosition,
-				cursorPosition + length, aString).toString();
+				cursorPosition + length, aString.substring(0,aString.length()-1)).toString();
 		length = 0;
-		cursorPosition += aString.length();
+		cursorPosition += aString.length()-1;
 		selectionEnd = cursorPosition;
-		Handle.INSTANCE.issueKeyEvent("");//変更を空文字イベントで通知する
+		try {
+			Minecraft.getMinecraft().currentScreen.keyTyped(aString.charAt(aString.length()-1), Keyboard.KEY_UNDERLINE);
+		} catch (IOException e) {
+		}
 	}
 
 	
