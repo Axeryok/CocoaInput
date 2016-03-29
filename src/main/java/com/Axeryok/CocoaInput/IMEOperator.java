@@ -57,4 +57,16 @@ public class IMEOperator {
 		Handle.INSTANCE.setIfReceiveEvent(owner.getUUID(), yn==true?1:0);
 	}
 	
+	public static String formatMarkedText(String aString,int position1,int length1){
+		StringBuilder builder=new StringBuilder(aString);
+		if(length1!=0){
+			builder.insert(position1+length1, "§r§n");
+			builder.insert(position1,"§l");
+		}
+		builder.insert(0, "§n");
+		builder.append("§r");
+		
+		return new String(builder);
+	}
+	
 }

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.opengl.Display;
 
+import com.Axeryok.CocoaInput.asm.CocoaInputTransformer;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
@@ -25,7 +26,6 @@ import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-//@Mod(modid = CocoaInput.MODID, version = CocoaInput.VERSION)
 public class CocoaInput extends DummyModContainer
 {
     public static final String MODID = "CocoaInput";
@@ -55,6 +55,10 @@ public class CocoaInput extends DummyModContainer
     public void init(FMLInitializationEvent event)
     {
 		// some example code
+    	if(!System.getProperty("os.name").toLowerCase().startsWith("mac")){
+    		System.out.println("CocoaInput has not been initialized:Not OSX");
+    		return;
+    	}
     	this.acceptUnderline();
     	this.copyLibrary();//JNAがライブラリを見つけられる位置にコピーする
     	MinecraftForge.EVENT_BUS.register(this);

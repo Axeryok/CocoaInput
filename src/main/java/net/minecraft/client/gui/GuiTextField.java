@@ -54,8 +54,7 @@ public class GuiTextField extends Gui implements IME
     private GuiPageButtonList.GuiResponder guiResponder;
     private Predicate<String> validator = Predicates.<String>alwaysTrue();
 
-    IMEOperator myIME;
-    String uuid;
+    
     
     public GuiTextField(int componentId, FontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height)
     {
@@ -891,16 +890,16 @@ public class GuiTextField extends Gui implements IME
     }
 
     int length=0;//Added ember
+    IMEOperator myIME;
+    String uuid;
     
 	@Override
 	public String getUUID() {
-		// TODO 自動生成されたメソッド・スタブ
 		return uuid;
 	}
 
 	@Override
 	public void insertText(String aString, int position, int lengthp) {
-		// TODO 自動生成されたメソッド・スタブ
 		if(aString.length()==0){
 			text = (new StringBuffer(text)).replace(cursorPosition,
 					cursorPosition + length,"").toString();
@@ -922,16 +921,7 @@ public class GuiTextField extends Gui implements IME
 	@Override
 	public void setMarkedText(String aString, int position1, int length1,
 			int position2, int length2) {
-		// TODO 自動生成されたメソッド・スタブ
-		StringBuilder builder=new StringBuilder(aString);
-		if(length1!=0){
-			builder.insert(position1+length1, "§r§n");
-			builder.insert(position1,"§l");
-		}
-		builder.insert(0, "§n");
-		builder.append("§r");
-		
-		String str=new String(builder);
+		String str=myIME.formatMarkedText(aString, position1, length1);
 		text = (new StringBuffer(text)).replace(cursorPosition,
 				cursorPosition + length, str).toString();
 		length = str.length();
@@ -939,7 +929,6 @@ public class GuiTextField extends Gui implements IME
 
 	@Override
 	public float[] firstRectForCharacterRange() {
-		// TODO 自動生成されたメソッド・スタブ
 		float x=org.lwjgl.opengl.Display.getX()+(this.fontRendererInstance.getStringWidth(getText().substring(0, cursorPosition))*2
 				+(this.enableBackgroundDrawing ? this.xPosition + 4 : this.xPosition)*2);
 		float y=org.lwjgl.opengl.Display.getY() + (this.enableBackgroundDrawing ? this.yPosition + (this.height - 8) / 2 : this.yPosition)*2+fontRendererInstance.FONT_HEIGHT*2;
@@ -954,7 +943,6 @@ public class GuiTextField extends Gui implements IME
 
 	@Override
 	public IMEOperator getIMEOperator() {
-		// TODO 自動生成されたメソッド・スタブ
 		return myIME;
 	}
 }
