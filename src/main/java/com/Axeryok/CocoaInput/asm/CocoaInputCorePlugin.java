@@ -31,8 +31,9 @@ public class CocoaInputCorePlugin implements IFMLLoadingPlugin {
 	@Override
 	public void injectData(Map<String, Object> data) {
 		// TODO 自動生成されたメソッド・スタブ
-		if (data.containsKey("coremodLocation")) {
-			location = (File) data.get("coremodLocation");
+		location = (File) data.get("coremodLocation");
+		if(location==null){
+			location=new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
 		}
 	}
 
