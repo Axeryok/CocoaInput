@@ -17,7 +17,5 @@
 
 //形式上
 - (void)org_keyDown:(NSEvent*)theEvent;
-- (BOOL)org_enterFullScreenMode:(NSScreen*)screen
-                    withOptions:(NSDictionary<NSString*, id>*)options;
 - (void)interpretKeyEvents:(NSArray*)eventArray;
 @end

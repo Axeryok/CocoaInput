@@ -62,7 +62,9 @@ public class CocoaInput extends DummyModContainer
     	this.acceptUnderline();
     	this.copyLibrary();//JNAがライブラリを見つけられる位置にコピーする
     	MinecraftForge.EVENT_BUS.register(this);
+    	System.out.println("CocoaInput is being initialized.If stops here,click minecraft window.");
     	Handle.INSTANCE.initialize();
+    	System.out.println("CocoaInput has been initialized.");
     }
     
     @SubscribeEvent
