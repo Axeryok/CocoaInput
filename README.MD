@@ -1,4 +1,4 @@
-CocoaInput
+####CocoaInput
 ***
 Support IME input(Japanese,Chinese,Korean) in Minecraft on Mac OS X.
 
@@ -22,3 +22,7 @@ Place it in your mods directory.
 CocoaInput requires MinecraftForge.
 This mod uses Java Native Access (Apache Licence2)
 
+###
+###License
+***
+Minecraft Mod Public License Japanese Transration
