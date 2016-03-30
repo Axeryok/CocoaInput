@@ -33,8 +33,6 @@ void initialize(void) {
 
   class_replaceMethod([[[NSApp keyWindow] contentView] class], sel, imp,
                       encoding);  //新しいメソッドをオーバーライド
-
-  NSLog(@"CocoaInput has been initialized.");
 }
 
 void addInstance(const char* uuid,

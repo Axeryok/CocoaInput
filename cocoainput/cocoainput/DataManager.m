@@ -41,11 +41,4 @@ static DataManager* instance = nil;
   [[DataManager sharedManager] activeView].isBeforeActionSetMarkedText = NO;
 }
 
-- (BOOL)enterFullScreenMode:(NSScreen*)screen
-                withOptions:(NSDictionary<NSString*, id>*)options {
-  [[NSApp keyWindow]
-      setCollectionBehavior:NSWindowCollectionBehaviorFullScreenPrimary];
-  [[NSApp keyWindow] toggleFullScreen:self];
-  return YES;
-}
 @end
