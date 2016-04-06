@@ -60,6 +60,9 @@
 
 - (NSRect)firstRectForCharacterRange:(NSRange)aRange
                          actualRange:(NSRangePointer)actualRange {
+  if (self.hasMark == NO) {
+    return NSMakeRect(0, 0, 0, 0);
+  }
   float* rect = self.firstRectForCharacterRange();
 
   return MAKE_NSRECT_FROM_ARRAY(rect);
