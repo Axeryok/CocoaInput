@@ -20,7 +20,7 @@ plugins {
     id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
 */
-version = "3.0.1"
+version = "3.0.2"
 group= "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "CocoaInput-1.9"
 
@@ -88,14 +88,18 @@ jar {
 	}
 }
 
-jar.doFirst{
-        String cm="xcodebuild -project cocoainput/cocoainput.xcodeproj"
+deobfCompileDummyTask.doFirst{
+		println 'Building libcocoainput.'
+		String cm="rm -rf  cocoainput/build"
         Process p=cm.execute()
+        p.waitFor();
+        cm="xcodebuild -configuration Release -project cocoainput/cocoainput.xcodeproj"
+        p=cm.execute()
         p.waitFor();
         cm="mkdir src/main/resources/darwin"
         p=cm.execute()
         p.waitFor();
-        cm="cp cocoainput/build/Release/libcocoainput.dylib src/main/resources/darwin"
+        cm="cp -f cocoainput/build/Release/libcocoainput.dylib src/main/resources/darwin/libcocoainput.dylib"
         p=cm.execute()
         p.waitFor();
 }
