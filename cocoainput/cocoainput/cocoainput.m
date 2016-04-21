@@ -33,7 +33,11 @@ void initialize(void) {
 
   class_replaceMethod([[[NSApp keyWindow] contentView] class], sel, imp,
                       encoding);  //新しいメソッドをオーバーライド
-  NSLog(@"Libcocoainput was built on %s %s",__DATE__,__TIME__);
+  NSMenu* minecraftMenu = [[[NSApp mainMenu] itemAtIndex:0] submenu];
+  [minecraftMenu itemAtIndex:[minecraftMenu numberOfItems] - 1]
+      .keyEquivalentModifierMask +=
+      NSControlKeyMask;  // NSCommandKeyMask+NSControlKeyMask
+  NSLog(@"Libcocoainput was built on %s %s", __DATE__, __TIME__);
 }
 
 void addInstance(const char* uuid,
