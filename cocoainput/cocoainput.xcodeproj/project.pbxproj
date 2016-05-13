@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A50CEAC1CE62DB90063DE6C /* Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A50CEAB1CE62DB90063DE6C /* Logger.m */; };
 		7A94A2A21CA2EEAE0098B161 /* cocoainput.h in Headers */ = {isa = PBXBuildFile; fileRef = 7A94A2A11CA2EEAE0098B161 /* cocoainput.h */; };
 		7A94A2A41CA2EEAE0098B161 /* cocoainput.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A94A2A31CA2EEAE0098B161 /* cocoainput.m */; };
 		7A94A2AC1CA2EF210098B161 /* MinecraftView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7A94A2AA1CA2EF210098B161 /* MinecraftView.h */; };
@@ -16,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7A50CEAB1CE62DB90063DE6C /* Logger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Logger.m; sourceTree = "<group>"; };
+		7A50CEAD1CE62DCC0063DE6C /* Logger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
 		7A94A29E1CA2EEAE0098B161 /* libcocoainput.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libcocoainput.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A94A2A11CA2EEAE0098B161 /* cocoainput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cocoainput.h; sourceTree = "<group>"; };
 		7A94A2A31CA2EEAE0098B161 /* cocoainput.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cocoainput.m; sourceTree = "<group>"; };
@@ -61,6 +64,8 @@
 				7A94A2AB1CA2EF210098B161 /* MinecraftView.m */,
 				7A94A2AE1CA520A80098B161 /* DataManager.h */,
 				7A94A2AF1CA520A80098B161 /* DataManager.m */,
+				7A50CEAD1CE62DCC0063DE6C /* Logger.h */,
+				7A50CEAB1CE62DB90063DE6C /* Logger.m */,
 			);
 			path = cocoainput;
 			sourceTree = "<group>";
@@ -137,6 +142,7 @@
 				7A94A2A41CA2EEAE0098B161 /* cocoainput.m in Sources */,
 				7A94A2B11CA520A80098B161 /* DataManager.m in Sources */,
 				7A94A2AD1CA2EF210098B161 /* MinecraftView.m in Sources */,
+				7A50CEAC1CE62DB90063DE6C /* Logger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,7 +186,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -218,7 +224,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};

@@ -2,7 +2,7 @@ package net.minecraft.client.gui;
 
 import java.io.IOException;
 import java.util.UUID;
-
+import com.Axeryok.CocoaInput.CallbackFunction.*;
 import org.lwjgl.input.Keyboard;
 
 import com.Axeryok.CocoaInput.Handle;

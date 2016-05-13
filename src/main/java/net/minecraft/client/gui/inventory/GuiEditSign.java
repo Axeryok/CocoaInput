@@ -2,7 +2,7 @@ package net.minecraft.client.gui.inventory;
 
 import java.io.IOException;
 import java.util.UUID;
-
+import com.Axeryok.CocoaInput.CallbackFunction.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;

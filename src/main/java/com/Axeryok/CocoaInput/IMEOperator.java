@@ -1,8 +1,6 @@
 package com.Axeryok.CocoaInput;
 
-import com.Axeryok.CocoaInput.Handle.Func_firstRectForCharacterRange;
-import com.Axeryok.CocoaInput.Handle.Func_insertText;
-import com.Axeryok.CocoaInput.Handle.Func_setMarkedText;
+import com.Axeryok.CocoaInput.CallbackFunction.*;
 import com.sun.jna.Memory;
 import com.sun.jna.Pointer;
 
@@ -17,6 +15,7 @@ public class IMEOperator {
 			@Override
 			public void invoke(String str, int position, int length) {
 				// TODO 自動生成されたメソッド・スタブ
+				ModLogger.debug(3, "Textfield "+owner.getUUID()+" received inserted text.");
 				owner.insertText(str, position, length);
 			}
 		};
@@ -26,6 +25,7 @@ public class IMEOperator {
 			public void invoke(String str, int position1, int length1,
 					int position2, int length2) {
 				// TODO 自動生成されたメソッド・スタブ
+				ModLogger.debug(3, "MarkedText changed at "+owner.getUUID()+".");
 				owner.setMarkedText(str, position1, length1, position2, length2);;
 			}
 			
@@ -35,6 +35,7 @@ public class IMEOperator {
 			@Override
 			public Pointer invoke() {
 				// TODO 自動生成されたメソッド・スタブ
+				ModLogger.debug(3, "Called to determine where to draw.");
 				float []point=owner.firstRectForCharacterRange();
 				Pointer ret=new Memory(Float.BYTES*4);
 				ret.write(0,point,0,4);

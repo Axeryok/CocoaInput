@@ -31,14 +31,18 @@
     self.isSentedInsertText = NO;
     return;
   }
+  NSString* debugText = aString;
   self.hasMark = NO;
   self.isSentedInsertText = YES;
   const char* sentString;
   if ([aString isKindOfClass:[NSAttributedString class]]) {
     sentString = [[aString string] cStringUsingEncoding:NSUTF8StringEncoding];
+    debugText = [aString string];
   } else {
     sentString = [aString cStringUsingEncoding:NSUTF8StringEncoding];
   }
+  CIDebug(3, [NSString stringWithFormat:@"MarkedText was determined:\"%@\"",
+                                        debugText]);
   self.insertText(sentString, SPLIT_NSRANGE(replacementRange));
 }
 
@@ -46,20 +50,24 @@
 - (void)setMarkedText:(id)aString
         selectedRange:(NSRange)selectedRange
      replacementRange:(NSRange)replacementRange {
+  NSString* debugText = aString;
   self.hasMark = YES;
   const char* sentString;
   if ([aString isKindOfClass:[NSAttributedString class]]) {
     sentString = [[aString string] cStringUsingEncoding:NSUTF8StringEncoding];
+    debugText = [aString string];
   } else {
     sentString = [aString cStringUsingEncoding:NSUTF8StringEncoding];
   }
-
+  CIDebug(3,
+          [NSString stringWithFormat:@"MarkedText changed:\"%@\"", debugText]);
   self.setMarkedText(sentString, SPLIT_NSRANGE(selectedRange),
                      SPLIT_NSRANGE(replacementRange));
 }
 
 - (NSRect)firstRectForCharacterRange:(NSRange)aRange
                          actualRange:(NSRangePointer)actualRange {
+  CIDebug(3, @"Called to determine where to draw.");
   if (self.hasMark == NO) {
     return NSMakeRect(0, 0, 0, 0);
   }

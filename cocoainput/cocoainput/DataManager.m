@@ -22,6 +22,7 @@ static DataManager* instance = nil;
 }
 
 - (id)init {
+  CIDebug(1, @"Textfield table has been initialized.");
   self = [super init];
   self.dic = [NSMutableDictionary dictionary];
   self.activeView = nil;
@@ -30,7 +31,8 @@ static DataManager* instance = nil;
 
 - (void)keyDown:(NSEvent*)theEvent {
   //見づらすぎて改修しづらい
-  if ([DataManager sharedManager].activeView != // activeViewがnilな時  MarkedTextが無い状況での制御文字はtheEventを解釈させない
+  if ([DataManager sharedManager].activeView !=  // activeViewがnilな時
+          // MarkedTextが無い状況での制御文字はtheEventを解釈させない
           nil &&
       ([[DataManager sharedManager] activeView].hasMark == YES ||
        ([[DataManager sharedManager] activeView].hasMark == NO &&
@@ -38,6 +40,7 @@ static DataManager* instance = nil;
           ([[theEvent characters] characterAtIndex:0] > 0x1B &&
            [[theEvent characters] characterAtIndex:0] < 0xF700)) ||
          [[theEvent characters] characterAtIndex:0] > 0xF8FF)))) {
+    CIDebug(3, @"New keyEvent came and sent to textfield.");
     [[[DataManager sharedManager] activeView] interpretKeyEvents:@[ theEvent ]];
   }
   if ([[DataManager sharedManager] activeView].hasMark == NO &&

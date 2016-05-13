@@ -5,7 +5,7 @@ import com.Axeryok.CocoaInput.IME;
 import com.Axeryok.CocoaInput.IMEOperator;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonParseException;
-
+import com.Axeryok.CocoaInput.CallbackFunction.*;
 import io.netty.buffer.Unpooled;
 
 import java.io.IOException;

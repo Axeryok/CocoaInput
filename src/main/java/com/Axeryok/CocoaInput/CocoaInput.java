@@ -18,23 +18,27 @@ import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.DummyModContainer;
 import net.minecraftforge.fml.common.LoadController;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class CocoaInput extends DummyModContainer
 {
     public static final String MODID = "CocoaInput";
-    public static final String VERSION = "3.0.3";
+    public static final String VERSION = "3.0.4";
+    public static Configuration configFile;
     
     public CocoaInput(){
     	super(new ModMetadata());
     	ModMetadata meta = getMetadata();
-    	meta.modId="CocoaInput";
+    	meta.modId=MODID;
     	meta.name="CocoaInput";
     	meta.description="Support IME input on OSX.";
     	meta.version=this.VERSION;
@@ -50,21 +54,30 @@ public class CocoaInput extends DummyModContainer
     	bus.register(this);
         return true;
     }
+    @Override
+    public String getGuiClassName(){
+    	return "com.Axeryok.CocoaInput.gui.CocoaInputGuiFactory";
+    }
     
     @Subscribe
-    public void init(FMLInitializationEvent event)
+    public void preInit(FMLPreInitializationEvent event){
+    	configFile = new Configuration(event.getSuggestedConfigurationFile());
+    	this.syncConfig();
+    }
+    
+    @Subscribe
+    public void init(FMLInitializationEvent event) throws Exception
     {
-		// some example code
     	if(!System.getProperty("os.name").toLowerCase().startsWith("mac")){
-    		System.out.println("CocoaInput has not been initialized:Not OSX");
+    		ModLogger.error("CocoaInput has not been initialized:Not OSX");
     		return;
     	}
     	this.acceptUnderline();
     	this.copyLibrary();//JNAがライブラリを見つけられる位置にコピーする
     	MinecraftForge.EVENT_BUS.register(this);
-    	System.out.println("CocoaInput is being initialized.If stops here,click minecraft window.");
-    	Handle.INSTANCE.initialize();
-    	System.out.println("CocoaInput has been initialized.");
+    	ModLogger.log("CocoaInput is being initialized.If stops here,click minecraft window.");
+    	Handle.INSTANCE.initialize(CallbackFunction.Func_log,CallbackFunction.Func_error,CallbackFunction.Func_debug);
+    	ModLogger.log("CocoaInput has been initialized.");
     }
     
     @SubscribeEvent
@@ -74,8 +87,22 @@ public class CocoaInput extends DummyModContainer
     	}
     }
     
+    @SubscribeEvent
+    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event){
+    	if(event.getModID().equals("CocoaInput")){
+    		this.syncConfig();
+    		ModLogger.log("Configuration has changed.");
+    	}
+    }
     
-    private void copyLibrary(){
+    private void syncConfig(){
+    	ModLogger.debugLevel=configFile.getInt("debugLevel", Configuration.CATEGORY_GENERAL, 0, 0, 4, "Logger shows debug messages less than the debugLevel you set.");
+    	if(configFile.hasChanged()){
+    		configFile.save();
+    	}
+    }
+    
+    private void copyLibrary() throws IOException{
     	InputStream libFile=this.getClass().getResourceAsStream("/darwin/libcocoainput.dylib");
 		File nativeDir=new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath().concat("/native"));
 		File copyLibFile=new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath().concat("/native/libcocoainput.dylib"));
@@ -87,13 +114,13 @@ public class CocoaInput extends DummyModContainer
 			fos.close();
 		} catch (IOException e1) {
 			// TODO 自動生成された catch ブロック
-			System.out.println("Attempted to copy library to ./native/libcocoainput.dylib but failed.");
-			e1.printStackTrace();
+			ModLogger.error("Attempted to copy library to ./native/libcocoainput.dylib but failed.");
+			throw e1;
 		}
 		System.setProperty("jna.library.path",nativeDir.getAbsolutePath());
     }
     
-    private void acceptUnderline(){
+    private void acceptUnderline() throws Exception{
     	try
 	    {
 	      Class Display = Display.class;
@@ -114,11 +141,11 @@ public class CocoaInput extends DummyModContainer
 	      HashMap<Short, Integer> map = (HashMap)field_map.get(field_MacOSXNativeKeyboard.get(field_MacOSXDisplay
 	        .get(null)));
 	      map.put(Short.valueOf((short)94), Integer.valueOf(147));
-	      System.out.println("UnderlineFix has fixed UnderLineBug.");
+	      ModLogger.log("UnderlineFix has fixed UnderLineBug.");
 	    }
 	    catch (Exception e)
 	    {
-	      System.out.println("UnderlineFix failed to fix.");
+	      throw e;
 	    }
     }
 }
