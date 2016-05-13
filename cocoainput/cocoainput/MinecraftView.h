@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "Logger.h"
 
 @interface MinecraftView : NSView<NSTextInputClient>
 

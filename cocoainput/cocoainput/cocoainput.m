@@ -8,7 +8,11 @@
 
 #import "cocoainput.h"
 
-void initialize(void) {
+void initialize(void (*log)(const char*),
+                void (*error)(const char*),
+                void (*debug)(const int, const char*)) {
+  initLogPointer(log, error, debug);
+
   while ([[[[NSApp keyWindow] contentView] className]
              isEqualToString:@"MacOSXOpenGLView"] != YES)
     ;
@@ -16,7 +20,7 @@ void initialize(void) {
   Method methodReplacedWith;
   IMP imp;
   const char* encoding;
-
+  CIDebug(1, @"Replacing KeyWindow's keyDown method with new one.");
   sel = @selector(keyDown:);
   methodReplacedWith =
       class_getInstanceMethod([[[NSApp keyWindow] contentView] class], sel);
@@ -33,11 +37,14 @@ void initialize(void) {
 
   class_replaceMethod([[[NSApp keyWindow] contentView] class], sel, imp,
                       encoding);  //新しいメソッドをオーバーライド
+
+  CIDebug(1, @"Modifying Quit keyboard-shortcut.");
   NSMenu* minecraftMenu = [[[NSApp mainMenu] itemAtIndex:0] submenu];
   [minecraftMenu itemAtIndex:[minecraftMenu numberOfItems] - 1]
       .keyEquivalentModifierMask +=
       NSControlKeyMask;  // NSCommandKeyMask+NSControlKeyMask
-  NSLog(@"Libcocoainput was built on %s %s", __DATE__, __TIME__);
+  CIDebug(1, [NSString stringWithFormat:@"Libcocoainput was built on %s %s.",
+                                        __DATE__, __TIME__]);
 }
 
 void addInstance(const char* uuid,
@@ -48,6 +55,8 @@ void addInstance(const char* uuid,
                                          const int,
                                          const int),
                  float* (*firstRectForCharacterRange_p)()) {
+  CIDebug(
+      1, [NSString stringWithFormat:@"New textfield %s has registered.", uuid]);
   MinecraftView* mc = [[MinecraftView alloc] init];
   mc.insertText = insertText_p;
   mc.setMarkedText = setMarkedText_p;
@@ -62,6 +71,8 @@ void addInstance(const char* uuid,
 }
 
 void removeInstance(const char* uuid) {
+  CIDebug(1,
+          [NSString stringWithFormat:@"Textfield %s has been removed.", uuid]);
   [[[DataManager sharedManager] dic]
       removeObjectForKey:[[NSString alloc]
                              initWithCString:uuid
@@ -69,6 +80,7 @@ void removeInstance(const char* uuid) {
 }
 
 void refreshInstance(void) {
+  CIDebug(1, @"All textfields has been removed.");
   NSDictionary* instances = [[DataManager sharedManager] dic];
   [[NSTextInputContext currentInputContext] discardMarkedText];
   [DataManager sharedManager].activeView = nil;
@@ -79,6 +91,7 @@ void refreshInstance(void) {
 }
 
 void discardMarkedText(const char* uuid) {
+  CIDebug(2, @"Active marked text has been discarded.");
   [[NSTextInputContext currentInputContext] discardMarkedText];
   [[[[DataManager sharedManager] dic]
       objectForKey:[[NSString alloc] initWithCString:uuid
@@ -87,6 +100,9 @@ void discardMarkedText(const char* uuid) {
 }
 
 void setIfReceiveEvent(const char* uuid, int yn) {
+  CIDebug(1,
+          [NSString stringWithFormat:@"Textfield %s's flag has changed to %d.",
+                                     uuid, yn]);
   if (yn == 1) {
     [DataManager sharedManager].activeView = [[[DataManager sharedManager] dic]
         objectForKey:[[NSString alloc] initWithCString:uuid
@@ -107,34 +123,7 @@ void setIfReceiveEvent(const char* uuid, int yn) {
   }
 }
 float invertYCoordinate(float y) {
+  CIDebug(3, @"InvertYCoordinate function used");
   return [[NSScreen mainScreen] visibleFrame].size.height +
          [[NSScreen mainScreen] visibleFrame].origin.y - y;
-}
-
-void issueKeyEvent(const char* str) {
-  NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
-  NSString* character =
-      [[NSString alloc] initWithCString:str encoding:NSUTF8StringEncoding];
-  NSEvent* event = [NSEvent keyEventWithType:NSKeyDown
-                                    location:NSMakePoint(0, 0)
-                               modifierFlags:0
-                                   timestamp:timestamp
-                                windowNumber:0
-                                     context:nil
-                                  characters:character
-                 charactersIgnoringModifiers:character
-                                   isARepeat:NO
-                                     keyCode:94];
-  [[[NSApp keyWindow] contentView] org_keyDown:event];
-  event = [NSEvent keyEventWithType:NSKeyUp
-                           location:NSMakePoint(0, 0)
-                      modifierFlags:0
-                          timestamp:timestamp
-                       windowNumber:0
-                            context:nil
-                         characters:character
-        charactersIgnoringModifiers:character
-                          isARepeat:NO
-                            keyCode:94];
-  [[[NSApp keyWindow] contentView] keyUp:event];
 }

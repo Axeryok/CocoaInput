@@ -8,11 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
-
 #import "DataManager.h"
+#import "Logger.h"
 #import "MinecraftView.h"
 
-void initialize(void);
+void initialize(void (*log)(const char*),
+                void (*error)(const char*),
+                void (*debug)(const int, const char*));
 
 void addInstance(const char* uuid,
                  void (*insertText_p)(const char*, const int, const int),
@@ -32,5 +34,3 @@ void discardMarkedText(const char* uuid);
 void setIfReceiveEvent(const char* uuid, int yn);
 
 float invertYCoordinate(float y);
-
-void issueKeyEvent(const char* str);
