@@ -173,7 +173,7 @@ public class GuiTextField extends Gui implements IME
 
             if (this.guiResponder != null)
             {
-                this.guiResponder.func_175319_a(this.id, this.text);
+                this.guiResponder.setEntryValue(this.id, this.text);
             }
         }
     }
@@ -243,7 +243,7 @@ public class GuiTextField extends Gui implements IME
 
                     if (this.guiResponder != null)
                     {
-                        this.guiResponder.func_175319_a(this.id, this.text);
+                        this.guiResponder.setEntryValue(this.id, this.text);
                     }
                 }
             }
