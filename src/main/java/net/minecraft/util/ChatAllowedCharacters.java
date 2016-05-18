@@ -5,9 +5,9 @@ import io.netty.util.ResourceLeakDetector.Level;
 
 public class ChatAllowedCharacters
 {
-    public static final Level DISABLED = Level.DISABLED;
+    public static final Level NETTY_LEAK_DETECTION = Level.DISABLED;
     /** Array of the special characters that are allowed in any text drawing of Minecraft. */
-    public static final char[] allowedCharactersArray = new char[] {'/', '\n', '\r', '\t', '\u0000', '\f', '`', '?', '*', '\\', '<', '>', '|', '\"', ':'};
+    public static final char[] ILLEGAL_FILE_CHARACTERS = new char[] {'/', '\n', '\r', '\t', '\u0000', '\f', '`', '?', '*', '\\', '<', '>', '|', '\"', ':'};
 
     public static boolean isAllowedCharacter(char character)
     {
@@ -34,6 +34,6 @@ public class ChatAllowedCharacters
 
     static
     {
-        ResourceLeakDetector.setLevel(DISABLED);
+        ResourceLeakDetector.setLevel(NETTY_LEAK_DETECTION);
     }
 }

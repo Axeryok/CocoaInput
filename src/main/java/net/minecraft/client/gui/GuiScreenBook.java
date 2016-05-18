@@ -39,8 +39,8 @@ import org.lwjgl.input.Keyboard;
 @SideOnly(Side.CLIENT)
 public class GuiScreenBook extends GuiScreen implements IME
 {
-    private static final Logger logger = LogManager.getLogger();
-    private static final ResourceLocation bookGuiTextures = new ResourceLocation("textures/gui/book.png");
+    private static final Logger LOGGER = LogManager.getLogger();
+    private static final ResourceLocation BOOK_GUI_TEXTURES = new ResourceLocation("textures/gui/book.png");
     /** The player editing the book */
     private final EntityPlayer editingPlayer;
     private final ItemStack bookObj;
@@ -58,8 +58,8 @@ public class GuiScreenBook extends GuiScreen implements IME
     private int currPage;
     private NBTTagList bookPages;
     private String bookTitle = "";
-    private List<ITextComponent> field_175386_A;
-    private int field_175387_B = -1;
+    private List<ITextComponent> cachedComponents;
+    private int cachedPage = -1;
     private GuiScreenBook.NextPageButton buttonNextPage;
     private GuiScreenBook.NextPageButton buttonPreviousPage;
     private GuiButton buttonDone;
@@ -205,7 +205,7 @@ public class GuiScreenBook extends GuiScreen implements IME
 
                 PacketBuffer packetbuffer = new PacketBuffer(Unpooled.buffer());
                 packetbuffer.writeItemStackToBuffer(this.bookObj);
-                this.mc.getNetHandler().addToSendQueue(new CPacketCustomPayload(s1, packetbuffer));
+                this.mc.getConnection().sendPacket(new CPacketCustomPayload(s1, packetbuffer));
             }
         }
     }
@@ -412,7 +412,7 @@ public class GuiScreenBook extends GuiScreen implements IME
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(bookGuiTextures);
+        this.mc.getTextureManager().bindTexture(BOOK_GUI_TEXTURES);
         int i = (this.width - this.bookImageWidth) / 2;
         int j = 2;
         this.drawTexturedModalRect(i, j, 0, 0, this.bookImageWidth, this.bookImageHeight);
@@ -469,47 +469,47 @@ public class GuiScreenBook extends GuiScreen implements IME
                     s5 = s5 + "" + TextFormatting.GRAY + "_";
                 }
             }
-            else if (this.field_175387_B != this.currPage)
+            else if (this.cachedPage != this.currPage)
             {
                 if (ItemWrittenBook.validBookTagContents(this.bookObj.getTagCompound()))
                 {
                     try
                     {
                         ITextComponent itextcomponent = ITextComponent.Serializer.jsonToComponent(s5);
-                        this.field_175386_A = itextcomponent != null ? GuiUtilRenderComponents.splitText(itextcomponent, 116, this.fontRendererObj, true, true) : null;
+                        this.cachedComponents = itextcomponent != null ? GuiUtilRenderComponents.splitText(itextcomponent, 116, this.fontRendererObj, true, true) : null;
                     }
                     catch (JsonParseException var13)
                     {
-                        this.field_175386_A = null;
+                        this.cachedComponents = null;
                     }
                 }
                 else
                 {
                     TextComponentString textcomponentstring = new TextComponentString(TextFormatting.DARK_RED.toString() + "* Invalid book tag *");
-                    this.field_175386_A = Lists.newArrayList(textcomponentstring);
+                    this.cachedComponents = Lists.newArrayList(textcomponentstring);
                 }
 
-                this.field_175387_B = this.currPage;
+                this.cachedPage = this.currPage;
             }
 
             int j1 = this.fontRendererObj.getStringWidth(s4);
             this.fontRendererObj.drawString(s4, i - j1 + this.bookImageWidth - 44, j + 16, 0);
 
-            if (this.field_175386_A == null)
+            if (this.cachedComponents == null)
             {
                 this.fontRendererObj.drawSplitString(s5, i + 36, j + 16 + 16, 116, 0);
             }
             else
             {
-                int k1 = Math.min(128 / this.fontRendererObj.FONT_HEIGHT, this.field_175386_A.size());
+                int k1 = Math.min(128 / this.fontRendererObj.FONT_HEIGHT, this.cachedComponents.size());
 
                 for (int l1 = 0; l1 < k1; ++l1)
                 {
-                    ITextComponent itextcomponent2 = (ITextComponent)this.field_175386_A.get(l1);
+                    ITextComponent itextcomponent2 = (ITextComponent)this.cachedComponents.get(l1);
                     this.fontRendererObj.drawString(itextcomponent2.getUnformattedText(), i + 36, j + 16 + 16 + l1 * this.fontRendererObj.FONT_HEIGHT, 0);
                 }
 
-                ITextComponent itextcomponent1 = this.func_175385_b(mouseX, mouseY);
+                ITextComponent itextcomponent1 = this.getClickedComponentAt(mouseX, mouseY);
 
                 if (itextcomponent1 != null)
                 {
@@ -528,7 +528,7 @@ public class GuiScreenBook extends GuiScreen implements IME
     {
         if (mouseButton == 0)
         {
-            ITextComponent itextcomponent = this.func_175385_b(mouseX, mouseY);
+            ITextComponent itextcomponent = this.getClickedComponentAt(mouseX, mouseY);
 
             if (this.handleComponentClick(itextcomponent))
             {
@@ -544,7 +544,7 @@ public class GuiScreenBook extends GuiScreen implements IME
      */
     protected boolean handleComponentClick(ITextComponent component)
     {
-        ClickEvent clickevent = component == null ? null : component.getChatStyle().getChatClickEvent();
+    	ClickEvent clickevent = component == null ? null : component.getStyle().getClickEvent();
 
         if (clickevent == null)
         {
@@ -585,9 +585,9 @@ public class GuiScreenBook extends GuiScreen implements IME
         }
     }
 
-    public ITextComponent func_175385_b(int p_175385_1_, int p_175385_2_)
+    public ITextComponent getClickedComponentAt(int p_175385_1_, int p_175385_2_)
     {
-        if (this.field_175386_A == null)
+        if (this.cachedComponents == null)
         {
             return null;
         }
@@ -598,22 +598,22 @@ public class GuiScreenBook extends GuiScreen implements IME
 
             if (i >= 0 && j >= 0)
             {
-                int k = Math.min(128 / this.fontRendererObj.FONT_HEIGHT, this.field_175386_A.size());
+                int k = Math.min(128 / this.fontRendererObj.FONT_HEIGHT, this.cachedComponents.size());
 
                 if (i <= 116 && j < this.mc.fontRendererObj.FONT_HEIGHT * k + k)
                 {
                     int l = j / this.mc.fontRendererObj.FONT_HEIGHT;
 
-                    if (l >= 0 && l < this.field_175386_A.size())
+                    if (l >= 0 && l < this.cachedComponents.size())
                     {
-                        ITextComponent itextcomponent = (ITextComponent)this.field_175386_A.get(l);
+                        ITextComponent itextcomponent = (ITextComponent)this.cachedComponents.get(l);
                         int i1 = 0;
 
                         for (ITextComponent itextcomponent1 : itextcomponent)
                         {
                             if (itextcomponent1 instanceof TextComponentString)
                             {
-                                i1 += this.mc.fontRendererObj.getStringWidth(((TextComponentString)itextcomponent1).getChatComponentText_TextValue());
+                            	i1 += this.mc.fontRendererObj.getStringWidth(((TextComponentString)itextcomponent1).getText());
 
                                 if (i1 > i)
                                 {
@@ -657,7 +657,7 @@ public class GuiScreenBook extends GuiScreen implements IME
                 {
                     boolean flag = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
                     GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                    mc.getTextureManager().bindTexture(GuiScreenBook.bookGuiTextures);
+                    mc.getTextureManager().bindTexture(GuiScreenBook.BOOK_GUI_TEXTURES);
                     int i = 0;
                     int j = 192;
 
