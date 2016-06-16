@@ -34,3 +34,5 @@ void discardMarkedText(const char* uuid);
 void setIfReceiveEvent(const char* uuid, int yn);
 
 float invertYCoordinate(float y);
+
+void replaceInstanceMethod(Class cls,SEL sel,SEL renamedSel,Class dataCls);
