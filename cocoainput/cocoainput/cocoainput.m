@@ -16,27 +16,11 @@ void initialize(void (*log)(const char*),
   while ([[[[NSApp keyWindow] contentView] className]
              isEqualToString:@"MacOSXOpenGLView"] != YES)
     ;
-  SEL sel;
-  Method methodReplacedWith;
-  IMP imp;
-  const char* encoding;
+  NSView* mainView = [[NSApp keyWindow] contentView];
   CIDebug(1, @"Replacing KeyWindow's keyDown method with new one.");
-  sel = @selector(keyDown:);
-  methodReplacedWith =
-      class_getInstanceMethod([[[NSApp keyWindow] contentView] class], sel);
-  imp = method_getImplementation(methodReplacedWith);
-  encoding = method_getTypeEncoding(methodReplacedWith);
-  class_addMethod([[[NSApp keyWindow] contentView] class],
-                  @selector(org_keyDown:), imp,
-                  encoding);  //オリジナルのメソッドをに改名
-
-  methodReplacedWith =
-      class_getInstanceMethod([[DataManager sharedManager] class], sel);
-  imp = method_getImplementation(methodReplacedWith);
-  encoding = method_getTypeEncoding(methodReplacedWith);
-
-  class_replaceMethod([[[NSApp keyWindow] contentView] class], sel, imp,
-                      encoding);  //新しいメソッドをオーバーライド
+  replaceInstanceMethod([mainView class], @selector(keyDown:),
+                        @selector(org_keyDown:),
+                        [[DataManager sharedManager] class]);
 
   CIDebug(1, @"Modifying Quit keyboard-shortcut.");
   NSMenu* minecraftMenu = [[[NSApp mainMenu] itemAtIndex:0] submenu];
@@ -45,6 +29,17 @@ void initialize(void (*log)(const char*),
       NSControlKeyMask;  // NSCommandKeyMask+NSControlKeyMask
   CIDebug(1, [NSString stringWithFormat:@"Libcocoainput was built on %s %s.",
                                         __DATE__, __TIME__]);
+}
+
+void replaceInstanceMethod(Class cls, SEL sel, SEL renamedSel, Class dataCls) {
+  Method methodReplacedWith = class_getInstanceMethod(cls, sel);
+  IMP imp = method_getImplementation(methodReplacedWith);
+  const char* encoding = method_getTypeEncoding(methodReplacedWith);
+  class_addMethod(cls, renamedSel, imp, encoding);
+  methodReplacedWith = class_getInstanceMethod(dataCls, sel);
+  imp = method_getImplementation(methodReplacedWith);
+  encoding = method_getTypeEncoding(methodReplacedWith);
+  class_replaceMethod(cls, sel, imp, encoding);
 }
 
 void addInstance(const char* uuid,
@@ -107,7 +102,10 @@ void setIfReceiveEvent(const char* uuid, int yn) {
     [DataManager sharedManager].activeView = [[[DataManager sharedManager] dic]
         objectForKey:[[NSString alloc] initWithCString:uuid
                                               encoding:NSUTF8StringEncoding]];
-    [[[DataManager sharedManager].activeView inputContext] activate];
+    [[[DataManager sharedManager].activeView inputContext]
+        performSelectorOnMainThread:@selector(activate)
+                         withObject:nil
+                      waitUntilDone:YES];//activateメソッドはmainThreadで実行しないとExceptionを起こすらしい
   } else {
     [[[[[DataManager sharedManager] dic]
         objectForKey:[[NSString alloc] initWithCString:uuid
