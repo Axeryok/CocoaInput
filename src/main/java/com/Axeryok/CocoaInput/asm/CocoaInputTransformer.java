@@ -6,7 +6,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import net.minecraft.launchwrapper.IClassTransformer;
 
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
+
+import com.Axeryok.CocoaInput.adapter.ChatAllowedCharactersAdapter;
+import com.Axeryok.CocoaInput.adapter.NetHandlerPlayServerAdapter;
 
 public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 	// 改変対象のクラスの完全修飾名です。
@@ -42,12 +48,10 @@ public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 						"net/minecraft/client/gui/inventory/GuiEditSign.class");
 			else if (transformedName
 					.equals("net.minecraft.util.ChatAllowedCharacters"))
-				return replaceClass(bytes,
-						"net/minecraft/util/ChatAllowedCharacters.class");
+				return this.transformChatAllowedCharacters(bytes);
             else if (transformedName
                      .equals("net.minecraft.network.NetHandlerPlayServer"))
-                return replaceClass(bytes,
-                        "net/minecraft/network/NetHandlerPlayServer.class");
+                return this.transformNetHandlerPlayServer(bytes);
 			// 処理対象外なので何もしな
 			else
 				return bytes;
@@ -133,4 +137,19 @@ public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 		}
 	}
 
+	private byte[] transformNetHandlerPlayServer(byte[] bytes){
+		ClassReader cr=new ClassReader(bytes);
+		ClassWriter cw =new ClassWriter(1);
+		ClassVisitor cv= new NetHandlerPlayServerAdapter(cw);
+		cr.accept(cv, 0);
+		return cw.toByteArray();
+	}
+	
+	private byte[] transformChatAllowedCharacters(byte[] bytes){
+		ClassReader cr=new ClassReader(bytes);
+		ClassWriter cw =new ClassWriter(1);
+		ClassVisitor cv= new ChatAllowedCharactersAdapter(cw);
+		cr.accept(cv, 0);
+		return cw.toByteArray();
+	}
 }

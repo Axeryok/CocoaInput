@@ -2,7 +2,7 @@ package net.minecraft.client.gui.inventory;
 
 import java.io.IOException;
 import java.util.UUID;
-import com.Axeryok.CocoaInput.CallbackFunction.*;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -17,7 +17,6 @@ import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.lwjgl.input.Keyboard;
 
 import com.Axeryok.CocoaInput.Handle;
@@ -28,7 +27,7 @@ import com.Axeryok.CocoaInput.IMEOperator;
 public class GuiEditSign extends GuiScreen implements IME
 {
     /** Reference to the sign object. */
-    private TileEntitySign tileSign;
+    private final TileEntitySign tileSign;
     /** Counts the number of screen updates. */
     private int updateCounter;
     /** The index of the line that is being edited. */
@@ -47,12 +46,12 @@ public class GuiEditSign extends GuiScreen implements IME
      */
     public void initGui()
     {
-    	uuid=UUID.randomUUID().toString();
-    	myIME=new IMEOperator(this);
-    	myIME.setIfReceiveEvent(true);
+        uuid=UUID.randomUUID().toString();
+        myIME=new IMEOperator(this);
+        myIME.setIfReceiveEvent(true);
         this.buttonList.clear();
         Keyboard.enableRepeatEvents(true);
-        this.buttonList.add(this.doneBtn = new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120, I18n.format("gui.done", new Object[0])));
+        this.doneBtn = this.func_189646_b(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120, I18n.format("gui.done", new Object[0])));
         this.tileSign.setEditable(false);
     }
 
@@ -61,14 +60,14 @@ public class GuiEditSign extends GuiScreen implements IME
      */
     public void onGuiClosed()
     {
-    	myIME.setIfReceiveEvent(false);
-    	myIME.removeInstance();
+        myIME.setIfReceiveEvent(false);
+        myIME.removeInstance();
         Keyboard.enableRepeatEvents(false);
         NetHandlerPlayClient nethandlerplayclient = this.mc.getConnection();
 
         if (nethandlerplayclient != null)
         {
-        	nethandlerplayclient.sendPacket(new CPacketUpdateSign(this.tileSign.getPos(), this.tileSign.signText));
+            nethandlerplayclient.sendPacket(new CPacketUpdateSign(this.tileSign.getPos(), this.tileSign.signText));
         }
 
         this.tileSign.setEditable(true);
@@ -135,10 +134,6 @@ public class GuiEditSign extends GuiScreen implements IME
 
     /**
      * Draws the screen and all the components in it.
-     *  
-     * @param mouseX Mouse x coordinate
-     * @param mouseY Mouse y coordinate
-     * @param partialTicks How far into the current tick (1/20th of a second) the game is
      */
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
@@ -148,7 +143,7 @@ public class GuiEditSign extends GuiScreen implements IME
         GlStateManager.pushMatrix();
         GlStateManager.translate((float)(this.width / 2), 0.0F, 50.0F);
         float f = 93.75F;
-        GlStateManager.scale(-f, -f, -f);
+        GlStateManager.scale(-93.75F, -93.75F, -93.75F);
         GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
         Block block = this.tileSign.getBlockType();
 
@@ -192,7 +187,8 @@ public class GuiEditSign extends GuiScreen implements IME
         GlStateManager.popMatrix();
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
-
+    
+    
     int length=0;//Added ember
     IMEOperator myIME;
     String uuid;
@@ -202,49 +198,49 @@ public class GuiEditSign extends GuiScreen implements IME
     //GuiTextFieldと違い、CursorPositionが無いため少々煩雑
     
     
-	@Override
-	public String getUUID() {
-		return uuid;
-	}
-
-	@Override
-	public IMEOperator getIMEOperator() {
-		return myIME;
-	}
-
-	@Override
-	public void insertText(String aString, int position1, int length1) {
-		String text = this.tileSign.signText[this.editLine]
-				.getUnformattedText();
-		this.tileSign.signText[this.editLine] = new TextComponentString(
-				new StringBuffer(text).replace(lengthBeforeMarkedText, lengthBeforeMarkedText + length, aString)
-						.toString());
-		hasMarkedText = false;
-		length = 0;
-	}
-
-	@Override
-	public void setMarkedText(String aString, int position1, int length1,
-			int position2, int length2) {
-		String str=myIME.formatMarkedText(aString, position1, length1);
-		String text = tileSign.signText[editLine].getUnformattedText();
-		if (hasMarkedText == false) {
-			hasMarkedText = true;
-			lengthBeforeMarkedText = text.length();
-		}
-		this.tileSign.signText[this.editLine] = new TextComponentString(
-				new StringBuffer(text).replace(lengthBeforeMarkedText, lengthBeforeMarkedText + length, str)
-						.toString());
-		length = str.length();
-	}
-
-	@Override
-	public float[] firstRectForCharacterRange() {
-		return new float[]{
-				org.lwjgl.opengl.Display.getX(),
-				Handle.INSTANCE.invertYCoordinate(org.lwjgl.opengl.Display.getY()),
-				0,
-				0
-		};//TODO 描画位置改善
-	}
+    @Override
+    public String getUUID() {
+        return uuid;
+    }
+    
+    @Override
+    public IMEOperator getIMEOperator() {
+        return myIME;
+    }
+    
+    @Override
+    public void insertText(String aString, int position1, int length1) {
+        String text = this.tileSign.signText[this.editLine]
+        .getUnformattedText();
+        this.tileSign.signText[this.editLine] = new TextComponentString(
+                                                                        new StringBuffer(text).replace(lengthBeforeMarkedText, lengthBeforeMarkedText + length, aString)
+                                                                        .toString());
+        hasMarkedText = false;
+        length = 0;
+    }
+    
+    @Override
+    public void setMarkedText(String aString, int position1, int length1,
+                              int position2, int length2) {
+        String str=myIME.formatMarkedText(aString, position1, length1);
+        String text = tileSign.signText[editLine].getUnformattedText();
+        if (hasMarkedText == false) {
+            hasMarkedText = true;
+            lengthBeforeMarkedText = text.length();
+        }
+        this.tileSign.signText[this.editLine] = new TextComponentString(
+                                                                        new StringBuffer(text).replace(lengthBeforeMarkedText, lengthBeforeMarkedText + length, str)
+                                                                        .toString());
+        length = str.length();
+    }
+    
+    @Override
+    public float[] firstRectForCharacterRange() {
+        return new float[]{
+            org.lwjgl.opengl.Display.getX(),
+            Handle.INSTANCE.invertYCoordinate(org.lwjgl.opengl.Display.getY()),
+            0,
+            0
+        };//TODO 描画位置改善
+    }
 }
