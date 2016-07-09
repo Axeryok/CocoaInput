@@ -32,7 +32,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class CocoaInput extends DummyModContainer
 {
     public static final String MODID = "CocoaInput";
-    public static final String VERSION = "3.0.5";
+    public static final String VERSION = "3.0.6";
     public static Configuration configFile;
     
     public CocoaInput(){
@@ -86,6 +86,11 @@ public class CocoaInput extends DummyModContainer
     		Handle.INSTANCE.refreshInstance();//GUIの切り替えでIMの使用をoffにする
     	}
     }
+    
+    //TextFormatting.getTextWithoutFormattingCodes(String str)の代替
+  	public static String returnSameObject(String obj){
+  		return obj;
+  	}
     
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event){
