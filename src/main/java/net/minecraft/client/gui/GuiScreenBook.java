@@ -1,16 +1,23 @@
 package net.minecraft.client.gui;
 
-import com.Axeryok.CocoaInput.Handle;
-import com.Axeryok.CocoaInput.IME;
-import com.Axeryok.CocoaInput.IMEOperator;
-import com.google.common.collect.Lists;
-import com.google.gson.JsonParseException;
-import io.netty.buffer.Unpooled;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
+
+import com.Axeryok.CocoaInput.CocoaInput;
+import com.Axeryok.CocoaInput.IMEReceiver;
+import com.Axeryok.CocoaInput.darwin.Handle;
+import com.Axeryok.CocoaInput.impl.IMEOperator;
+import com.google.common.collect.Lists;
+import com.google.gson.JsonParseException;
+
+import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -30,12 +37,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.input.Keyboard;
 
 @SideOnly(Side.CLIENT)
-public class GuiScreenBook extends GuiScreen implements IME
+public class GuiScreenBook extends GuiScreen implements IMEReceiver
 {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final ResourceLocation BOOK_GUI_TEXTURES = new ResourceLocation("textures/gui/book.png");
@@ -118,8 +122,8 @@ public class GuiScreenBook extends GuiScreen implements IME
         if (this.bookIsUnsigned)
         {
             uuid=UUID.randomUUID().toString();
-            myIME=new IMEOperator(this);
-            myIME.setIfReceiveEvent(true);
+            myIME=CocoaInput.instance.generateIMEOperator(this);
+            myIME.setFocused(true);
             this.buttonSign = this.func_189646_b(new GuiButton(3, this.width / 2 - 100, 196, 98, 20, I18n.format("book.signButton", new Object[0])));
             this.buttonDone = this.func_189646_b(new GuiButton(0, this.width / 2 + 2, 196, 98, 20, I18n.format("gui.done", new Object[0])));
             this.buttonFinalize = this.func_189646_b(new GuiButton(5, this.width / 2 - 100, 196, 98, 20, I18n.format("book.finalizeButton", new Object[0])));
@@ -142,7 +146,7 @@ public class GuiScreenBook extends GuiScreen implements IME
      */
     public void onGuiClosed()
     {
-        myIME.setIfReceiveEvent(false);
+        myIME.setFocused(false);
         myIME.removeInstance();
         Keyboard.enableRepeatEvents(false);
     }
@@ -681,10 +685,6 @@ public class GuiScreenBook extends GuiScreen implements IME
         return uuid;
     }
     
-    @Override
-    public IMEOperator getIMEOperator() {
-        return myIME;
-    }
     
     @Override
     public void insertText(String aString, int position1, int length1) {
@@ -704,7 +704,7 @@ public class GuiScreenBook extends GuiScreen implements IME
     @Override
     public void setMarkedText(String aString, int position1, int length1,
                               int position2, int length2) {
-        String str=myIME.formatMarkedText(aString, position1, length1);
+        String str=CocoaInput.formatMarkedText(aString, position1, length1);
         if (this.bookGettingSigned) {
             if (hasMarkedText == false) {
                 hasMarkedText = true;
@@ -724,13 +724,4 @@ public class GuiScreenBook extends GuiScreen implements IME
         }
     }
     
-    @Override
-    public float[] firstRectForCharacterRange() {
-        return new float[]{
-            org.lwjgl.opengl.Display.getX(),
-            Handle.INSTANCE.invertYCoordinate(org.lwjgl.opengl.Display.getY()),
-            0,
-            0
-        };//TODO 描画位置改善
-    }
 }

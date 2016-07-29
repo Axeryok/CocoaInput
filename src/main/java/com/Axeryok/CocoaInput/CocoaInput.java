@@ -12,8 +12,14 @@ import org.apache.commons.io.IOUtils;
 import org.lwjgl.opengl.Display;
 
 import com.Axeryok.CocoaInput.asm.CocoaInputTransformer;
+import com.Axeryok.CocoaInput.darwin.CallbackFunction;
+import com.Axeryok.CocoaInput.darwin.DarwinController;
+import com.Axeryok.CocoaInput.darwin.Handle;
+import com.Axeryok.CocoaInput.impl.Controller;
+import com.Axeryok.CocoaInput.win.WindowsController;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import com.sun.jna.Platform;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
@@ -32,15 +38,16 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class CocoaInput extends DummyModContainer
 {
     public static final String MODID = "CocoaInput";
-    public static final String VERSION = "3.0.6";
+    public static final String VERSION = "3.0.7";
     public static Configuration configFile;
-    
+    public static Controller instance;
+    public static boolean isActive=false;
     public CocoaInput(){
     	super(new ModMetadata());
     	ModMetadata meta = getMetadata();
     	meta.modId=MODID;
     	meta.name="CocoaInput";
-    	meta.description="Support IME input on OSX.";
+    	meta.description="Support IME input on MultiPlatform such as OS X.";
     	meta.version=this.VERSION;
     	meta.authorList=Arrays.asList("Axer");
     	meta.credits="Logo was painted by RedWheat.This mod uses JavaNativeAccess(Apache License2).";
@@ -68,24 +75,26 @@ public class CocoaInput extends DummyModContainer
     @Subscribe
     public void init(FMLInitializationEvent event) throws Exception
     {
-    	if(!System.getProperty("os.name").toLowerCase().startsWith("mac")){
-    		ModLogger.error("CocoaInput has not been initialized:Not OSX");
+    	if(Platform.isMac()){
+    		isActive=true;
+    		ModLogger.debug(0, "CocoaInput has loaded Controller:"+DarwinController.class.toString());
+    		this.instance=new DarwinController();
+    	}
+    	else if(Platform.isWindows()){
+    		isActive=true;
+    		ModLogger.debug(0, "CocoaInput has loaded Controller:"+WindowsController.class.toString());
+    		this.instance=new WindowsController();
+    	}
+    	else{
+    		ModLogger.error("There are no available Controller.");
     		return;
     	}
-    	this.acceptUnderline();
-    	this.copyLibrary();//JNAがライブラリを見つけられる位置にコピーする
+    	this.copyLibrary();
+    	this.instance.CocoaInputInitialization(event);
     	MinecraftForge.EVENT_BUS.register(this);
-    	ModLogger.log("CocoaInput is being initialized.If stops here,click minecraft window.");
-    	Handle.INSTANCE.initialize(CallbackFunction.Func_log,CallbackFunction.Func_error,CallbackFunction.Func_debug);
-    	ModLogger.log("CocoaInput has been initialized.");
     }
     
-    @SubscribeEvent
-    public void didChangeGui(net.minecraftforge.client.event.GuiOpenEvent event){
-    	if(!(event.getGui() instanceof IME)){
-    		Handle.INSTANCE.refreshInstance();//GUIの切り替えでIMの使用をoffにする
-    	}
-    }
+    
     
     //TextFormatting.getTextWithoutFormattingCodes(String str)の代替
   	public static String returnSameObject(String obj){
@@ -108,9 +117,10 @@ public class CocoaInput extends DummyModContainer
     }
     
     private void copyLibrary() throws IOException{
-    	InputStream libFile=this.getClass().getResourceAsStream("/darwin/libcocoainput.dylib");
+    	if(this.instance.getLibraryName()==null)return;
+    	InputStream libFile=this.getClass().getResourceAsStream(this.instance.getLibraryPath());
 		File nativeDir=new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath().concat("/native"));
-		File copyLibFile=new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath().concat("/native/libcocoainput.dylib"));
+		File copyLibFile=new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath().concat("/native/"+this.instance.getLibraryName()));
 		try {
 			nativeDir.mkdir();
 			FileOutputStream fos=new FileOutputStream(copyLibFile);
@@ -119,38 +129,23 @@ public class CocoaInput extends DummyModContainer
 			fos.close();
 		} catch (IOException e1) {
 			// TODO 自動生成された catch ブロック
-			ModLogger.error("Attempted to copy library to ./native/libcocoainput.dylib but failed.");
+			ModLogger.error("Attempted to copy library to ./native/"+this.instance.getLibraryName()+" but failed.");
 			throw e1;
 		}
 		System.setProperty("jna.library.path",nativeDir.getAbsolutePath());
     }
     
-    private void acceptUnderline() throws Exception{
-    	try
-	    {
-	      Class Display = Display.class;
-	      
-	      Field field_MacOSXDisplay = Display.getDeclaredField("display_impl");
-	      field_MacOSXDisplay.setAccessible(true);
-	      
-	      Class MacOSXDisplay = field_MacOSXDisplay.get(null).getClass();
-	      
-	      Field field_MacOSXNativeKeyboard = MacOSXDisplay.getDeclaredField("keyboard");
-	      field_MacOSXNativeKeyboard.setAccessible(true);
-	      
-	      Class MacOSXNativeKeyboard = field_MacOSXNativeKeyboard.get(field_MacOSXDisplay.get(null)).getClass();
-	      
-	      Field field_map = MacOSXNativeKeyboard.getDeclaredField("nativeToLwjglMap");
-	      field_map.setAccessible(true);
-	      
-	      HashMap<Short, Integer> map = (HashMap)field_map.get(field_MacOSXNativeKeyboard.get(field_MacOSXDisplay
-	        .get(null)));
-	      map.put(Short.valueOf((short)94), Integer.valueOf(147));
-	      ModLogger.log("UnderlineFix has fixed UnderLineBug.");
-	    }
-	    catch (Exception e)
-	    {
-	      throw e;
-	    }
-    }
+    public static String formatMarkedText(String aString,int position1,int length1){
+		StringBuilder builder=new StringBuilder(aString);
+		if(length1!=0){
+			builder.insert(position1+length1, "§r§n");
+			builder.insert(position1,"§l");
+		}
+		builder.insert(0, "§n");
+		builder.append("§r");
+		
+		return new String(builder);
+	}
+    
+    
 }

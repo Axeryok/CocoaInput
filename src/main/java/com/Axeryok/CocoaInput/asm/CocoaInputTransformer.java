@@ -11,28 +11,14 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 
+import com.Axeryok.CocoaInput.CocoaInput;
 import com.Axeryok.CocoaInput.adapter.ChatAllowedCharactersAdapter;
 import com.Axeryok.CocoaInput.adapter.NetHandlerPlayServerAdapter;
 
 public class CocoaInputTransformer implements IClassTransformer, Opcodes {
-	// 改変対象のクラスの完全修飾名です。
-	// 後述でMinecraft.jar内の難読化されるファイルを対象とする場合の簡易な取得方法を紹介します。
-	private static final String TARGET_CLASS_NAME = "net.minecraft.src.TargetClass";
-	int flg;
-
-	// クラスがロードされる際に呼び出されるメソッドです。
+	
+	
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
-		if(!System.getProperty("os.name").toLowerCase().startsWith("mac")){
-			return bytes;
-		}
-		// FMLRelauncher.side() : Client/Server どちらか一方のを対象とする場合や、
-		// 一つのMODで Client/Sever 両方に対応したMODで、この値を判定して処理を変える事ができます。
-		// 今回は"CLIENT"と比較し、Client側のファイルを対象としている例です。
-		// Client側専用のMODとして公開するのであれば、判定は必須ではありません。
-		flg = 0;
-		// text
-		// screen
-		// Edit
 		try {
 			// name : 現在ロードされようとしているクラス名が格納されています。
 			if (transformedName.equals("net.minecraft.client.gui.GuiTextField"))
@@ -74,6 +60,9 @@ public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 	// 下記の想定で実装されています。
 	// 対象クラスの bytes を ModifiedTargetClass.class ファイルに置き換える
 	private byte[] replaceClass(byte[] bytes, String inpu) throws IOException {
+		if(!CocoaInput.isActive){
+			return bytes;
+		}
 		ZipFile zf = null;
 		InputStream zi = null;
 		try {

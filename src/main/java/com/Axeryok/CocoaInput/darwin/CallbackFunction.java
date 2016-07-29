@@ -1,7 +1,8 @@
-package com.Axeryok.CocoaInput;
+package com.Axeryok.CocoaInput.darwin;
 
 import org.apache.logging.log4j.Level;
 
+import com.Axeryok.CocoaInput.ModLogger;
 import com.sun.jna.Callback;
 import com.sun.jna.Pointer;
 

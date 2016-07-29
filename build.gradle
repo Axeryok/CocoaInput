@@ -11,6 +11,14 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
     }
 }
+
+repositories{
+    maven{ 
+        name="ChickenBones Repo"
+        url="http://chickenbones.net/maven/"
+    }
+}
+
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 /*
@@ -19,8 +27,8 @@ plugins {
     id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
 */
-version = "3.0.6"
-group= "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = "3.0.7"
+group= "com.Axeryok.CocoaInput" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "CocoaInput-1.10.2"
 
 minecraft {
@@ -57,7 +65,8 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
+    compile "codechicken:CodeChickenCore:1.9.4-2.0.4.71:universal"
+    //compile "codechicken:NotEnoughItems:1.9.4-2.0.1.133:universal"
 }
 
 processResources
