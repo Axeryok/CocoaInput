@@ -3,6 +3,13 @@ package net.minecraft.client.gui.inventory;
 import java.io.IOException;
 import java.util.UUID;
 
+import org.lwjgl.input.Keyboard;
+
+import com.Axeryok.CocoaInput.CocoaInput;
+import com.Axeryok.CocoaInput.IMEReceiver;
+import com.Axeryok.CocoaInput.darwin.Handle;
+import com.Axeryok.CocoaInput.impl.IMEOperator;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -17,14 +24,9 @@ import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
-
-import com.Axeryok.CocoaInput.Handle;
-import com.Axeryok.CocoaInput.IME;
-import com.Axeryok.CocoaInput.IMEOperator;
 
 @SideOnly(Side.CLIENT)
-public class GuiEditSign extends GuiScreen implements IME
+public class GuiEditSign extends GuiScreen implements IMEReceiver
 {
     /** Reference to the sign object. */
     private final TileEntitySign tileSign;
@@ -47,8 +49,8 @@ public class GuiEditSign extends GuiScreen implements IME
     public void initGui()
     {
         uuid=UUID.randomUUID().toString();
-        myIME=new IMEOperator(this);
-        myIME.setIfReceiveEvent(true);
+        myIME=CocoaInput.instance.generateIMEOperator(this);
+        myIME.setFocused(true);
         this.buttonList.clear();
         Keyboard.enableRepeatEvents(true);
         this.doneBtn = this.func_189646_b(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120, I18n.format("gui.done", new Object[0])));
@@ -60,7 +62,7 @@ public class GuiEditSign extends GuiScreen implements IME
      */
     public void onGuiClosed()
     {
-        myIME.setIfReceiveEvent(false);
+        myIME.setFocused(false);
         myIME.removeInstance();
         Keyboard.enableRepeatEvents(false);
         NetHandlerPlayClient nethandlerplayclient = this.mc.getConnection();
@@ -203,10 +205,6 @@ public class GuiEditSign extends GuiScreen implements IME
         return uuid;
     }
     
-    @Override
-    public IMEOperator getIMEOperator() {
-        return myIME;
-    }
     
     @Override
     public void insertText(String aString, int position1, int length1) {
@@ -222,7 +220,7 @@ public class GuiEditSign extends GuiScreen implements IME
     @Override
     public void setMarkedText(String aString, int position1, int length1,
                               int position2, int length2) {
-        String str=myIME.formatMarkedText(aString, position1, length1);
+        String str=CocoaInput.formatMarkedText(aString, position1, length1);
         String text = tileSign.signText[editLine].getUnformattedText();
         if (hasMarkedText == false) {
             hasMarkedText = true;
@@ -234,13 +232,4 @@ public class GuiEditSign extends GuiScreen implements IME
         length = str.length();
     }
     
-    @Override
-    public float[] firstRectForCharacterRange() {
-        return new float[]{
-            org.lwjgl.opengl.Display.getX(),
-            Handle.INSTANCE.invertYCoordinate(org.lwjgl.opengl.Display.getY()),
-            0,
-            0
-        };//TODO 描画位置改善
-    }
 }

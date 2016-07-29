@@ -1,6 +1,6 @@
-package com.Axeryok.CocoaInput;
+package com.Axeryok.CocoaInput.darwin;
 
-import com.Axeryok.CocoaInput.CallbackFunction.*;
+import com.Axeryok.CocoaInput.darwin.CallbackFunction.*;
 import com.sun.jna.Callback;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
