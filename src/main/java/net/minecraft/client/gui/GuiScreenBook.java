@@ -146,8 +146,10 @@ public class GuiScreenBook extends GuiScreen implements IMEReceiver
      */
     public void onGuiClosed()
     {
-        myIME.setFocused(false);
-        myIME.removeInstance();
+        if(this.bookIsUnsigned){
+        	myIME.setFocused(false);
+        	myIME.removeInstance();
+        }
         Keyboard.enableRepeatEvents(false);
     }
 
