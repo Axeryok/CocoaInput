@@ -16,7 +16,6 @@ import com.Axeryok.CocoaInput.darwin.CallbackFunction;
 import com.Axeryok.CocoaInput.darwin.DarwinController;
 import com.Axeryok.CocoaInput.darwin.Handle;
 import com.Axeryok.CocoaInput.impl.Controller;
-import com.Axeryok.CocoaInput.win.WindowsController;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.sun.jna.Platform;
@@ -47,7 +46,7 @@ public class CocoaInput extends DummyModContainer
     	ModMetadata meta = getMetadata();
     	meta.modId=MODID;
     	meta.name="CocoaInput";
-    	meta.description="Support IME input on MultiPlatform such as OS X.";
+    	meta.description="Support IME input on OSX.";
     	meta.version=this.VERSION;
     	meta.authorList=Arrays.asList("Axer");
     	meta.credits="Logo was painted by RedWheat.This mod uses JavaNativeAccess(Apache License2).";
@@ -79,11 +78,6 @@ public class CocoaInput extends DummyModContainer
     		isActive=true;
     		ModLogger.debug(0, "CocoaInput has loaded Controller:"+DarwinController.class.toString());
     		this.instance=new DarwinController();
-    	}
-    	else if(Platform.isWindows()){
-    		isActive=true;
-    		ModLogger.debug(0, "CocoaInput has loaded Controller:"+WindowsController.class.toString());
-    		this.instance=new WindowsController();
     	}
     	else{
     		ModLogger.error("There are no available Controller.");
