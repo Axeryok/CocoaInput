@@ -1,8 +1,8 @@
-package com.Axeryok.CocoaInput.darwin;
+package com.Axeryok.CocoaInput.arch.darwin;
 
 import com.Axeryok.CocoaInput.IMEReceiver;
 import com.Axeryok.CocoaInput.ModLogger;
-import com.Axeryok.CocoaInput.darwin.CallbackFunction.*;
+import com.Axeryok.CocoaInput.arch.darwin.CallbackFunction.*;
 import com.Axeryok.CocoaInput.impl.IMEOperator;
 import com.sun.jna.Memory;
 import com.sun.jna.Pointer;

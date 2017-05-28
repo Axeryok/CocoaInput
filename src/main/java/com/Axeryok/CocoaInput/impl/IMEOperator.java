@@ -1,6 +1,5 @@
 package com.Axeryok.CocoaInput.impl;
 
-import com.Axeryok.CocoaInput.darwin.Handle;
 
 public interface IMEOperator {
 	public void setFocused(boolean inFocused);//保持するIMEのフォーカスが変化した時に呼び出される

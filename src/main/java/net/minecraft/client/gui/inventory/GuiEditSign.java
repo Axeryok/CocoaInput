@@ -7,7 +7,6 @@ import org.lwjgl.input.Keyboard;
 
 import com.Axeryok.CocoaInput.CocoaInput;
 import com.Axeryok.CocoaInput.IMEReceiver;
-import com.Axeryok.CocoaInput.darwin.Handle;
 import com.Axeryok.CocoaInput.impl.IMEOperator;
 
 import net.minecraft.block.Block;
@@ -49,7 +48,7 @@ public class GuiEditSign extends GuiScreen implements IMEReceiver
     public void initGui()
     {
         uuid=UUID.randomUUID().toString();
-        myIME=CocoaInput.instance.generateIMEOperator(this);
+        myIME=CocoaInput.controller.generateIMEOperator(this);
         myIME.setFocused(true);
         this.buttonList.clear();
         Keyboard.enableRepeatEvents(true);

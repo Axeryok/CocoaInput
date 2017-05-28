@@ -27,9 +27,9 @@ plugins {
     id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
 */
-version = "3.0.7"
+version = "3.0.8"
 group= "com.Axeryok.CocoaInput" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "CocoaInput-1.10.2"
+archivesBaseName = "CocoaInput-universal"
 
 minecraft {
     version = "1.10.2-12.18.0.2002-1.10.0"

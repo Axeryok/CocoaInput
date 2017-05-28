@@ -7,7 +7,6 @@ import org.lwjgl.input.Keyboard;
 
 import com.Axeryok.CocoaInput.CocoaInput;
 import com.Axeryok.CocoaInput.IMEReceiver;
-import com.Axeryok.CocoaInput.darwin.Handle;
 import com.Axeryok.CocoaInput.impl.IMEOperator;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -67,7 +66,7 @@ public class GuiTextField extends Gui implements IMEReceiver {
 
 	public GuiTextField(int componentId, FontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height) {
 		uuid = UUID.randomUUID().toString();
-		myIME = CocoaInput.instance.generateIMEOperator(this);
+		myIME = CocoaInput.controller.generateIMEOperator(this);
 		this.id = componentId;
 		this.fontRendererInstance = fontrendererObj;
 		this.xPosition = x;
@@ -607,7 +606,9 @@ public class GuiTextField extends Gui implements IMEReceiver {
 	 * Sets focus to this gui element
 	 */
 	public void setFocused(boolean isFocusedIn) {
-		myIME.setFocused(isFocusedIn);
+		if (isFocusedIn != this.isFocused){
+			myIME.setFocused(isFocusedIn);
+		}
 		if (isFocusedIn && !this.isFocused) {
 			this.cursorCounter = 0;
 		}

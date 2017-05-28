@@ -12,7 +12,6 @@ import org.lwjgl.input.Keyboard;
 
 import com.Axeryok.CocoaInput.CocoaInput;
 import com.Axeryok.CocoaInput.IMEReceiver;
-import com.Axeryok.CocoaInput.darwin.Handle;
 import com.Axeryok.CocoaInput.impl.IMEOperator;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonParseException;
@@ -122,7 +121,7 @@ public class GuiScreenBook extends GuiScreen implements IMEReceiver
         if (this.bookIsUnsigned)
         {
             uuid=UUID.randomUUID().toString();
-            myIME=CocoaInput.instance.generateIMEOperator(this);
+            myIME=CocoaInput.controller.generateIMEOperator(this);
             myIME.setFocused(true);
             this.buttonSign = this.func_189646_b(new GuiButton(3, this.width / 2 - 100, 196, 98, 20, I18n.format("book.signButton", new Object[0])));
             this.buttonDone = this.func_189646_b(new GuiButton(0, this.width / 2 + 2, 196, 98, 20, I18n.format("gui.done", new Object[0])));
