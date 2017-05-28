@@ -1,4 +1,4 @@
-package com.Axeryok.CocoaInput.darwin;
+package com.Axeryok.CocoaInput.arch.darwin;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;

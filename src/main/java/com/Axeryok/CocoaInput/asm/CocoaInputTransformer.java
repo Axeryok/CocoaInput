@@ -12,6 +12,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 
 import com.Axeryok.CocoaInput.CocoaInput;
+import com.Axeryok.CocoaInput.ModLogger;
 import com.Axeryok.CocoaInput.adapter.ChatAllowedCharactersAdapter;
 import com.Axeryok.CocoaInput.adapter.NetHandlerPlayServerAdapter;
 
@@ -60,9 +61,11 @@ public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 	// 下記の想定で実装されています。
 	// 対象クラスの bytes を ModifiedTargetClass.class ファイルに置き換える
 	private byte[] replaceClass(byte[] bytes, String inpu) throws IOException {
+		/* 
 		if(!CocoaInput.isActive){
 			return bytes;
-		}
+		}*/
+		ModLogger.debug(1, "Replaced of "+inpu);
 		ZipFile zf = null;
 		InputStream zi = null;
 		try {

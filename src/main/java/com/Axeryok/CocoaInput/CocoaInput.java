@@ -7,14 +7,15 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.opengl.Display;
 
 import com.Axeryok.CocoaInput.asm.CocoaInputTransformer;
-import com.Axeryok.CocoaInput.darwin.CallbackFunction;
-import com.Axeryok.CocoaInput.darwin.DarwinController;
-import com.Axeryok.CocoaInput.darwin.Handle;
+import com.Axeryok.CocoaInput.arch.darwin.DarwinController;
+import com.Axeryok.CocoaInput.arch.dummy.DummyController;
 import com.Axeryok.CocoaInput.impl.Controller;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -33,13 +34,15 @@ import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.versioning.ArtifactVersion;
+import net.minecraftforge.fml.common.versioning.VersionParser;
 
 public class CocoaInput extends DummyModContainer
 {
     public static final String MODID = "CocoaInput";
-    public static final String VERSION = "3.0.7";
+    public static final String VERSION = "3.0.8";
     public static Configuration configFile;
-    public static Controller instance;
+    public static Controller controller;
     public static boolean isActive=false;
     public CocoaInput(){
     	super(new ModMetadata());
@@ -65,6 +68,7 @@ public class CocoaInput extends DummyModContainer
     	return "com.Axeryok.CocoaInput.gui.CocoaInputGuiFactory";
     }
     
+    
     @Subscribe
     public void preInit(FMLPreInitializationEvent event){
     	configFile = new Configuration(event.getSuggestedConfigurationFile());
@@ -77,14 +81,15 @@ public class CocoaInput extends DummyModContainer
     	if(Platform.isMac()){
     		isActive=true;
     		ModLogger.debug(0, "CocoaInput has loaded Controller:"+DarwinController.class.toString());
-    		this.instance=new DarwinController();
+    		this.controller=new DarwinController();
     	}
     	else{
     		ModLogger.error("There are no available Controller.");
+    		this.controller=new DummyController();
     		return;
     	}
     	this.copyLibrary();
-    	this.instance.CocoaInputInitialization(event);
+    	this.controller.CocoaInputInitialization(event);
     	MinecraftForge.EVENT_BUS.register(this);
     }
     
@@ -111,10 +116,10 @@ public class CocoaInput extends DummyModContainer
     }
     
     private void copyLibrary() throws IOException{
-    	if(this.instance.getLibraryName()==null)return;
-    	InputStream libFile=this.getClass().getResourceAsStream(this.instance.getLibraryPath());
+    	if(this.controller.getLibraryName()==null)return;
+    	InputStream libFile=this.getClass().getResourceAsStream(this.controller.getLibraryPath());
 		File nativeDir=new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath().concat("/native"));
-		File copyLibFile=new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath().concat("/native/"+this.instance.getLibraryName()));
+		File copyLibFile=new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath().concat("/native/"+this.controller.getLibraryName()));
 		try {
 			nativeDir.mkdir();
 			FileOutputStream fos=new FileOutputStream(copyLibFile);
@@ -123,7 +128,7 @@ public class CocoaInput extends DummyModContainer
 			fos.close();
 		} catch (IOException e1) {
 			// TODO 自動生成された catch ブロック
-			ModLogger.error("Attempted to copy library to ./native/"+this.instance.getLibraryName()+" but failed.");
+			ModLogger.error("Attempted to copy library to ./native/"+this.controller.getLibraryName()+" but failed.");
 			throw e1;
 		}
 		System.setProperty("jna.library.path",nativeDir.getAbsolutePath());

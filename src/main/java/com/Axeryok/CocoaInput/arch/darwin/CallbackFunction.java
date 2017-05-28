@@ -1,4 +1,4 @@
-package com.Axeryok.CocoaInput.darwin;
+package com.Axeryok.CocoaInput.arch.darwin;
 
 import org.apache.logging.log4j.Level;
 
