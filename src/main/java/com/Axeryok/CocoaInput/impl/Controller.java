@@ -1,7 +1,7 @@
 package com.Axeryok.CocoaInput.impl;
 
 import javax.annotation.Nullable;
-import com.Axeryok.CocoaInput.IMEReceiver;
+import com.Axeryok.CocoaInput.impl.IMEReceiver;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 public interface Controller {

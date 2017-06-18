@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
 import com.Axeryok.CocoaInput.CocoaInput;
-import com.Axeryok.CocoaInput.IMEReceiver;
+import com.Axeryok.CocoaInput.impl.IMEReceiver;
 import com.Axeryok.CocoaInput.impl.IMEOperator;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonParseException;
@@ -724,5 +724,10 @@ public class GuiScreenBook extends GuiScreen implements IMEReceiver
             length = str.length();
         }
     }
+
+	@Override
+	public float[] getRectPoint() {
+		return null;
+	}
     
 }

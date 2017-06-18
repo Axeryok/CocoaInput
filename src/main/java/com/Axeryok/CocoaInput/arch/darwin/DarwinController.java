@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import org.lwjgl.opengl.Display;
 
-import com.Axeryok.CocoaInput.IMEReceiver;
+import com.Axeryok.CocoaInput.impl.IMEReceiver;
 import com.Axeryok.CocoaInput.ModLogger;
 import com.Axeryok.CocoaInput.impl.Controller;
 import com.Axeryok.CocoaInput.impl.IMEOperator;

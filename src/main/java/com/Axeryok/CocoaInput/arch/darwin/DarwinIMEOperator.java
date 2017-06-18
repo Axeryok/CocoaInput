@@ -1,6 +1,6 @@
 package com.Axeryok.CocoaInput.arch.darwin;
 
-import com.Axeryok.CocoaInput.IMEReceiver;
+import com.Axeryok.CocoaInput.impl.IMEReceiver;
 import com.Axeryok.CocoaInput.ModLogger;
 import com.Axeryok.CocoaInput.arch.darwin.CallbackFunction.*;
 import com.Axeryok.CocoaInput.impl.IMEOperator;
@@ -38,12 +38,18 @@ public class DarwinIMEOperator implements IMEOperator{
 			@Override
 			public Pointer invoke() {
 				ModLogger.debug(3, "Called to determine where to draw.");
-				float []point={
+				float []point;
+				float []noSelection={
 			            org.lwjgl.opengl.Display.getX(),
 			            Handle.INSTANCE.invertYCoordinate(org.lwjgl.opengl.Display.getY()),
 			            0,
 			            0
 			        };//TODO 描画位置改善
+				
+
+				if((point=owner.getRectPoint())==null){
+					point=noSelection;
+				}
 				if(owner instanceof GuiTextField){
 					GuiTextField textField=(GuiTextField) owner;
 					float x = org.lwjgl.opengl.Display.getX()

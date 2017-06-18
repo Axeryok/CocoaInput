@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.lwjgl.input.Keyboard;
 
 import com.Axeryok.CocoaInput.CocoaInput;
-import com.Axeryok.CocoaInput.IMEReceiver;
+import com.Axeryok.CocoaInput.impl.IMEReceiver;
 import com.Axeryok.CocoaInput.impl.IMEOperator;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -744,6 +744,12 @@ public class GuiTextField extends Gui implements IMEReceiver {
 		String str = CocoaInput.formatMarkedText(aString, position1, length1);
 		text = (new StringBuffer(text)).replace(cursorPosition, cursorPosition + length, str).toString();
 		length = str.length();
+	}
+
+	@Override
+	public float[] getRectPoint() {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
 	}
 
 
