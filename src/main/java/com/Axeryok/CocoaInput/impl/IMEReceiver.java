@@ -1,4 +1,6 @@
-package com.Axeryok.CocoaInput;
+package com.Axeryok.CocoaInput.impl;
+
+import javax.annotation.Nullable;
 
 import com.Axeryok.CocoaInput.impl.IMEOperator;
 
@@ -10,4 +12,5 @@ public interface IMEReceiver{
 	 * positionの位置から文字数lengthの範囲という意味
 	 */
 	void setMarkedText(String aString,int position1,int length1,int position2,int length2);//
+	@Nullable float[] getRectPoint();
 }

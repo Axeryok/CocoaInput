@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.lwjgl.input.Keyboard;
 
 import com.Axeryok.CocoaInput.CocoaInput;
-import com.Axeryok.CocoaInput.IMEReceiver;
+import com.Axeryok.CocoaInput.impl.IMEReceiver;
 import com.Axeryok.CocoaInput.impl.IMEOperator;
 
 import net.minecraft.block.Block;
@@ -230,5 +230,11 @@ public class GuiEditSign extends GuiScreen implements IMEReceiver
                                                                         .toString());
         length = str.length();
     }
+
+	@Override
+	public float[] getRectPoint() {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
     
 }
