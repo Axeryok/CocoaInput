@@ -3,11 +3,17 @@ package com.Axeryok.CocoaInput.impl;
 import javax.annotation.Nullable;
 import com.Axeryok.CocoaInput.impl.IMEReceiver;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+/*
+ * テキストフィールドや看板、本が開かれたときに呼ばれる。
+ * 
+ * このControllerはpreloadの時点で CocoaInput.instance.controllerにセットされないといけない。
+ * 		もしpreload終了時点でcontroller==null のとき、CocoaInputがDarwinController(Mac)  or DummyControllerをセットする
+ */
+
 
 public interface Controller {
 	public void CocoaInputInitialization(FMLInitializationEvent event) throws Exception; //起動時に呼ばれる
 	public IMEOperator generateIMEOperator(IMEReceiver ime); //GuiTextFieldとかが作成された時に割り当てるIMEOperator生成処理を委託
-	
 	/*
 	 * Minecraftが使うJNAのバージョンではそのままではセルフライブラリの場所を認識できない
 	 * getLibraryPath()がnullでない限りCocoaInputがそのライブラリを認識できる場所にコピーする

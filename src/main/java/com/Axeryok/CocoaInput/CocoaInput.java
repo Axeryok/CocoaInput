@@ -12,8 +12,8 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.opengl.Display;
+import org.objectweb.asm.tree.InsnList;
 
-import com.Axeryok.CocoaInput.asm.CocoaInputTransformer;
 import com.Axeryok.CocoaInput.arch.darwin.DarwinController;
 import com.Axeryok.CocoaInput.arch.dummy.DummyController;
 import com.Axeryok.CocoaInput.impl.Controller;
@@ -40,10 +40,9 @@ import net.minecraftforge.fml.common.versioning.VersionParser;
 public class CocoaInput extends DummyModContainer
 {
     public static final String MODID = "CocoaInput";
-    public static final String VERSION = "3.0.9";
+    public static final String VERSION = "3.0.10";
     public static Configuration configFile;
-    public static Controller controller;
-    public static boolean isActive=false;
+    public static Controller controller=null;
     public CocoaInput(){
     	super(new ModMetadata());
     	ModMetadata meta = getMetadata();
@@ -76,18 +75,17 @@ public class CocoaInput extends DummyModContainer
     }
     
     @Subscribe
-    public void init(FMLInitializationEvent event) throws Exception
-    {
-    	if(Platform.isMac()){
-    		isActive=true;
-    		ModLogger.debug(0, "CocoaInput has loaded Controller:"+DarwinController.class.toString());
-    		this.controller=new DarwinController();
+    public void init(FMLInitializationEvent event) throws Exception{
+    	if(this.controller==null){
+    		if(Platform.isMac()){
+    			this.controller=new DarwinController();
+    		}
+    		else{
+    			ModLogger.error("There are no available Controller.");
+    			this.controller=new DummyController();
+    		}
     	}
-    	else{
-    		ModLogger.error("There are no available Controller.");
-    		this.controller=new DummyController();
-    		return;
-    	}
+    	ModLogger.log("CocoaInput has loaded Controller:"+controller.getClass().toString());
     	this.copyLibrary();
     	this.controller.CocoaInputInitialization(event);
     	MinecraftForge.EVENT_BUS.register(this);
