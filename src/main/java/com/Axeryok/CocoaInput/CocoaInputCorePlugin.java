@@ -1,4 +1,4 @@
-package com.Axeryok.CocoaInput.asm;
+package com.Axeryok.CocoaInput;
 
 import java.io.File;
 import java.util.Map;
@@ -13,7 +13,7 @@ public class CocoaInputCorePlugin implements IFMLLoadingPlugin {
 	@Override
 	public String[] getASMTransformerClass() {
 		// TODO 自動生成されたメソッド・スタブ
-		return new String[]{"com.Axeryok.CocoaInput.asm.CocoaInputTransformer"};
+		return new String[]{"com.Axeryok.CocoaInput.CocoaInputTransformer"};
 	}
 
 	@Override
