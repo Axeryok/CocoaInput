@@ -3,6 +3,7 @@ package com.Axeryok.CocoaInput.arch.darwin;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
 import com.Axeryok.CocoaInput.impl.IMEReceiver;
@@ -66,6 +67,7 @@ public class DarwinController implements Controller{
 	      HashMap<Short, Integer> map = (HashMap)field_map.get(field_MacOSXNativeKeyboard.get(field_MacOSXDisplay
 	        .get(null)));
 	      map.put(Short.valueOf((short)94), Integer.valueOf(147));
+	      map.put(Short.valueOf((short)93), Integer.valueOf( 43));
 	      ModLogger.log("UnderlineFix has fixed UnderLineBug.");
 	    }
 	    catch (Exception e)
