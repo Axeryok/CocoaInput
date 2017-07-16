@@ -40,7 +40,7 @@ import net.minecraftforge.fml.common.versioning.VersionParser;
 public class CocoaInput extends DummyModContainer
 {
     public static final String MODID = "CocoaInput";
-    public static final String VERSION = "3.0.10";
+    public static final String VERSION = "3.0.11";
     public static Configuration configFile;
     public static Controller controller=null;
     public CocoaInput(){
