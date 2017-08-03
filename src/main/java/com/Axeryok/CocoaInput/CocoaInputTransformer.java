@@ -1,24 +1,19 @@
 package com.Axeryok.CocoaInput;
 
-import java.io.*;
-import java.util.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import net.minecraft.launchwrapper.IClassTransformer;
+import java.io.FileOutputStream;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 
-import com.Axeryok.CocoaInput.CocoaInput;
-import com.Axeryok.CocoaInput.CocoaInputCorePlugin;
-import com.Axeryok.CocoaInput.ModLogger;
 import com.Axeryok.CocoaInput.adapter.ChatAllowedCharactersAdapter;
 import com.Axeryok.CocoaInput.adapter.GuiEditSignAdapter;
 import com.Axeryok.CocoaInput.adapter.GuiScreenBookAdapter;
 import com.Axeryok.CocoaInput.adapter.GuiTextFieldAdapter;
 import com.Axeryok.CocoaInput.adapter.NetHandlerPlayServerAdapter;
+
+import net.minecraft.launchwrapper.IClassTransformer;
 
 public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 

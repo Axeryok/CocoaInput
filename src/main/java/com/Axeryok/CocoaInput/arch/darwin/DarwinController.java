@@ -3,13 +3,12 @@ package com.Axeryok.CocoaInput.arch.darwin;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
-import com.Axeryok.CocoaInput.impl.IMEReceiver;
 import com.Axeryok.CocoaInput.ModLogger;
 import com.Axeryok.CocoaInput.impl.Controller;
 import com.Axeryok.CocoaInput.impl.IMEOperator;
+import com.Axeryok.CocoaInput.impl.IMEReceiver;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
