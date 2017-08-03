@@ -4,15 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.lwjgl.opengl.Display;
-import org.objectweb.asm.tree.InsnList;
 
 import com.Axeryok.CocoaInput.arch.darwin.DarwinController;
 import com.Axeryok.CocoaInput.arch.dummy.DummyController;
@@ -22,20 +16,15 @@ import com.google.common.eventbus.Subscribe;
 import com.sun.jna.Platform;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.DummyModContainer;
 import net.minecraftforge.fml.common.LoadController;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.versioning.ArtifactVersion;
-import net.minecraftforge.fml.common.versioning.VersionParser;
 
 public class CocoaInput extends DummyModContainer
 {

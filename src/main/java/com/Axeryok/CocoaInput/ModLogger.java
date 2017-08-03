@@ -1,8 +1,6 @@
 package com.Axeryok.CocoaInput;
 
 import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import net.minecraftforge.fml.common.FMLLog;
 

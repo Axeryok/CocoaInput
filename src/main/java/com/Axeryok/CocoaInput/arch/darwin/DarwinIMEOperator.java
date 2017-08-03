@@ -1,13 +1,14 @@
 package com.Axeryok.CocoaInput.arch.darwin;
 
-import com.Axeryok.CocoaInput.impl.IMEReceiver;
-import com.Axeryok.CocoaInput.wrapper.GuiTextFieldWrapper;
-
 import java.util.UUID;
 
 import com.Axeryok.CocoaInput.ModLogger;
-import com.Axeryok.CocoaInput.arch.darwin.CallbackFunction.*;
+import com.Axeryok.CocoaInput.arch.darwin.CallbackFunction.Func_firstRectForCharacterRange;
+import com.Axeryok.CocoaInput.arch.darwin.CallbackFunction.Func_insertText;
+import com.Axeryok.CocoaInput.arch.darwin.CallbackFunction.Func_setMarkedText;
 import com.Axeryok.CocoaInput.impl.IMEOperator;
+import com.Axeryok.CocoaInput.impl.IMEReceiver;
+import com.Axeryok.CocoaInput.wrapper.GuiTextFieldWrapper;
 import com.sun.jna.Memory;
 import com.sun.jna.Pointer;
 
