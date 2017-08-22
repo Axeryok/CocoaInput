@@ -14,7 +14,8 @@
 
 void initialize(void (*log)(const char*),
                 void (*error)(const char*),
-                void (*debug)(const int, const char*));
+                void (*debug)(const int, const char*)
+                );
 
 void addInstance(const char* uuid,
                  void (*insertText_p)(const char*, const int, const int),
@@ -36,3 +37,5 @@ void setIfReceiveEvent(const char* uuid, int yn);
 float invertYCoordinate(float y);
 
 void replaceInstanceMethod(Class cls,SEL sel,SEL renamedSel,Class dataCls);
+
+void toggleFullScreen();

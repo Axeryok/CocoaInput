@@ -11,6 +11,7 @@
 static DataManager* instance = nil;
 
 @implementation DataManager
+@synthesize openglView;
 @synthesize activeView;
 @synthesize dic;
 
@@ -50,6 +51,13 @@ static DataManager* instance = nil;
     [self org_keyDown:theEvent];
   [[DataManager sharedManager] activeView].isSentedInsertText = NO;
   [[DataManager sharedManager] activeView].isBeforeActionSetMarkedText = NO;
+}
+
+- (void)toggleFullScreen:(id)sender{
+    if([sender isEqual:@"CocoaInput"]){
+        [self org_toggleFullScreen:nil];
+    }
+    else CIError(@"You can't use green button in title bar while CocoaInput running.Please type fullscreen key!");
 }
 
 @end

@@ -10,18 +10,21 @@
 
 void initialize(void (*log)(const char*),
                 void (*error)(const char*),
-                void (*debug)(const int, const char*)) {
+                void (*debug)(const int, const char*)
+                ) {
   initLogPointer(log, error, debug);
-
-  while ([[[[NSApp keyWindow] contentView] className]
-             isEqualToString:@"MacOSXOpenGLView"] != YES)
-    ;
-  NSView* mainView = [[NSApp keyWindow] contentView];
+  while(1){
+      [DataManager sharedManager].openglView=[[NSApp keyWindow] contentView];
+      if([[[DataManager sharedManager].openglView className]isEqualToString:@"MacOSXOpenGLView"]==YES)break;
+  }
+  NSView* mainView = [DataManager sharedManager].openglView;
   CIDebug(1, @"Replacing KeyWindow's keyDown method with new one.");
   replaceInstanceMethod([mainView class], @selector(keyDown:),
                         @selector(org_keyDown:),
                         [[DataManager sharedManager] class]);
-
+  replaceInstanceMethod([[mainView window] class], @selector(toggleFullScreen:),
+                        @selector(org_toggleFullScreen:),
+                        [[DataManager sharedManager] class]);
   CIDebug(1, @"Modifying Quit keyboard-shortcut.");
   NSMenu* minecraftMenu = [[[NSApp mainMenu] itemAtIndex:0] submenu];
   [minecraftMenu itemAtIndex:[minecraftMenu numberOfItems] - 1]
@@ -124,4 +127,8 @@ float invertYCoordinate(float y) {
   CIDebug(3, @"InvertYCoordinate function used");
   return [[NSScreen mainScreen] visibleFrame].size.height +
          [[NSScreen mainScreen] visibleFrame].origin.y - y;
+}
+
+void toggleFullScreen(){
+    [[NSApp keyWindow] toggleFullScreen:@"CocoaInput"];
 }

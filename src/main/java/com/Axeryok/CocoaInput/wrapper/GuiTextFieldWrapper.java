@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import org.lwjgl.input.Keyboard;
 
 import com.Axeryok.CocoaInput.CocoaInput;
+import com.Axeryok.CocoaInput.Rect;
 import com.Axeryok.CocoaInput.impl.IMEOperator;
 import com.Axeryok.CocoaInput.impl.IMEReceiver;
 
@@ -72,8 +73,14 @@ public class GuiTextFieldWrapper implements IMEReceiver {
 	}
 
 	@Override
-	public float[] getRectPoint() {
-		return null;
+	public Rect getRect() {
+		return new Rect(//{x,y}
+				(owner.fontRendererInstance.getStringWidth(owner.getText().substring(0, owner.cursorPosition))+ (owner.enableBackgroundDrawing ? owner.xPosition + 4 : owner.xPosition)),
+				(owner.fontRendererInstance.FONT_HEIGHT+(owner.enableBackgroundDrawing ? owner.yPosition + (owner.height - 8) / 2 : owner.yPosition)),
+				owner.width,
+				owner.height
+		
+		);
 	}
 
 }
