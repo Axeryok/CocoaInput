@@ -7,8 +7,12 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 import org.apache.commons.io.IOUtils;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 
 import com.Axeryok.CocoaInput.arch.darwin.DarwinController;
+import com.Axeryok.CocoaInput.arch.darwin.Handle;
 import com.Axeryok.CocoaInput.arch.dummy.DummyController;
 import com.Axeryok.CocoaInput.impl.Controller;
 import com.google.common.eventbus.EventBus;
@@ -16,6 +20,7 @@ import com.google.common.eventbus.Subscribe;
 import com.sun.jna.Platform;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -29,7 +34,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class CocoaInput extends DummyModContainer
 {
     public static final String MODID = "CocoaInput";
-    public static final String VERSION = "3.0.11";
+    public static final String VERSION = "3.1.0";
     public static Configuration configFile;
     public static Controller controller=null;
     public CocoaInput(){
@@ -37,7 +42,7 @@ public class CocoaInput extends DummyModContainer
     	ModMetadata meta = getMetadata();
     	meta.modId=MODID;
     	meta.name="CocoaInput";
-    	meta.description="Support IME input on OSX.";
+    	meta.description="Support IME input on macOS.";
     	meta.version=this.VERSION;
     	meta.authorList=Arrays.asList("Axer");
     	meta.credits="Logo was painted by RedWheat.This mod uses JavaNativeAccess(Apache License2).";
@@ -121,7 +126,58 @@ public class CocoaInput extends DummyModContainer
 		System.setProperty("jna.library.path",nativeDir.getAbsolutePath());
     }
     
-    public static String formatMarkedText(String aString,int position1,int length1){
+    public static void toggleFullScreen() {//Only used in macOS
+    	Minecraft mc=Minecraft.getMinecraft();
+    	mc.fullscreen=!mc.fullscreen;
+    	mc.gameSettings.fullScreen=mc.fullscreen;
+    	
+    	try{if(mc.fullscreen){
+    		mc.updateDisplayMode();
+    		mc.displayWidth = Display.getDisplayMode().getWidth();
+            mc.displayHeight = Display.getDisplayMode().getHeight();
+            if (mc.displayWidth <= 0)
+            {
+                mc.displayWidth = 1;
+            }
+
+            if (mc.displayHeight <= 0)
+            {
+                mc.displayHeight = 1;
+            }
+    	}
+    	else{
+    		Display.setDisplayMode(new DisplayMode(mc.tempDisplayWidth, mc.tempDisplayHeight));
+            mc.displayWidth = mc.tempDisplayWidth;
+            mc.displayHeight = mc.tempDisplayHeight;
+
+            if (mc.displayWidth <= 0)
+            {
+                mc.displayWidth = 1;
+            }
+
+            if (mc.displayHeight <= 0)
+            {
+                mc.displayHeight = 1;
+            }
+    	}
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	if (mc.currentScreen != null)
+        {
+            mc.resize(mc.displayWidth, mc.displayHeight);
+        }
+        else
+        {
+            mc.updateFramebufferSize();
+        }
+    	Handle.INSTANCE.toggleFullScreen();
+    	mc.updateDisplay();
+    }
+    
+    
+    public static String formatMarkedText(String aString,int position1,int length1){//ユーティリティ
 		StringBuilder builder=new StringBuilder(aString);
 		if(length1!=0){
 			builder.insert(position1+length1, "§r§n");
@@ -133,5 +189,8 @@ public class CocoaInput extends DummyModContainer
 		return new String(builder);
 	}
     
+    public static int getScreenScaledFactor(){//ユーティリティ
+    	return new ScaledResolution(Minecraft.getMinecraft()).getScaleFactor();
+    }
     
 }

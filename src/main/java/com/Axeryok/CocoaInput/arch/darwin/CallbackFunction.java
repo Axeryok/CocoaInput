@@ -1,7 +1,9 @@
 package com.Axeryok.CocoaInput.arch.darwin;
 
 import org.apache.logging.log4j.Level;
+import org.lwjgl.LWJGLException;
 
+import com.Axeryok.CocoaInput.CocoaInput;
 import com.Axeryok.CocoaInput.ModLogger;
 import com.sun.jna.Callback;
 import com.sun.jna.Pointer;
@@ -19,6 +21,7 @@ public class CallbackFunction {
 	interface Func_firstRectForCharacterRange extends Callback{
 		Pointer invoke();
 	}
+	
 	
 	//used to provide Objective-C with logging way
 	public static Callback Func_log=new Callback(){

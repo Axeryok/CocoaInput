@@ -12,10 +12,13 @@
 @interface DataManager : NSObject
 @property NSMutableDictionary* dic;
 @property MinecraftView* activeView;
+@property NSView* openglView;
+@property void (*toggleFullScreen)();
 + (instancetype)sharedManager;
 - (void)keyDown:(NSEvent*)theEvent;
 
 //形式上
 - (void)org_keyDown:(NSEvent*)theEvent;
+- (void)org_toggleFullScreen:(id)sender;
 - (void)interpretKeyEvents:(NSArray*)eventArray;
 @end

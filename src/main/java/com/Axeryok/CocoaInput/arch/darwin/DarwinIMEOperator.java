@@ -2,7 +2,9 @@ package com.Axeryok.CocoaInput.arch.darwin;
 
 import java.util.UUID;
 
+import com.Axeryok.CocoaInput.CocoaInput;
 import com.Axeryok.CocoaInput.ModLogger;
+import com.Axeryok.CocoaInput.Rect;
 import com.Axeryok.CocoaInput.arch.darwin.CallbackFunction.Func_firstRectForCharacterRange;
 import com.Axeryok.CocoaInput.arch.darwin.CallbackFunction.Func_insertText;
 import com.Axeryok.CocoaInput.arch.darwin.CallbackFunction.Func_setMarkedText;
@@ -12,7 +14,9 @@ import com.Axeryok.CocoaInput.wrapper.GuiTextFieldWrapper;
 import com.sun.jna.Memory;
 import com.sun.jna.Pointer;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.ScaledResolution;
 
 public class DarwinIMEOperator implements IMEOperator{
 	IMEReceiver owner;
@@ -44,33 +48,26 @@ public class DarwinIMEOperator implements IMEOperator{
 			@Override
 			public Pointer invoke() {
 				ModLogger.debug(3, "Called to determine where to draw.");
-				float []point;
-				float []noSelection={
-			            org.lwjgl.opengl.Display.getX(),
-			            Handle.INSTANCE.invertYCoordinate(org.lwjgl.opengl.Display.getY()),
-			            0,
-			            0
-			        };//TODO 描画位置改善
+				Rect point=owner.getRect();
+				float []buff;
+				if(point==null){
+					buff=new float[]{0,0,0,0};
+				}
+				else{
+					buff=new float[]{point.getX(),point.getY(),point.getWidth(),point.getHeight()};
+				}
+				int factor=CocoaInput.getScreenScaledFactor();
+				buff[0]*=factor;
+				buff[1]*=factor;
+				buff[2]*=factor;
+				buff[3]*=factor;
 				
-
-				if((point=owner.getRectPoint())==null){
-					point=noSelection;
-				}
-				if(owner instanceof GuiTextFieldWrapper){
-					GuiTextField textField=((GuiTextFieldWrapper) owner).owner;
-					float x = org.lwjgl.opengl.Display.getX()
-							+ (textField.fontRendererInstance.getStringWidth(textField.getText().substring(0, textField.cursorPosition)) * 2
-									+ (textField.enableBackgroundDrawing ? textField.xPosition + 4 : textField.xPosition) * 2);
-					float y = org.lwjgl.opengl.Display.getY()
-							+ (textField.enableBackgroundDrawing ? textField.yPosition + (textField.height - 8) / 2 : textField.yPosition) * 2
-							+ textField.fontRendererInstance.FONT_HEIGHT * 2;
-					point[0]=x;
-					point[1]=Handle.INSTANCE.invertYCoordinate(y);
-					point[2]=textField.width;
-					point[3]=textField.height;
-				}
+				buff[0]+=org.lwjgl.opengl.Display.getX();
+				buff[1]=Handle.INSTANCE.invertYCoordinate(org.lwjgl.opengl.Display.getY()+buff[1]);
+				
+				
 				Pointer ret=new Memory(Float.BYTES*4);
-				ret.write(0,point,0,4);
+				ret.write(0,buff,0,4);
 				return ret;
 			}
 			

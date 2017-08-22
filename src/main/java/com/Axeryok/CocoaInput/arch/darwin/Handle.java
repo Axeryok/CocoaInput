@@ -17,4 +17,5 @@ public interface Handle extends Library{
 	void discardMarkedText(String uuid);
 	void setIfReceiveEvent(String uuid,int yn);
 	float invertYCoordinate(float y);
+	void toggleFullScreen();
 }
