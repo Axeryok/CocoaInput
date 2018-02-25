@@ -1,7 +1,6 @@
 package com.Axeryok.CocoaInput.adapter;
 
 import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -39,8 +38,7 @@ public class GuiTextFieldAdapter extends ClassVisitor{
 				
 			};
 		}
-		
-		
+
 		//setFocused
 		if(name.equals("setFocused")){
 			ModLogger.log("Found method:"+name+" and add code at the beginning of this method.");
@@ -72,7 +70,6 @@ public class GuiTextFieldAdapter extends ClassVisitor{
 				}
 			};
 		}
-		
 		
 		return super.visitMethod(access, name, desc, signature, exceptions);
 	}

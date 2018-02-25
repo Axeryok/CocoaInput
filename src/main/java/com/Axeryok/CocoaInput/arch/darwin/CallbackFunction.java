@@ -1,9 +1,7 @@
 package com.Axeryok.CocoaInput.arch.darwin;
 
 import org.apache.logging.log4j.Level;
-import org.lwjgl.LWJGLException;
 
-import com.Axeryok.CocoaInput.CocoaInput;
 import com.Axeryok.CocoaInput.ModLogger;
 import com.sun.jna.Callback;
 import com.sun.jna.Pointer;
@@ -22,7 +20,6 @@ public class CallbackFunction {
 		Pointer invoke();
 	}
 	
-	
 	//used to provide Objective-C with logging way
 	public static Callback Func_log=new Callback(){
 		public void invoke(String msg){
@@ -36,10 +33,9 @@ public class CallbackFunction {
 	};
 	public static Callback Func_debug=new Callback(){
 		public void invoke(int suppliedDebugLevel,String msg){
-			if(suppliedDebugLevel<=ModLogger.debugLevel){
-				FMLLog.log("CocoaInput:Objective-C/DEBUG", Level.INFO, msg);
-			}
+		if(suppliedDebugLevel<=ModLogger.debugLevel){
+			FMLLog.log("CocoaInput:Objective-C/DEBUG", Level.INFO, msg);
+		}
 		}
 	};
-	
 }
