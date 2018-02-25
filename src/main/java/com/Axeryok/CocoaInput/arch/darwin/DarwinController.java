@@ -5,19 +5,21 @@ import java.util.HashMap;
 
 import org.lwjgl.opengl.Display;
 
+import com.Axeryok.CocoaInput.CocoaInput;
 import com.Axeryok.CocoaInput.ModLogger;
-import com.Axeryok.CocoaInput.impl.Controller;
-import com.Axeryok.CocoaInput.impl.IMEOperator;
-import com.Axeryok.CocoaInput.impl.IMEReceiver;
+import com.Axeryok.CocoaInput.plugin.Controller;
+import com.Axeryok.CocoaInput.plugin.IMEOperator;
+import com.Axeryok.CocoaInput.plugin.IMEReceiver;
+import com.sun.jna.Platform;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class DarwinController implements Controller{
-
-	@Override
-	public void CocoaInputInitialization(FMLInitializationEvent event) throws Exception {
+	
+	public DarwinController() throws Exception {
+		CocoaInput.copyLibrary("libcocoainput.dylib","/darwin/libcocoainput.dylib");
 		this.acceptUnderline();
     	MinecraftForge.EVENT_BUS.register(this);
     	ModLogger.log("CocoaInput is being initialized.If stops here,click minecraft window.");
@@ -37,20 +39,6 @@ public class DarwinController implements Controller{
     	}
     }
 
-
-
-	@Override
-	public String getLibraryPath() {
-		// TODO 自動生成されたメソッド・スタブ
-		return "/darwin/libcocoainput.dylib";
-	}
-
-	@Override
-	public String getLibraryName() {
-		// TODO 自動生成されたメソッド・スタブ
-		return "libcocoainput.dylib";
-	}
-	
 	private void acceptUnderline() throws Exception{
     	try
 	    {

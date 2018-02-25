@@ -21,7 +21,9 @@ public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 
 
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
-
+		if(transformedName.indexOf("jgl")!=-1){
+			System.out.println("asassa:"+transformedName);
+		}
 		if         (transformedName.equals("net.minecraft.client.gui.GuiTextField"))
 			return transformGuiTextField(transformedName,bytes);		
 		else if (transformedName.equals("net.minecraft.client.gui.GuiScreenBook"))

@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.ServiceLoader;
 
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.LWJGLException;
@@ -14,7 +17,7 @@ import org.lwjgl.opengl.DisplayMode;
 import com.Axeryok.CocoaInput.arch.darwin.DarwinController;
 import com.Axeryok.CocoaInput.arch.darwin.Handle;
 import com.Axeryok.CocoaInput.arch.dummy.DummyController;
-import com.Axeryok.CocoaInput.impl.Controller;
+import com.Axeryok.CocoaInput.plugin.Controller;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.sun.jna.Platform;
@@ -37,6 +40,7 @@ public class CocoaInput extends DummyModContainer
     public static final String VERSION = "3.1.0";
     public static Configuration configFile;
     public static Controller controller=null;
+    public static CocoaInput instance=null;
     public CocoaInput(){
     	super(new ModMetadata());
     	ModMetadata meta = getMetadata();
@@ -70,21 +74,19 @@ public class CocoaInput extends DummyModContainer
     
     @Subscribe
     public void init(FMLInitializationEvent event) throws Exception{
-    	if(this.controller==null){
-    		if(Platform.isMac()){
-    			this.controller=new DarwinController();
-    		}
-    		else{
-    			ModLogger.error("There are no available Controller.");
-    			this.controller=new DummyController();
-    		}
+    	CocoaInput.instance=this;
+    	MinecraftForge.EVENT_BUS.register(this);
+    	this.applyController(new DummyController());
+    	if(Platform.isMac()){
+    		this.applyController(new DarwinController());
     	}
-    	ModLogger.log("CocoaInput has loaded Controller:"+controller.getClass().toString());
-    	this.copyLibrary();
-    	this.controller.CocoaInputInitialization(event);
     	MinecraftForge.EVENT_BUS.register(this);
     }
     
+    public void applyController(Controller controller) throws IOException{
+    	this.controller=controller;
+    	ModLogger.log("CocoaInput is now using controller:"+controller.getClass().toString());
+    }
     
     
     //TextFormatting.getTextWithoutFormattingCodes(String str)の代替
@@ -107,11 +109,11 @@ public class CocoaInput extends DummyModContainer
     	}
     }
     
-    private void copyLibrary() throws IOException{
-    	if(this.controller.getLibraryName()==null)return;
-    	InputStream libFile=this.getClass().getResourceAsStream(this.controller.getLibraryPath());
+    public static void copyLibrary(String libraryName,String libraryPath) throws IOException{
+    	if(libraryName==null)return;
+    	InputStream libFile=instance.getClass().getResourceAsStream(libraryPath);
 		File nativeDir=new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath().concat("/native"));
-		File copyLibFile=new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath().concat("/native/"+this.controller.getLibraryName()));
+		File copyLibFile=new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath().concat("/native/"+libraryName));
 		try {
 			nativeDir.mkdir();
 			FileOutputStream fos=new FileOutputStream(copyLibFile);
@@ -120,7 +122,7 @@ public class CocoaInput extends DummyModContainer
 			fos.close();
 		} catch (IOException e1) {
 			// TODO 自動生成された catch ブロック
-			ModLogger.error("Attempted to copy library to ./native/"+this.controller.getLibraryName()+" but failed.");
+			ModLogger.error("Attempted to copy library to ./native/"+libraryName+" but failed.");
 			throw e1;
 		}
 		System.setProperty("jna.library.path",nativeDir.getAbsolutePath());

@@ -1,4 +1,4 @@
-package com.Axeryok.CocoaInput.impl;
+package com.Axeryok.CocoaInput.plugin;
 
 
 public interface IMEOperator {

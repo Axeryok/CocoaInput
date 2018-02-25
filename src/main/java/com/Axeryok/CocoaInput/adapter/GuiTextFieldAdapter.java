@@ -39,6 +39,9 @@ public class GuiTextFieldAdapter extends ClassVisitor{
 				
 			};
 		}
+		
+		
+		//setFocused
 		if(name.equals("setFocused")){
 			ModLogger.log("Found method:"+name+" and add code at the beginning of this method.");
 			return new MethodVisitor(Opcodes.ASM5, super.visitMethod(access, name, desc, signature, exceptions)){
@@ -55,6 +58,7 @@ public class GuiTextFieldAdapter extends ClassVisitor{
 			};
 		}
 		if("func_146195_b".equals(DeobfuscationHelper.mapMethodName(className, name, desc))){
+			ModLogger.log("Found method:"+name+" and add code at the beginning of this method.");
 			return new MethodVisitor(Opcodes.ASM5, super.visitMethod(access, name, desc, signature, exceptions)){
 				@Override
 				public void visitCode(){

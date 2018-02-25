@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 
 
-version = "3.1.0"
+version = "3.1.1"
 group= "com.Axeryok.CocoaInput" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "CocoaInput-universal"
 
@@ -91,16 +91,7 @@ jar {
 
 deobfCompileDummyTask.doFirst{
 		println 'Building libcocoainput.'
-		String cm="rm -rf  cocoainput/build"
+		String cm="./build_lib_for_mac.sh"
         Process p=cm.execute()
-        p.waitFor();
-        cm="xcodebuild -configuration Release -project cocoainput/cocoainput.xcodeproj"
-        p=cm.execute()
-        p.waitFor();
-        cm="mkdir src/main/resources/darwin"
-        p=cm.execute()
-        p.waitFor();
-        cm="cp -f cocoainput/build/Release/libcocoainput.dylib src/main/resources/darwin/libcocoainput.dylib"
-        p=cm.execute()
         p.waitFor();
 }
