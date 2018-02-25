@@ -18,14 +18,12 @@ import com.sun.jna.Platform;
 import net.minecraft.launchwrapper.IClassTransformer;
 
 public class CocoaInputTransformer implements IClassTransformer, Opcodes {
-
-
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
 		if(transformedName.indexOf("jgl")!=-1){
 			System.out.println("asassa:"+transformedName);
 		}
-		if         (transformedName.equals("net.minecraft.client.gui.GuiTextField"))
-			return transformGuiTextField(transformedName,bytes);		
+		if     	(transformedName.equals("net.minecraft.client.gui.GuiTextField"))
+			return transformGuiTextField(transformedName,bytes);
 		else if (transformedName.equals("net.minecraft.client.gui.GuiScreenBook"))
 			return transformGuiScreenBook(transformedName,bytes);
 		else if (transformedName.equals("net.minecraft.client.gui.inventory.GuiEditSign"))
@@ -38,7 +36,6 @@ public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 			return this.transformMinecraft(transformedName,bytes);
 		else
 			return bytes;
-
 	}
 
 	private byte[] transformNetHandlerPlayServer(String name,byte[] bytes){
@@ -64,10 +61,10 @@ public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 	private byte[] transformGuiEditSign(String name,byte[] bytes) {
 		ModLogger.log("Open classfile "+name+".");
 		ClassReader cr=new ClassReader(bytes);
-		ClassWriter cw =new ClassWriter(1);
+		ClassWriter cw=new ClassWriter(1);
 		//add field "GuiEditSignWrapper wrapper" to GuiEditSign
 		cw.visitField(Opcodes.ACC_PUBLIC,"wrapper","Lcom/Axeryok/CocoaInput/wrapper/GuiEditSignWrapper;",null,null).visitEnd();;
-		ClassVisitor cv= new GuiEditSignAdapter(cw);
+		ClassVisitor cv=new GuiEditSignAdapter(cw);
 		cr.accept(cv, 0);
 		ModLogger.log("Finish modify classfile "+name+".");
 		return cw.toByteArray();
@@ -76,10 +73,10 @@ public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 	private byte[] transformGuiScreenBook(String name,byte[] bytes) {
 		ModLogger.log("Open classfile "+name+".");
 		ClassReader cr=new ClassReader(bytes);
-		ClassWriter cw =new ClassWriter(1);
+		ClassWriter cw=new ClassWriter(1);
 		//add field "GuiScreenBookWrapper wrapper" to GuiScreen
 		cw.visitField(Opcodes.ACC_PUBLIC,"wrapper","Lcom/Axeryok/CocoaInput/wrapper/GuiScreenBookWrapper;",null,null).visitEnd();;
-		ClassVisitor cv= new GuiScreenBookAdapter(cw);
+		ClassVisitor cv=new GuiScreenBookAdapter(cw);
 		cr.accept(cv, 0);
 		ModLogger.log("Finish modify classfile "+name+".");
 		return cw.toByteArray();
@@ -88,10 +85,10 @@ public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 	private byte[] transformGuiTextField(String name,byte[] bytes){
 		ModLogger.log("Open classfile "+name+".");
 		ClassReader cr=new ClassReader(bytes);
-		ClassWriter cw =new ClassWriter(1);
+		ClassWriter cw=new ClassWriter(1);
 		//add field "GuiTextFieldWrapper wrapper" to GuiTextField
 		cw.visitField(Opcodes.ACC_PUBLIC,"wrapper","Lcom/Axeryok/CocoaInput/wrapper/GuiTextFieldWrapper;",null,null).visitEnd();;
-		ClassVisitor cv= new GuiTextFieldAdapter(cw);
+		ClassVisitor cv=new GuiTextFieldAdapter(cw);
 		cr.accept(cv, 0);
 		ModLogger.log("Finish modify classfile "+name+".");
 		return cw.toByteArray();
@@ -101,8 +98,8 @@ public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 		if(Platform.isMac()){
 			ModLogger.log("Open classfile "+name+".");
 			ClassReader cr=new ClassReader(bytes);
-			ClassWriter cw =new ClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
-			ClassVisitor cv= new MinecraftAdapter(cw);
+			ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
+			ClassVisitor cv=new MinecraftAdapter(cw);
 			cr.accept(cv, 0);
 			ModLogger.log("Finish modify classfile "+name+".");
 			debugFilePut(cw.toByteArray());
@@ -110,7 +107,7 @@ public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 		}
 		return bytes;
 	}
-	
+
 	private void debugFilePut(byte[] bytes) {
 		try{
 			FileOutputStream output=new FileOutputStream("test.class");
