@@ -1,6 +1,6 @@
 package com.Axeryok.CocoaInput.arch.dummy;
 
-import com.Axeryok.CocoaInput.impl.IMEOperator;
+import com.Axeryok.CocoaInput.plugin.IMEOperator;
 
 public class DummyIMEOperator implements IMEOperator {
 

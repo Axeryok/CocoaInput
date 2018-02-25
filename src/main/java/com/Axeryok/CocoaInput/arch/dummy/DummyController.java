@@ -1,16 +1,15 @@
 package com.Axeryok.CocoaInput.arch.dummy;
 
-import com.Axeryok.CocoaInput.impl.IMEReceiver;
 import com.Axeryok.CocoaInput.ModLogger;
-import com.Axeryok.CocoaInput.impl.Controller;
-import com.Axeryok.CocoaInput.impl.IMEOperator;
+import com.Axeryok.CocoaInput.plugin.Controller;
+import com.Axeryok.CocoaInput.plugin.IMEOperator;
+import com.Axeryok.CocoaInput.plugin.IMEReceiver;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 public class DummyController implements Controller{
 
-	@Override
-	public void CocoaInputInitialization(FMLInitializationEvent event) throws Exception {
+	public DummyController() {
 		// TODO 自動生成されたメソッド・スタブ
 		ModLogger.log("This is a dummy controller.");
 	}
@@ -21,16 +20,5 @@ public class DummyController implements Controller{
 		return new DummyIMEOperator();
 	}
 
-	@Override
-	public String getLibraryPath() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
-
-	@Override
-	public String getLibraryName() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
 
 }

@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.Axeryok.CocoaInput.CocoaInput;
 import com.Axeryok.CocoaInput.Rect;
-import com.Axeryok.CocoaInput.impl.IMEOperator;
-import com.Axeryok.CocoaInput.impl.IMEReceiver;
+import com.Axeryok.CocoaInput.plugin.IMEOperator;
+import com.Axeryok.CocoaInput.plugin.IMEReceiver;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
