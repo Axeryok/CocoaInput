@@ -20,5 +20,4 @@ public class ModLogger {
 			FMLLog.log("CocoaInput:Java/DEBUG", Level.INFO, msg, data);
 		}
 	}
-	
 }

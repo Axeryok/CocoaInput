@@ -10,7 +10,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-
+import org.apache.tools.ant.taskdefs.condition.Os
 
 version = "3.1.1"
 group= "com.Axeryok.CocoaInput" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -35,33 +35,7 @@ minecraft {
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
-dependencies {
-    // you may put jars on which you depend on in ./libs
-    // or you may define them like so..
-    //compile "some.group:artifact:version:classifier"
-    //compile "some.group:artifact:version"
-      
-    // real examples
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
-    // the 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
-    //provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
-
-    // the deobf configurations:  'deobfCompile' and 'deobfProvided' are the same as the normal compile and provided,
-    // except that these dependencies get remapped to your current MCP mappings
-    //deobfCompile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
-    //deobfProvided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
-
-    // for more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-    //compile "codechicken:CodeChickenCore:1.9.4-2.0.4.71:universal"
-    //compile "codechicken:NotEnoughItems:1.9.4-2.0.1.133:universal"
-}
-
-processResources
-{
+processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
@@ -89,9 +63,21 @@ jar {
 	}
 }
 
-deobfCompileDummyTask.doFirst{
-		println 'Building libcocoainput.'
-		String cm="./build_lib_for_mac.sh"
-        Process p=cm.execute()
-        p.waitFor();
+deobfCompileDummyTask.doFirst {
+    if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
+        println 'Building libcocoainput.'
+        String cm = "./build_lib_for_mac.sh"
+        Process p = cm.execute()
+        p.waitFor()
+    }
+}
+
+// Charset settings
+// NOTE: This is for Windows
+def defaultEncoding = 'UTF-8'
+compileJava {
+    options.encoding = defaultEncoding  // src/main/java配下の*.javaに影響
+}
+compileTestJava {
+    options.encoding = defaultEncoding  // src/test/java配下の*.javaに影響
 }

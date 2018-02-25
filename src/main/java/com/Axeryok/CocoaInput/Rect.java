@@ -1,7 +1,6 @@
 package com.Axeryok.CocoaInput;
 
 public class Rect {
-	
 	private float x=0;
 	private float y=0;
 	private float height=0;
@@ -29,5 +28,4 @@ public class Rect {
 	public float getHeight(){
 		return this.height;
 	}
-	
 }
