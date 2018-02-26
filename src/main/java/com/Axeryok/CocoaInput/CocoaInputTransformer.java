@@ -19,9 +19,6 @@ import net.minecraft.launchwrapper.IClassTransformer;
 
 public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
-		if(transformedName.indexOf("jgl")!=-1){
-			System.out.println("asassa:"+transformedName);
-		}
 		if     	(transformedName.equals("net.minecraft.client.gui.GuiTextField"))
 			return transformGuiTextField(transformedName,bytes);
 		else if (transformedName.equals("net.minecraft.client.gui.GuiScreenBook"))
@@ -102,7 +99,6 @@ public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 			ClassVisitor cv=new MinecraftAdapter(cw);
 			cr.accept(cv, 0);
 			ModLogger.log("Finish modify classfile "+name+".");
-			debugFilePut(cw.toByteArray());
 			return cw.toByteArray();
 		}
 		return bytes;

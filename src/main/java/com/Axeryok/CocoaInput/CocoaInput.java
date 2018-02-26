@@ -32,11 +32,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class CocoaInput extends DummyModContainer{
 	private static final String MODID = "CocoaInput";
-	private static final String VERSION = "3.1.0";
+	private static final String VERSION = "3.1.1";
 	public static Configuration configFile;
 	public static Controller controller=null;
 	private static CocoaInput instance=null;
-
+	private static boolean enableNativeFullscreen;
 	public CocoaInput(){
 		super(new ModMetadata());
 		ModMetadata meta = getMetadata();
@@ -97,6 +97,7 @@ public class CocoaInput extends DummyModContainer{
 	}
 
 	private void syncConfig(){
+		CocoaInput.enableNativeFullscreen=configFile.getBoolean("CocoaInputFullScreenSystem", Configuration.CATEGORY_GENERAL,false, "If true,you can see conversation window in fullscreen mode.But sometimes it causes minecraft to crash.");
 		ModLogger.debugLevel=configFile.getInt("debugLevel", Configuration.CATEGORY_GENERAL, 0, 0, 4, "Logger shows debug messages less than the debugLevel you set.");
 		if(configFile.hasChanged()){
 			configFile.save();
@@ -121,7 +122,8 @@ public class CocoaInput extends DummyModContainer{
 		System.setProperty("jna.library.path",nativeDir.getAbsolutePath());
 	}
 
-	public static void toggleFullScreen(){//Only used in macOS
+	public static boolean toggleFullScreen(){//Only used in macOS
+		if(!enableNativeFullscreen)return false;
 		Minecraft mc=Minecraft.getMinecraft();
 		mc.fullscreen=!mc.fullscreen;
 		mc.gameSettings.fullScreen=mc.fullscreen;
@@ -162,6 +164,7 @@ public class CocoaInput extends DummyModContainer{
 		}
 		Handle.INSTANCE.toggleFullScreen();
 		mc.updateDisplay();
+		return true;
 	}
 
 
