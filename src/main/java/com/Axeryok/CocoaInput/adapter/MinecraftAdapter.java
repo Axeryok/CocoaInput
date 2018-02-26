@@ -1,6 +1,7 @@
 package com.Axeryok.CocoaInput.adapter;
 
 import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -21,8 +22,11 @@ public class MinecraftAdapter extends ClassVisitor{
 			return new MethodVisitor(Opcodes.ASM5, super.visitMethod(access, name, desc, signature, exceptions)){
 				@Override
 				public void visitCode(){
-					super.visitMethodInsn(Opcodes.INVOKESTATIC, "com/Axeryok/CocoaInput/CocoaInput", "toggleFullScreen", "()V",false);
+					Label skip = new Label();
+					super.visitMethodInsn(Opcodes.INVOKESTATIC, "com/Axeryok/CocoaInput/CocoaInput", "toggleFullScreen", "()Z",false);
+					mv.visitJumpInsn(Opcodes.IFEQ, skip);
 					super.visitInsn(Opcodes.RETURN);
+					mv.visitLabel(skip);
 					super.visitCode();
 				}
 			};

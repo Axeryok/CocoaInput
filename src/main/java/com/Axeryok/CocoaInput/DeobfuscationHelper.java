@@ -5,6 +5,10 @@ import org.objectweb.asm.Type;
 import net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
 
 public class DeobfuscationHelper {
+	public static String unmap(String name){
+		return FMLDeobfuscatingRemapper.INSTANCE.unmap(name);
+	}
+	
 	public static String unmapClassName(String name){
 		return FMLDeobfuscatingRemapper.INSTANCE.unmap(name.replace('.','/')).replace('/', '.');
 	}

@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 import org.lwjgl.input.Keyboard;
 
 import com.Axeryok.CocoaInput.CocoaInput;
+import com.Axeryok.CocoaInput.DeobfuscationHelper;
+import com.Axeryok.CocoaInput.ModLogger;
 import com.Axeryok.CocoaInput.Rect;
 import com.Axeryok.CocoaInput.plugin.IMEOperator;
 import com.Axeryok.CocoaInput.plugin.IMEReceiver;
@@ -44,12 +46,16 @@ public class GuiTextFieldWrapper implements IMEReceiver {
 		GuiScreen gui=Minecraft.getMinecraft().currentScreen;
 		Method keytyped = null;
 		try{
-			keytyped= gui.getClass().getDeclaredMethod("func_73869_a", char.class,int.class);
+			keytyped= gui.getClass().getDeclaredMethod(DeobfuscationHelper.unmap("func_73869_a"), char.class,int.class);
 		}catch(Exception e){
 			try{
-				keytyped= gui.getClass().getDeclaredMethod("keyTyped", char.class,int.class);
+				keytyped= gui.getClass().getDeclaredMethod("func_73869_a", char.class,int.class);
 			}catch(Exception e2){
-
+				try{
+					keytyped= gui.getClass().getDeclaredMethod("keyTyped", char.class,int.class);
+				}catch(Exception e3){
+					ModLogger.error("Can't find method:keyTyped");
+				}
 			}
 		}
 
