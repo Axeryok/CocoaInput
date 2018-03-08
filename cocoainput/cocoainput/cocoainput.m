@@ -79,6 +79,9 @@ void removeInstance(const char* uuid) {
 
 void refreshInstance(void) {
   CIDebug(1, @"All textfields has been removed.");
+  if([DataManager sharedManager].activeView){
+    [[[DataManager sharedManager].activeView inputContext] deactivate];
+  }
   NSDictionary* instances = [[DataManager sharedManager] dic];
   [[NSTextInputContext currentInputContext] discardMarkedText];
   [DataManager sharedManager].activeView = nil;
