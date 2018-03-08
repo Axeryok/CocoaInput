@@ -54,7 +54,8 @@ public class GuiTextFieldWrapper implements IMEReceiver {
 				try{
 					keytyped= gui.getClass().getDeclaredMethod("keyTyped", char.class,int.class);
 				}catch(Exception e3){
-					ModLogger.error("Can't find method:keyTyped");
+					ModLogger.error("Can't find method:keyTyped class:"+gui.getClass().getName());
+					owner.textboxKeyTyped(aString.charAt(aString.length()-1),Keyboard.KEY_UNDERLINE);
 				}
 			}
 		}
