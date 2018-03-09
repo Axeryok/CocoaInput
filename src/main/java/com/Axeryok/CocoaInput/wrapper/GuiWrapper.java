@@ -7,10 +7,8 @@ import net.minecraft.client.gui.inventory.GuiEditSign;
 
 import java.lang.reflect.Field;
 
-public abstract class GuiWrapper implements IMEReceiver {
-    GuiEditSign owner;
-
-    FontRenderer makeFontRenderer() throws Exception {
+class WrapperUtil {
+    public static FontRenderer makeFontRenderer(GuiScreen owner) throws Exception {
         try {
             Field font=GuiScreen.class.getDeclaredField("field_146289_q");
             font.setAccessible(true);

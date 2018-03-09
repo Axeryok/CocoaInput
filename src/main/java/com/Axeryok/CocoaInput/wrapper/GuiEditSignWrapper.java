@@ -3,13 +3,15 @@ package com.Axeryok.CocoaInput.wrapper;
 import com.Axeryok.CocoaInput.CocoaInput;
 import com.Axeryok.CocoaInput.Rect;
 import com.Axeryok.CocoaInput.plugin.IMEOperator;
+import com.Axeryok.CocoaInput.plugin.IMEReceiver;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiEditSign;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.text.TextComponentString;
 
-public class GuiEditSignWrapper extends GuiWrapper {
+public class GuiEditSignWrapper implements IMEReceiver {
+	private GuiEditSign owner;
 	private IMEOperator myIME;
 	private int length=0;
 	private boolean hasMarkedText=false;
@@ -50,7 +52,7 @@ public class GuiEditSignWrapper extends GuiWrapper {
 	public Rect getRect() {
 		FontRenderer fontRendererObj=null;
 		try {
-		    fontRendererObj = makeFontRenderer();
+		    fontRendererObj = WrapperUtil.makeFontRenderer(owner);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

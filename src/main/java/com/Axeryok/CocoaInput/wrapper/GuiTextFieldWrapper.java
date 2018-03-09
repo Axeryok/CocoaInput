@@ -20,8 +20,8 @@ public class GuiTextFieldWrapper implements IMEReceiver {
 	private GuiTextField owner;
 	private int length=0;
 	public GuiTextFieldWrapper(GuiTextField field){
-		myIME = CocoaInput.controller.generateIMEOperator(this);
 		owner=field;
+		myIME = CocoaInput.controller.generateIMEOperator(this);
 	}
 
 	public void setFocused(boolean newParam,boolean oldParam){

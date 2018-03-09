@@ -12,9 +12,9 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 import org.apache.tools.ant.taskdefs.condition.Os
 
-version = "3.1.1"
+version = "3.1.4"
 group= "com.Axeryok.CocoaInput" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "CocoaInput-universal"
+archivesBaseName = "CocoaInput-[1.9-1.12.2]"
 
 sourceCompatibility = targetCompatibility = '1.6' // Need this here so eclipse task generates correctly.
 compileJava {

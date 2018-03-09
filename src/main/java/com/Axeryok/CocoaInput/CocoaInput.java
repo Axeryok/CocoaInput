@@ -32,7 +32,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class CocoaInput extends DummyModContainer{
 	private static final String MODID = "CocoaInput";
-	private static final String VERSION = "3.1.1";
+	private static final String VERSION = "3.1.4";
 	public static Configuration configFile;
 	public static Controller controller=null;
 	private static CocoaInput instance=null;
