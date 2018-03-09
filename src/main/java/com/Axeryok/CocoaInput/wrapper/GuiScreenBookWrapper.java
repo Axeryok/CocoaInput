@@ -5,10 +5,11 @@ import java.util.List;
 import com.Axeryok.CocoaInput.CocoaInput;
 import com.Axeryok.CocoaInput.Rect;
 import com.Axeryok.CocoaInput.plugin.IMEOperator;
+import com.Axeryok.CocoaInput.plugin.IMEReceiver;
 
 import net.minecraft.client.gui.*;
 
-public class GuiScreenBookWrapper extends GuiWrapper{
+public class GuiScreenBookWrapper implements IMEReceiver {
 	private IMEOperator myIME;
 	private GuiScreenBook owner;
 	private int length=0;
@@ -64,7 +65,7 @@ public class GuiScreenBookWrapper extends GuiWrapper{
 	public Rect getRect() {
 		FontRenderer fontRendererObj=null;
 		try {
-			fontRendererObj = this.makeFontRenderer();
+			fontRendererObj = WrapperUtil.makeFontRenderer(owner);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
