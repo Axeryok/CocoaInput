@@ -32,8 +32,8 @@ public class CallbackFunction {
 		}
 	};
 	public static Callback Func_debug=new Callback(){
-		public void invoke(int suppliedDebugLevel,String msg){
-		if(suppliedDebugLevel<=ModLogger.debugLevel){
+		public void invoke(String msg){
+		if(ModLogger.debugMode){
 			FMLLog.log("CocoaInput:Objective-C/DEBUG", Level.INFO, msg);
 		}
 		}

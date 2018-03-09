@@ -41,8 +41,7 @@
   } else {
     sentString = [aString cStringUsingEncoding:NSUTF8StringEncoding];
   }
-  CIDebug(3, [NSString stringWithFormat:@"MarkedText was determined:\"%@\"",
-                                        debugText]);
+  CIDebug([NSString stringWithFormat:@"MarkedText was determined:\"%@\"",debugText]);
   self.insertText(sentString, SPLIT_NSRANGE(replacementRange));
 }
 
@@ -59,15 +58,14 @@
   } else {
     sentString = [aString cStringUsingEncoding:NSUTF8StringEncoding];
   }
-  CIDebug(3,
-          [NSString stringWithFormat:@"MarkedText changed:\"%@\"", debugText]);
+  CIDebug([NSString stringWithFormat:@"MarkedText changed:\"%@\"", [aString description]]);
   self.setMarkedText(sentString, SPLIT_NSRANGE(selectedRange),
                      SPLIT_NSRANGE(replacementRange));
 }
 
 - (NSRect)firstRectForCharacterRange:(NSRange)aRange
                          actualRange:(NSRangePointer)actualRange {
-  CIDebug(3, @"Called to determine where to draw.");
+  CIDebug(@"Called to determine where to draw.");
   if (self.hasMark == NO) {
     return NSMakeRect(0, 0, 0, 0);
   }

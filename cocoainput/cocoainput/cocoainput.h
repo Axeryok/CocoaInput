@@ -14,7 +14,7 @@
 
 void initialize(void (*log)(const char*),
                 void (*error)(const char*),
-                void (*debug)(const int, const char*)
+                void (*debug)(const char*)
                 );
 
 void addInstance(const char* uuid,
