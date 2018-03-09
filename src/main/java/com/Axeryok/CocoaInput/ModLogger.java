@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Level;
 import net.minecraftforge.fml.common.FMLLog;
 
 public class ModLogger {
-	public static int debugLevel;
+	public static boolean debugMode;
 	
 	public static void log(String msg,Object...data){
 		FMLLog.log("CocoaInput:Java", Level.INFO, msg, data);
@@ -15,8 +15,8 @@ public class ModLogger {
 		FMLLog.log("CocoaInput:Java", Level.INFO, msg, data);
 	}
 	
-	public static void debug(int suppliedDebugLevel,String msg,Object...data){
-		if(suppliedDebugLevel<=debugLevel){
+	public static void debug(String msg,Object...data){
+		if(debugMode){
 			FMLLog.log("CocoaInput:Java/DEBUG", Level.INFO, msg, data);
 		}
 	}

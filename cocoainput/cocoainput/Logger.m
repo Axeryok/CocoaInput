@@ -11,7 +11,7 @@
 struct {
   void (*log)(const char*);
   void (*error)(const char*);
-  void (*debug)(const int, const char*);
+  void (*debug)(const char*);
 } LogPointer;
 
 void CILog(NSString* msg) {
@@ -20,13 +20,13 @@ void CILog(NSString* msg) {
 void CIError(NSString* msg) {
   LogPointer.error([msg cStringUsingEncoding:NSUTF8StringEncoding]);
 }
-void CIDebug(int debugLevel, NSString* msg) {
-  LogPointer.debug(debugLevel, [msg cStringUsingEncoding:NSUTF8StringEncoding]);
+void CIDebug(NSString* msg) {
+  LogPointer.debug([msg cStringUsingEncoding:NSUTF8StringEncoding]);
 }
 
 void initLogPointer(void (*log)(const char*),
                     void (*error)(const char*),
-                    void (*debug)(const int, const char*)) {
+                    void (*debug)(const char*)) {
   LogPointer.log = log;
   LogPointer.error = error;
   LogPointer.debug = debug;

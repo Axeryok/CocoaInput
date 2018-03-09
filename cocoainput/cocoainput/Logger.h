@@ -13,10 +13,10 @@
 
 void initLogPointer(void (*log)(const char*),
                     void (*error)(const char*),
-                    void (*debug)(const int, const char*));
+                    void (*debug)(const char*));
 
 void CILog(NSString* msg);
 void CIError(NSString* msg);
-void CIDebug(int debugLevel, NSString* msg);
+void CIDebug(NSString* msg);
 
 #endif /* Logger_h */

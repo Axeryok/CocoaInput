@@ -30,7 +30,7 @@ public class DarwinIMEOperator implements IMEOperator{
 		insertText_p=new Func_insertText(){
 			@Override
 			public void invoke(String str, int position, int length) {
-				ModLogger.debug(3, "Textfield "+uuid+" received inserted text.");
+				ModLogger.debug("Textfield "+uuid+" received inserted text.");
 				owner.insertText(str, position, length);
 			}
 		};
@@ -38,7 +38,7 @@ public class DarwinIMEOperator implements IMEOperator{
 			@Override
 			public void invoke(String str, int position1, int length1,
 					int position2, int length2) {
-				ModLogger.debug(3, "MarkedText changed at "+uuid+".");
+				ModLogger.debug("MarkedText changed at "+uuid+".");
 				owner.setMarkedText(str, position1, length1, position2, length2);;
 			}
 			
@@ -47,7 +47,7 @@ public class DarwinIMEOperator implements IMEOperator{
 
 			@Override
 			public Pointer invoke() {
-				ModLogger.debug(3, "Called to determine where to draw.");
+				ModLogger.debug("Called to determine where to draw.");
 				Rect point=owner.getRect();
 				float []buff;
 				if(point==null){

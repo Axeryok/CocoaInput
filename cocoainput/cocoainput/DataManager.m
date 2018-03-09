@@ -23,7 +23,7 @@ static DataManager* instance = nil;
 }
 
 - (id)init {
-  CIDebug(1, @"Textfield table has been initialized.");
+  CIDebug(@"Textfield table has been initialized.");
   self = [super init];
   self.dic = [NSMutableDictionary dictionary];
   self.activeView = nil;
@@ -41,7 +41,7 @@ static DataManager* instance = nil;
           ([[theEvent characters] characterAtIndex:0] > 0x1B &&
            [[theEvent characters] characterAtIndex:0] < 0xF700)) ||
          [[theEvent characters] characterAtIndex:0] > 0xF8FF)))) {
-    CIDebug(3, @"New keyEvent came and sent to textfield.");
+    CIDebug(@"New keyEvent came and sent to textfield.");
     [[[DataManager sharedManager] activeView] interpretKeyEvents:@[ theEvent ]];
   }
   if ([[DataManager sharedManager] activeView].hasMark == NO &&

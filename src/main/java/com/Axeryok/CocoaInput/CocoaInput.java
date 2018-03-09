@@ -98,7 +98,7 @@ public class CocoaInput extends DummyModContainer{
 
 	private void syncConfig(){
 		CocoaInput.enableNativeFullscreen=configFile.getBoolean("CocoaInputFullScreenSystem", Configuration.CATEGORY_GENERAL,false, "If true,you can see conversation window in fullscreen mode.But sometimes it causes minecraft to crash.");
-		ModLogger.debugLevel=configFile.getInt("debugLevel", Configuration.CATEGORY_GENERAL, 0, 0, 4, "Logger shows debug messages less than the debugLevel you set.");
+		ModLogger.debugMode=configFile.getBoolean("debugMode", Configuration.CATEGORY_GENERAL,false, "If true,CocoaInput puts debug logs.");
 		if(configFile.hasChanged()){
 			configFile.save();
 		}
