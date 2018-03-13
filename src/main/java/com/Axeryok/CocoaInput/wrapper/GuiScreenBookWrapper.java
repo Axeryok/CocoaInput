@@ -41,7 +41,7 @@ public class GuiScreenBookWrapper implements IMEReceiver {
 
 	@Override
 	public void setMarkedText(String aString, int position1, int length1, int position2, int length2) {
-		String str=CocoaInput.formatMarkedText(aString, position1, length1);
+		String str=CocoaInput.formatMarkedText(aString, position1, length1)._1();
 		if (owner.bookGettingSigned) {
 			if (hasMarkedText == false) {
 				hasMarkedText = true;

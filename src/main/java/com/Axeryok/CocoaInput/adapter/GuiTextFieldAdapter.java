@@ -1,6 +1,7 @@
 package com.Axeryok.CocoaInput.adapter;
 
 import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -15,6 +16,8 @@ public class GuiTextFieldAdapter extends ClassVisitor{
 
 	//initGuiの末尾(return前)に wrapper = new GuiTextFieldWrapper(this);を追加
 	//setFocusedの先頭にwrapper.setFocused(First arg,oldFocused);を追加
+	//updateCursorCounterの先頭にwrapper.isCursorVisible();return;を追加
+	//TODO:updateCursorCounterの先頭にif(!wrapper.isCursorVisible())return;を追加
 	@Override
 	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions){
 		if(name.equals("<init>")){
@@ -66,6 +69,22 @@ public class GuiTextFieldAdapter extends ClassVisitor{
 					this.visitIntInsn(Opcodes.ALOAD, 0);
 					this.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/client/gui/GuiTextField","field_146213_o", "Z");
 					this.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "com/Axeryok/CocoaInput/wrapper/GuiTextFieldWrapper", "setFocused", "(ZZ)V",false);
+					super.visitCode();
+				}
+			};
+		}
+		if("updateCursorCounter".equals(name)||"func_146178_a".equals(DeobfuscationHelper.mapMethodName(className, name, desc))){
+			ModLogger.log("Found method:"+name+" and add code at the beginning of this method.");
+			return new MethodVisitor(Opcodes.ASM5, super.visitMethod(access, name, desc, signature, exceptions)){
+				@Override
+				public void visitCode(){
+			//		Label skip=new Label();
+					this.visitIntInsn(Opcodes.ALOAD,0);
+					this.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/client/gui/GuiTextField", "wrapper", "Lcom/Axeryok/CocoaInput/wrapper/GuiTextFieldWrapper;");
+					this.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "com/Axeryok/CocoaInput/wrapper/GuiTextFieldWrapper", "updateCursorCounter", "()V",false);
+			//		super.visitJumpInsn(Opcodes.IFNE, skip);
+					this.visitInsn(Opcodes.RETURN);
+			//		this.visitLabel(skip);
 					super.visitCode();
 				}
 			};

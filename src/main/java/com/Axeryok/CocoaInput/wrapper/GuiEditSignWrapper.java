@@ -36,7 +36,7 @@ public class GuiEditSignWrapper implements IMEReceiver {
 
 	@Override
 	public void setMarkedText(String aString, int position1, int length1, int position2, int length2) {
-		String str=CocoaInput.formatMarkedText(aString, position1, length1);
+		String str=CocoaInput.formatMarkedText(aString, position1, length1)._1();
         String text = owner.tileSign.signText[owner.editLine].getUnformattedText();
         if (hasMarkedText == false) {
             hasMarkedText = true;
