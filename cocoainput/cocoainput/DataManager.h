@@ -19,6 +19,5 @@
 
 //形式上
 - (void)org_keyDown:(NSEvent*)theEvent;
-- (void)org_toggleFullScreen:(id)sender;
 - (void)interpretKeyEvents:(NSArray*)eventArray;
 @end

@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 import org.apache.tools.ant.taskdefs.condition.Os
 
-version = "3.1.4"
+version = "3.1.5"
 group= "com.Axeryok.CocoaInput" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "CocoaInput-[1.9-1.12.2]"
 

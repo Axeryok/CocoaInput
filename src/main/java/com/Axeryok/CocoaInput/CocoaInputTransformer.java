@@ -11,7 +11,6 @@ import com.Axeryok.CocoaInput.adapter.ChatAllowedCharactersAdapter;
 import com.Axeryok.CocoaInput.adapter.GuiEditSignAdapter;
 import com.Axeryok.CocoaInput.adapter.GuiScreenBookAdapter;
 import com.Axeryok.CocoaInput.adapter.GuiTextFieldAdapter;
-import com.Axeryok.CocoaInput.adapter.MinecraftAdapter;
 import com.Axeryok.CocoaInput.adapter.NetHandlerPlayServerAdapter;
 import com.sun.jna.Platform;
 
@@ -29,8 +28,6 @@ public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 			return this.transformChatAllowedCharacters(transformedName,bytes);
 		else if (transformedName.equals("net.minecraft.network.NetHandlerPlayServer"))
 			return this.transformNetHandlerPlayServer(transformedName,bytes);
-		else if (transformedName.equals("net.minecraft.client.Minecraft"))
-			return this.transformMinecraft(transformedName,bytes);
 		else
 			return bytes;
 	}
@@ -82,7 +79,7 @@ public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 	private byte[] transformGuiTextField(String name,byte[] bytes){
 		ModLogger.log("Open classfile "+name+".");
 		ClassReader cr=new ClassReader(bytes);
-		ClassWriter cw=new ClassWriter(1);
+		ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
 		//add field "GuiTextFieldWrapper wrapper" to GuiTextField
 		cw.visitField(Opcodes.ACC_PUBLIC,"wrapper","Lcom/Axeryok/CocoaInput/wrapper/GuiTextFieldWrapper;",null,null).visitEnd();;
 		ClassVisitor cv=new GuiTextFieldAdapter(cw);
@@ -91,18 +88,6 @@ public class CocoaInputTransformer implements IClassTransformer, Opcodes {
 		return cw.toByteArray();
 	}
 
-	private byte[] transformMinecraft(String name,byte[] bytes){//Mac向けFullScreen問題を解決する
-		if(Platform.isMac()){
-			ModLogger.log("Open classfile "+name+".");
-			ClassReader cr=new ClassReader(bytes);
-			ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
-			ClassVisitor cv=new MinecraftAdapter(cw);
-			cr.accept(cv, 0);
-			ModLogger.log("Finish modify classfile "+name+".");
-			return cw.toByteArray();
-		}
-		return bytes;
-	}
 
 	private void debugFilePut(byte[] bytes) {
 		try{

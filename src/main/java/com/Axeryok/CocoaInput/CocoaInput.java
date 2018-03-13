@@ -29,10 +29,12 @@ import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import scala.Tuple2;
+import scala.Tuple3;
 
 public class CocoaInput extends DummyModContainer{
 	private static final String MODID = "CocoaInput";
-	private static final String VERSION = "3.1.4";
+	private static final String VERSION = "3.1.5";
 	public static Configuration configFile;
 	public static Controller controller=null;
 	private static CocoaInput instance=null;
@@ -97,7 +99,6 @@ public class CocoaInput extends DummyModContainer{
 	}
 
 	private void syncConfig(){
-		CocoaInput.enableNativeFullscreen=configFile.getBoolean("CocoaInputFullScreenSystem", Configuration.CATEGORY_GENERAL,false, "If true,you can see conversation window in fullscreen mode.But sometimes it causes minecraft to crash.");
 		ModLogger.debugMode=configFile.getBoolean("debugMode", Configuration.CATEGORY_GENERAL,false, "If true,CocoaInput puts debug logs.");
 		if(configFile.hasChanged()){
 			configFile.save();
@@ -122,62 +123,20 @@ public class CocoaInput extends DummyModContainer{
 		System.setProperty("jna.library.path",nativeDir.getAbsolutePath());
 	}
 
-	public static boolean toggleFullScreen(){//Only used in macOS
-		if(!enableNativeFullscreen)return false;
-		Minecraft mc=Minecraft.getMinecraft();
-		mc.fullscreen=!mc.fullscreen;
-		mc.gameSettings.fullScreen=mc.fullscreen;
 
-		try{
-			if(mc.fullscreen){
-				mc.updateDisplayMode();
-				mc.displayWidth = Display.getDisplayMode().getWidth();
-				mc.displayHeight = Display.getDisplayMode().getHeight();
-				if (mc.displayWidth <= 0) {
-					mc.displayWidth = 1;
-				}
-
-				if (mc.displayHeight <= 0) {
-					mc.displayHeight = 1;
-				}
-			}else{
-				Display.setDisplayMode(new DisplayMode(mc.tempDisplayWidth, mc.tempDisplayHeight));
-				mc.displayWidth = mc.tempDisplayWidth;
-				mc.displayHeight = mc.tempDisplayHeight;
-
-				if (mc.displayWidth <= 0)
-				{
-					mc.displayWidth = 1;
-				}
-
-				if (mc.displayHeight <= 0)
-				{
-					mc.displayHeight = 1;
-				}
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}if (mc.currentScreen != null){
-			mc.resize(mc.displayWidth, mc.displayHeight);
-		}else{
-			mc.updateFramebufferSize();
-		}
-		Handle.INSTANCE.toggleFullScreen();
-		mc.updateDisplay();
-		return true;
-	}
-
-
-	public static String formatMarkedText(String aString,int position1,int length1){//ユーティリティ
+	public static Tuple3<String,Integer,Boolean> formatMarkedText(String aString,int position1,int length1){//ユーティリティ
 		StringBuilder builder=new StringBuilder(aString);
-		if(length1!=0){
-			builder.insert(position1+length1, "§r§n");
-			builder.insert(position1,"§l");
+		boolean hasCaret=length1==0;
+		if(!hasCaret){//主文節がある
+			builder.insert(position1+length1, "§r§n");//主文節の終わりで修飾をリセットして下線修飾をセット
+			builder.insert(position1,"§l");//主文節の始まりで太字修飾を追加
 		}
-		builder.insert(0, "§n");
-		builder.append("§r");
-
-		return new String(builder);
+		else{//主文説がない（キャレットが存在するのでそれを意識する）
+			builder.insert(position1, "§r§n");
+		}
+		builder.insert(0, "§r§n");//最初に下線修飾をセット
+		builder.append("§r");//最後に修飾をリセット
+		return new Tuple3(new String(builder),position1+6,hasCaret);
 	}
 
 	public static int getScreenScaledFactor(){//ユーティリティ

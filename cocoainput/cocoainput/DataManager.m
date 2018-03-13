@@ -53,11 +53,5 @@ static DataManager* instance = nil;
   [[DataManager sharedManager] activeView].isBeforeActionSetMarkedText = NO;
 }
 
-- (void)toggleFullScreen:(id)sender{
-    if([sender isEqual:@"CocoaInput"]){
-        [self org_toggleFullScreen:nil];
-    }
-    else CIError(@"You can't use green button in title bar while CocoaInput running.Please type fullscreen key!");
-}
 
 @end

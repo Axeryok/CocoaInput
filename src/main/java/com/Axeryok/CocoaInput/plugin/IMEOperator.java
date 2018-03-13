@@ -6,4 +6,5 @@ public interface IMEOperator {
 	
 	//TODO removeInstanceを実装する（現時点では呼ばれない）
 	void removeInstance();//看板や本の編集が終わった時に呼び出される　テキストフィールドは廃棄位置が曖昧なため呼び出されない
+	
 }

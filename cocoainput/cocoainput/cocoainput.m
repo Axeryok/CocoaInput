@@ -22,9 +22,6 @@ void initialize(void (*log)(const char*),
   replaceInstanceMethod([mainView class], @selector(keyDown:),
                         @selector(org_keyDown:),
                         [[DataManager sharedManager] class]);
-  replaceInstanceMethod([[mainView window] class], @selector(toggleFullScreen:),
-                        @selector(org_toggleFullScreen:),
-                        [[DataManager sharedManager] class]);
   CIDebug(@"Modifying Quit keyboard-shortcut.");
   NSMenu* minecraftMenu = [[[NSApp mainMenu] itemAtIndex:0] submenu];
   [minecraftMenu itemAtIndex:[minecraftMenu numberOfItems] - 1]
@@ -129,6 +126,3 @@ float invertYCoordinate(float y) {
          [[NSScreen mainScreen] visibleFrame].origin.y - y;
 }
 
-void toggleFullScreen(){
-    [[NSApp keyWindow] toggleFullScreen:@"CocoaInput"];
-}
