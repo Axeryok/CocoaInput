@@ -2,12 +2,17 @@
 
 .DS_Store
 *.dylib
+*.o
+
 
 !.gitignore
+!gradle
+!gradle.properties
+!gradlew
 !src
-!cocoainput
+!libcocoainput
 !build.gradle
 !README.MD
 !build_lib_for_mac.sh
 
-cocoainput/build
+libcocoainput/build
