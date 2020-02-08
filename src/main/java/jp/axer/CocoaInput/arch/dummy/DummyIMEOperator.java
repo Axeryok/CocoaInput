@@ -1,8 +1,8 @@
 
-package jp.axer.CocoaInput.arch.dummy;
+package jp.axer.cocoainput.arch.dummy;
 
 
-import jp.axer.CocoaInput.plugin.IMEOperator;
+import jp.axer.cocoainput.plugin.IMEOperator;
 
 public class DummyIMEOperator implements IMEOperator {
 

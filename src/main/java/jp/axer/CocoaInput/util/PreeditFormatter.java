@@ -1,4 +1,4 @@
-package jp.axer.CocoaInput.util;
+package jp.axer.cocoainput.util;
 
 public class PreeditFormatter {
     public static Tuple3<String, Integer, Boolean> formatMarkedText(String aString, int position1, int length1) {//ユーティリティ

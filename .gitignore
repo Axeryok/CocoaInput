@@ -14,5 +14,6 @@
 !build.gradle
 !README.MD
 !build_lib_for_mac.sh
+!TODO.txt
 
 libcocoainput/build

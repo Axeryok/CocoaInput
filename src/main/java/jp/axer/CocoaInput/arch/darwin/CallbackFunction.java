@@ -1,8 +1,8 @@
-package jp.axer.CocoaInput.arch.darwin;
+package jp.axer.cocoainput.arch.darwin;
 
 import com.sun.jna.Callback;
 import com.sun.jna.Pointer;
-import jp.axer.CocoaInput.util.ModLogger;
+import jp.axer.cocoainput.util.ModLogger;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 

@@ -1,4 +1,4 @@
-package jp.axer.CocoaInput.plugin;
+package jp.axer.cocoainput.plugin;
 
 public interface IMEOperator {
     void setFocused(boolean inFocused);//保持するIMEのフォーカスが変化した時に呼び出される

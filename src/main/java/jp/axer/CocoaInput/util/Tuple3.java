@@ -1,4 +1,4 @@
-package jp.axer.CocoaInput.util;
+package jp.axer.cocoainput.util;
 
 public class Tuple3<A, B, C> {
     A va;

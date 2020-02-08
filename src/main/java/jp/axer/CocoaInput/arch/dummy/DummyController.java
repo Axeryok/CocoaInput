@@ -1,9 +1,9 @@
-package jp.axer.CocoaInput.arch.dummy;
+package jp.axer.cocoainput.arch.dummy;
 
-import jp.axer.CocoaInput.plugin.CocoaInputController;
-import jp.axer.CocoaInput.plugin.IMEOperator;
-import jp.axer.CocoaInput.plugin.IMEReceiver;
-import jp.axer.CocoaInput.util.ModLogger;
+import jp.axer.cocoainput.plugin.CocoaInputController;
+import jp.axer.cocoainput.plugin.IMEOperator;
+import jp.axer.cocoainput.plugin.IMEReceiver;
+import jp.axer.cocoainput.util.ModLogger;
 
 public class DummyController implements CocoaInputController{
     public DummyController() {

@@ -1,6 +1,6 @@
-package jp.axer.CocoaInput.arch.darwin;
+package jp.axer.cocoainput.arch.darwin;
 
-import jp.axer.CocoaInput.arch.darwin.CallbackFunction.*;
+import jp.axer.cocoainput.arch.darwin.CallbackFunction.*;
 import com.sun.jna.Callback;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
