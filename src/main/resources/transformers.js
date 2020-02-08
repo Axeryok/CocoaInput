@@ -13,21 +13,21 @@ function initializeCoreMod(){
         'guitextfield':{
             'target':{
                 'type':'CLASS',
-                'name':'net.minecraft.client.gui.GuiTextField'
+                'name':'net.minecraft.client.gui.widget.TextFieldWidget'
             },
             'transformer': guitextfield_transform
         },
         'guieditsign':{
               'target':{
               'type':'CLASS',
-              'name':'net.minecraft.client.gui.inventory.GuiEditSign'
+              'name':'net.minecraft.client.gui.screen.EditSignScreen'
             },
             'transformer': guieditsign_transform
         },
         'guiscreenbook':{
                 'target':{
                 'type':'CLASS',
-                'name':'net.minecraft.client.gui.GuiScreenBook'
+                'name':'net.minecraft.client.gui.screen.EditBookScreen'
             },
             'transformer': guiscreenbook_transform
         }
@@ -35,7 +35,7 @@ function initializeCoreMod(){
 }
 
 function guitextfield_transform( node ) {
-    node.fields.add(new FieldNode(Opcodes.ACC_PUBLIC,"wrapper","Ljp/axer/CocoaInput/wrapper/GuiTextFieldWrapper;",null,null));  //GuiTextFieldWrapper wrapperフィールドを追加
+    node.fields.add(new FieldNode(Opcodes.ACC_PUBLIC,"wrapper","Ljp/axer/cocoainput/wrapper/TextFieldWidgetWrapper;",null,null));  //GuiTextFieldWrapper wrapperフィールドを追加
     for( var i in node.methods ) {
         var method = node.methods[ i ];
         if( method.name == "<init>" ) {//コンストラクタの編集
@@ -43,28 +43,28 @@ function guitextfield_transform( node ) {
                 var insn = method.instructions.get( i );
                 if( insn.opcode==Opcodes.RETURN ) {//コンストラクタの末尾(return前)に wrapper = new GuiTextFieldWrapper(this);を追加
                     method.instructions.insertBefore( insn, new IntInsnNode( Opcodes.ALOAD, 0 ) );
-                    method.instructions.insertBefore( insn, new TypeInsnNode(Opcodes.NEW,"jp/axer/CocoaInput/wrapper/GuiTextFieldWrapper") );
+                    method.instructions.insertBefore( insn, new TypeInsnNode(Opcodes.NEW,"jp/axer/cocoainput/wrapper/TextFieldWidgetWrapper") );
                     method.instructions.insertBefore( insn, new InsnNode( Opcodes.DUP) );
                     method.instructions.insertBefore( insn, new IntInsnNode( Opcodes.ALOAD, 0 ) );
-                    method.instructions.insertBefore( insn, new MethodInsnNode(Opcodes.INVOKESPECIAL, "jp/axer/CocoaInput/wrapper/GuiTextFieldWrapper", "<init>", "(Lnet/minecraft/client/gui/GuiTextField;)V",false) );
-                    method.instructions.insertBefore( insn, new FieldInsnNode(Opcodes.PUTFIELD, "net/minecraft/client/gui/GuiTextField", "wrapper", "Ljp/axer/CocoaInput/wrapper/GuiTextFieldWrapper;") );
+                    method.instructions.insertBefore( insn, new MethodInsnNode(Opcodes.INVOKESPECIAL, "jp/axer/cocoainput/wrapper/TextFieldWidgetWrapper", "<init>", "(Lnet/minecraft/client/gui/widget/TextFieldWidget;)V",false) );
+                    method.instructions.insertBefore( insn, new FieldInsnNode(Opcodes.PUTFIELD, "net/minecraft/client/gui/widget/TextFieldWidget", "wrapper", "Ljp/axer/cocoainput/wrapper/TextFieldWidgetWrapper;") );
                     break;
                 }
 
             }
         }
-        else if(method.name=="setFocused"||method.name=="func_146195_b"){//setFocusedの編集,先頭にwrapper.setFocused(var1);を追加
+        else if(method.name=="setFocused2"||method.name=="func_146195_b"){//setFocusedの編集,先頭にwrapper.setFocused(var1);を追加
             var insn = method.instructions.get(0);
             method.instructions.insertBefore( insn, new IntInsnNode( Opcodes.ALOAD, 0 ) );
-            method.instructions.insertBefore( insn, new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/gui/GuiTextField", "wrapper", "Ljp/axer/CocoaInput/wrapper/GuiTextFieldWrapper;") );
+            method.instructions.insertBefore( insn, new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/gui/widget/TextFieldWidget", "wrapper", "Ljp/axer/cocoainput/wrapper/TextFieldWidgetWrapper;") );
             method.instructions.insertBefore( insn, new IntInsnNode( Opcodes.ILOAD, 1 ) );
-            method.instructions.insertBefore( insn, new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "jp/axer/CocoaInput/wrapper/GuiTextFieldWrapper", "setFocused", "(Z)V",false) );
+            method.instructions.insertBefore( insn, new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "jp/axer/cocoainput/wrapper/TextFieldWidgetWrapper", "setFocused", "(Z)V",false) );
         }
         else if(method.name=="tick"||method.name=="func_146178_a"){
             var insn=method.instructions.get(0);
             method.instructions.insertBefore( insn, new IntInsnNode( Opcodes.ALOAD, 0 ) );
-            method.instructions.insertBefore( insn, new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/gui/GuiTextField", "wrapper", "Ljp/axer/CocoaInput/wrapper/GuiTextFieldWrapper;") );
-            method.instructions.insertBefore( insn, new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "jp/axer/CocoaInput/wrapper/GuiTextFieldWrapper", "updateCursorCounter", "()V",false) );
+            method.instructions.insertBefore( insn, new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/gui/widget/TextFieldWidget", "wrapper", "Ljp/axer/cocoainput/wrapper/TextFieldWidgetWrapper;") );
+            method.instructions.insertBefore( insn, new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "jp/axer/cocoainput/wrapper/TextFieldWidgetWrapper", "updateCursorCounter", "()V",false) );
             method.instructions.insertBefore( insn, new InsnNode( Opcodes.RETURN) );
         }
 
@@ -73,17 +73,17 @@ function guitextfield_transform( node ) {
 }
 
 function guieditsign_transform( node ) {
-    node.fields.add(new FieldNode(Opcodes.ACC_PUBLIC,"wrapper","Ljp/axer/CocoaInput/wrapper/GuiEditSignWrapper;",null,null));  //GuiEditSignWrapper wrapperフィールドを追加
+    node.fields.add(new FieldNode(Opcodes.ACC_PUBLIC,"wrapper","Ljp/axer/cocoainput/wrapper/EditSignScreenWrapper;",null,null));  //GuiEditSignWrapper wrapperフィールドを追加
     for( var i in node.methods ) {
         var method = node.methods[ i ];
-        if( method.name == "initGui"||method.name=="func_73866_w_" ){//initGuiの先頭に wrapper = new GuiEditSignWrapper(this);を追加
+        if( method.name == "init"||method.name=="init" ){//initGuiの先頭に wrapper = new GuiEditSignWrapper(this);を追加
             var insn = method.instructions.get(0);
             method.instructions.insertBefore( insn, new IntInsnNode( Opcodes.ALOAD, 0 ) );
-            method.instructions.insertBefore( insn, new TypeInsnNode(Opcodes.NEW,"jp/axer/CocoaInput/wrapper/GuiEditSignWrapper") );
+            method.instructions.insertBefore( insn, new TypeInsnNode(Opcodes.NEW,"jp/axer/cocoainput/wrapper/EditSignScreenWrapper") );
             method.instructions.insertBefore( insn, new InsnNode( Opcodes.DUP) );
             method.instructions.insertBefore( insn, new IntInsnNode( Opcodes.ALOAD, 0 ) );
-            method.instructions.insertBefore( insn, new MethodInsnNode(Opcodes.INVOKESPECIAL, "jp/axer/CocoaInput/wrapper/GuiEditSignWrapper", "<init>", "(Lnet/minecraft/client/gui/inventory/GuiEditSign;)V",false) );
-            method.instructions.insertBefore( insn, new FieldInsnNode(Opcodes.PUTFIELD, "net/minecraft/client/gui/inventory/GuiEditSign", "wrapper", "Ljp/axer/CocoaInput/wrapper/GuiEditSignWrapper;") );
+            method.instructions.insertBefore( insn, new MethodInsnNode(Opcodes.INVOKESPECIAL, "jp/axer/cocoainput/wrapper/EditSignScreenWrapper", "<init>", "(Lnet/minecraft/client/gui/screen/EditSignScreen;)V",false) );
+            method.instructions.insertBefore( insn, new FieldInsnNode(Opcodes.PUTFIELD, "net/minecraft/client/gui/screen/EditSignScreen", "wrapper", "Ljp/axer/cocoainput/wrapper/EditSignScreenWrapper;") );
         }
 
     }
@@ -91,17 +91,17 @@ function guieditsign_transform( node ) {
 }
 
 function guiscreenbook_transform( node ) {
-    node.fields.add(new FieldNode(Opcodes.ACC_PUBLIC,"wrapper","Ljp/axer/CocoaInput/wrapper/GuiScreenBookWrapper;",null,null));  //GuiScreenBookWrapper wrapperフィールドを追加
+    node.fields.add(new FieldNode(Opcodes.ACC_PUBLIC,"wrapper","Ljp/axer/cocoainput/wrapper/EditBookScreenWrapper;",null,null));  //GuiScreenBookWrapper wrapperフィールドを追加
     for( var i in node.methods ) {
         var method = node.methods[ i ];
-        if( method.name == "initGui"||method.name=="func_73866_w_" ){//initGuiの先頭に wrapper = new GuiEditSignWrapper(this);を追加
+        if( method.name == "init"||method.name=="init" ){//initGuiの先頭に wrapper = new GuiEditSignWrapper(this);を追加
             var insn = method.instructions.get(0);
             method.instructions.insertBefore( insn, new IntInsnNode( Opcodes.ALOAD, 0 ) );
-            method.instructions.insertBefore( insn, new TypeInsnNode(Opcodes.NEW,"jp/axer/CocoaInput/wrapper/GuiScreenBookWrapper") );
+            method.instructions.insertBefore( insn, new TypeInsnNode(Opcodes.NEW,"jp/axer/cocoainput/wrapper/EditBookScreenWrapper") );
             method.instructions.insertBefore( insn, new InsnNode( Opcodes.DUP) );
             method.instructions.insertBefore( insn, new IntInsnNode( Opcodes.ALOAD, 0 ) );
-            method.instructions.insertBefore( insn, new MethodInsnNode(Opcodes.INVOKESPECIAL, "jp/axer/CocoaInput/wrapper/GuiScreenBookWrapper", "<init>", "(Lnet/minecraft/client/gui/GuiScreenBook;)V",false) );
-            method.instructions.insertBefore( insn, new FieldInsnNode(Opcodes.PUTFIELD, "net/minecraft/client/gui/GuiScreenBook", "wrapper", "Ljp/axer/CocoaInput/wrapper/GuiScreenBookWrapper;") );
+            method.instructions.insertBefore( insn, new MethodInsnNode(Opcodes.INVOKESPECIAL, "jp/axer/cocoainput/wrapper/EditBookScreenWrapper", "<init>", "(Lnet/minecraft/client/gui/screen/EditBookScreen;)V",false) );
+            method.instructions.insertBefore( insn, new FieldInsnNode(Opcodes.PUTFIELD, "net/minecraft/client/gui/screen/EditBookScreen", "wrapper", "Ljp/axer/cocoainput/wrapper/EditBookScreenWrapper;") );
         }
 
     }

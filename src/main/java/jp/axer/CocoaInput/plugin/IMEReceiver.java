@@ -1,7 +1,7 @@
-package jp.axer.CocoaInput.plugin;
+package jp.axer.cocoainput.plugin;
 
 
-import jp.axer.CocoaInput.util.Rect;
+import jp.axer.cocoainput.util.Rect;
 
 public interface IMEReceiver{
     void insertText(String aString,int position1,int length1);//確定文字列 現状aString以外の引数は意味をなしてない

@@ -1,20 +1,19 @@
-package jp.axer.CocoaInput.util;
+package jp.axer.cocoainput.util;
 
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.inventory.GuiEditSign;
+import net.minecraft.client.gui.screen.Screen;
 
 import java.lang.reflect.Field;
 
 public class WrapperUtil {
-    public static FontRenderer makeFontRenderer(GuiScreen owner) throws Exception {
+    public static FontRenderer makeFontRenderer(Screen owner) throws Exception {
         try {
-            Field font = GuiScreen.class.getDeclaredField("field_146289_q");
+            Field font = Screen.class.getDeclaredField("field_211127_e");
             font.setAccessible(true);
             return (FontRenderer) font.get(owner);
         } catch (Exception e) {
             try {
-                Field font = GuiScreen.class.getDeclaredField("fontRenderer");
+                Field font = Screen.class.getDeclaredField("font");
                 font.setAccessible(true);
                 return (FontRenderer) font.get(owner);
             } catch (Exception e1) {

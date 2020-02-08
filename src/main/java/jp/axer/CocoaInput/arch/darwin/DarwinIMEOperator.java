@@ -1,15 +1,15 @@
-package jp.axer.CocoaInput.arch.darwin;
+package jp.axer.cocoainput.arch.darwin;
 
 import com.sun.jna.Memory;
 import com.sun.jna.Pointer;
-import jp.axer.CocoaInput.CocoaInput;
-import jp.axer.CocoaInput.arch.darwin.CallbackFunction.Func_firstRectForCharacterRange;
-import jp.axer.CocoaInput.arch.darwin.CallbackFunction.Func_insertText;
-import jp.axer.CocoaInput.arch.darwin.CallbackFunction.Func_setMarkedText;
-import jp.axer.CocoaInput.plugin.IMEOperator;
-import jp.axer.CocoaInput.plugin.IMEReceiver;
-import jp.axer.CocoaInput.util.ModLogger;
-import jp.axer.CocoaInput.util.Rect;
+import jp.axer.cocoainput.CocoaInput;
+import jp.axer.cocoainput.arch.darwin.CallbackFunction.Func_firstRectForCharacterRange;
+import jp.axer.cocoainput.arch.darwin.CallbackFunction.Func_insertText;
+import jp.axer.cocoainput.arch.darwin.CallbackFunction.Func_setMarkedText;
+import jp.axer.cocoainput.plugin.IMEOperator;
+import jp.axer.cocoainput.plugin.IMEReceiver;
+import jp.axer.cocoainput.util.ModLogger;
+import jp.axer.cocoainput.util.Rect;
 
 import java.util.UUID;
 

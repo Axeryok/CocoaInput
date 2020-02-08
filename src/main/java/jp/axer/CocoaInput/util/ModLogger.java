@@ -1,4 +1,4 @@
-package jp.axer.CocoaInput.util;
+package jp.axer.cocoainput.util;
 
 import org.apache.logging.log4j.Level;
 

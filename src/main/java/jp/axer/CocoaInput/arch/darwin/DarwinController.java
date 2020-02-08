@@ -1,10 +1,10 @@
-package jp.axer.CocoaInput.arch.darwin;
+package jp.axer.cocoainput.arch.darwin;
 
-import jp.axer.CocoaInput.CocoaInput;
-import jp.axer.CocoaInput.plugin.CocoaInputController;
-import jp.axer.CocoaInput.plugin.IMEOperator;
-import jp.axer.CocoaInput.plugin.IMEReceiver;
-import jp.axer.CocoaInput.util.ModLogger;
+import jp.axer.cocoainput.CocoaInput;
+import jp.axer.cocoainput.plugin.CocoaInputController;
+import jp.axer.cocoainput.plugin.IMEOperator;
+import jp.axer.cocoainput.plugin.IMEReceiver;
+import jp.axer.cocoainput.util.ModLogger;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

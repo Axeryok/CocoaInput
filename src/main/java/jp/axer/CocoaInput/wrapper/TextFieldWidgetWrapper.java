@@ -1,23 +1,23 @@
 
-package jp.axer.CocoaInput.wrapper;
+package jp.axer.cocoainput.wrapper;
 
-import jp.axer.CocoaInput.CocoaInput;
-import jp.axer.CocoaInput.plugin.IMEOperator;
-import jp.axer.CocoaInput.plugin.IMEReceiver;
-import jp.axer.CocoaInput.util.PreeditFormatter;
-import jp.axer.CocoaInput.util.Rect;
-import jp.axer.CocoaInput.util.Tuple3;
-import net.minecraft.client.gui.GuiTextField;
+import jp.axer.cocoainput.CocoaInput;
+import jp.axer.cocoainput.plugin.IMEOperator;
+import jp.axer.cocoainput.plugin.IMEReceiver;
+import jp.axer.cocoainput.util.PreeditFormatter;
+import jp.axer.cocoainput.util.Rect;
+import jp.axer.cocoainput.util.Tuple3;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 
-public class GuiTextFieldWrapper implements IMEReceiver {
+public class TextFieldWidgetWrapper implements IMEReceiver {
     private IMEOperator myIME;
-    private GuiTextField owner;
+    private TextFieldWidget owner;
     private int length = 0;
     private boolean cursorVisible = true;
     private boolean preeditBegin = false;
     private int originalCursorPosition = 0;//絶対的
 
-    public GuiTextFieldWrapper(GuiTextField field) {
+    public TextFieldWidgetWrapper(TextFieldWidget field) {
         owner = field;
         myIME = CocoaInput.getController().generateIMEOperator(this);
     }
@@ -39,7 +39,7 @@ public class GuiTextFieldWrapper implements IMEReceiver {
             owner.text = (new StringBuffer(owner.getText())).replace(originalCursorPosition, originalCursorPosition + length, "").toString();
             length = 0;
             owner.setCursorPosition(originalCursorPosition);
-            //owner.selectionEnd = owner.cursorPosition;
+            owner.setSelectionPos(originalCursorPosition);
             return;
         }
         owner.text = (new StringBuffer(owner.getText()))
@@ -60,18 +60,19 @@ public class GuiTextFieldWrapper implements IMEReceiver {
         String str = formattedText._1();
         int caretPosition = formattedText._2();//相対値
         boolean hasCaret = formattedText._3();
+        owner.text = (new StringBuffer(owner.getText())).replace(originalCursorPosition, originalCursorPosition + length, str).toString();
+        length = str.length();
         if (hasCaret) {
             this.cursorVisible = true;
             owner.setCursorPosition(originalCursorPosition + caretPosition);
-            //owner.selectionEnd=owner.cursorPosition;
+            owner.setSelectionPos(originalCursorPosition + caretPosition);
         } else {
             this.cursorVisible = false;
             owner.cursorCounter = 6;
             owner.setCursorPosition(originalCursorPosition);
             //owner.selectionEnd=owner.cursorPosition;
         }
-        owner.text = (new StringBuffer(owner.getText())).replace(originalCursorPosition, originalCursorPosition + length, str).toString();
-        length = str.length();
+
     }
 
     public void updateCursorCounter() {
@@ -82,9 +83,9 @@ public class GuiTextFieldWrapper implements IMEReceiver {
     public Rect getRect() {
         return new Rect(//{x,y}
                 (owner.fontRenderer.getStringWidth(owner.getText().substring(0, originalCursorPosition)) + (owner.enableBackgroundDrawing ? owner.x + 4 : owner.x)),
-                (owner.fontRenderer.FONT_HEIGHT + (owner.enableBackgroundDrawing ? owner.y + (owner.height - 8) / 2 : owner.y)),
-                owner.width,
-                owner.height
+                (owner.fontRenderer.FONT_HEIGHT + (owner.enableBackgroundDrawing ? owner.y + (owner.getHeight() - 8) / 2 : owner.y)),
+                owner.getWidth(),
+                owner.getHeight()
 
         );
     }

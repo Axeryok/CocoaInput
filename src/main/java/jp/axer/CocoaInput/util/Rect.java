@@ -1,4 +1,4 @@
-package jp.axer.CocoaInput.util;
+package jp.axer.cocoainput.util;
 
 public class Rect {
     private float x;

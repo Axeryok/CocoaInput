@@ -1,40 +1,39 @@
-package jp.axer.CocoaInput.wrapper;
+package jp.axer.cocoainput.wrapper;
 
 import java.util.List;
 
 
-import jp.axer.CocoaInput.CocoaInput;
-import jp.axer.CocoaInput.plugin.IMEOperator;
-import jp.axer.CocoaInput.plugin.IMEReceiver;
-import jp.axer.CocoaInput.util.PreeditFormatter;
-import jp.axer.CocoaInput.util.Rect;
-import jp.axer.CocoaInput.util.WrapperUtil;
+import jp.axer.cocoainput.CocoaInput;
+import jp.axer.cocoainput.plugin.IMEOperator;
+import jp.axer.cocoainput.plugin.IMEReceiver;
+import jp.axer.cocoainput.util.PreeditFormatter;
+import jp.axer.cocoainput.util.Rect;
+import jp.axer.cocoainput.util.WrapperUtil;
 import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.screen.EditBookScreen;
 
-public class GuiScreenBookWrapper implements IMEReceiver {
+public class EditBookScreenWrapper implements IMEReceiver {
     private IMEOperator myIME;
-    private GuiScreenBook owner;
+    private EditBookScreen owner;
     private int length = 0;
     private boolean hasMarkedText = false;
     private int lengthBeforeMarkedText;
 
-    public GuiScreenBookWrapper(GuiScreenBook field) {
-        if (field.bookIsUnsigned) {
-            owner = field;
-            myIME = CocoaInput.getController().generateIMEOperator(this);
-            myIME.setFocused(true);
-        }
+    public EditBookScreenWrapper(EditBookScreen field) {
+        owner = field;
+        myIME = CocoaInput.getController().generateIMEOperator(this);
+        myIME.setFocused(true);
     }
 
     @Override
     public void insertText(String aString, int position1, int length1) {
-        if (owner.bookGettingSigned) {
-            owner.bookTitle = new StringBuffer(owner.bookTitle).replace(lengthBeforeMarkedText,
+        if (owner.field_214235_d) {
+            owner.field_214239_h = new StringBuffer(owner.field_214239_h).replace(lengthBeforeMarkedText,
                     lengthBeforeMarkedText + length, aString).toString();
             hasMarkedText = false;
             length = 0;
         } else {
-            owner.pageSetCurrent(new StringBuffer(owner.pageGetCurrent()).replace(
+            owner.func_214217_j(new StringBuffer(owner.func_214193_h()).replace(
                     lengthBeforeMarkedText, lengthBeforeMarkedText + length, aString).toString());
             hasMarkedText = false;
             length = 0;
@@ -44,20 +43,20 @@ public class GuiScreenBookWrapper implements IMEReceiver {
     @Override
     public void setMarkedText(String aString, int position1, int length1, int position2, int length2) {
         String str = PreeditFormatter.formatMarkedText(aString, position1, length1)._1();
-        if (owner.bookGettingSigned) {
+        if (owner.field_214235_d) {
             if (hasMarkedText == false) {
                 hasMarkedText = true;
-                lengthBeforeMarkedText = owner.bookTitle.length();
+                lengthBeforeMarkedText = owner.field_214239_h.length();
             }
-            owner.bookTitle = new StringBuffer(owner.bookTitle).replace(lengthBeforeMarkedText,
+            owner.field_214239_h = new StringBuffer(owner.field_214239_h).replace(lengthBeforeMarkedText,
                     lengthBeforeMarkedText + length, str).toString();
             length = str.length();
         } else {
             if (hasMarkedText == false) {
                 hasMarkedText = true;
-                lengthBeforeMarkedText = owner.pageGetCurrent().length();
+                lengthBeforeMarkedText = owner.func_214193_h().length();
             }
-            owner.pageSetCurrent(new StringBuffer(owner.pageGetCurrent()).replace(
+            owner.func_214217_j(new StringBuffer(owner.func_214193_h()).replace(
                     lengthBeforeMarkedText, lengthBeforeMarkedText + length, str).toString());
             length = str.length();
         }
@@ -71,15 +70,15 @@ public class GuiScreenBookWrapper implements IMEReceiver {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (owner.bookGettingSigned) {
+        if (owner.field_214235_d) {
             return new Rect(
-                    (fontRendererObj.getStringWidth(owner.bookTitle) / 2 + ((owner.width - 192) / 2) + 36 + (116 - 0) / 2),
+                    (fontRendererObj.getStringWidth(owner.field_214239_h) / 2 + ((owner.width - 192) / 2) + 36 + (116 - 0) / 2),
                     (50 + fontRendererObj.FONT_HEIGHT),
                     0,
                     0
             );
         } else {
-            List<String> lines = fontRendererObj.listFormattedStringToWidth(owner.pageGetCurrent(), 116);
+            List<String> lines = fontRendererObj.listFormattedStringToWidth(owner.func_214193_h(), 116);
             return new Rect(
                     (((owner.width - 192) / 2) + 36 + fontRendererObj.getStringWidth(lines.get(lines.size() - 1))),
                     (34 + lines.size() * fontRendererObj.FONT_HEIGHT),

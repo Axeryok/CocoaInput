@@ -1,14 +1,15 @@
-package jp.axer.CocoaInput;
+package jp.axer.cocoainput;
 
 import com.sun.jna.Platform;
-import jp.axer.CocoaInput.arch.darwin.DarwinController;
-import jp.axer.CocoaInput.arch.dummy.DummyController;
-import jp.axer.CocoaInput.plugin.CocoaInputController;
-import jp.axer.CocoaInput.util.ModLogger;
+import jp.axer.cocoainput.arch.darwin.DarwinController;
+import jp.axer.cocoainput.arch.dummy.DummyController;
+import jp.axer.cocoainput.plugin.CocoaInputController;
+import jp.axer.cocoainput.util.ModLogger;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import org.apache.commons.io.IOUtils;
 
 import javax.annotation.Nullable;
