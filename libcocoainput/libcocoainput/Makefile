@@ -1,5 +1,5 @@
 CC	= gcc
-CFLAGS	= -fobjc-arc
+CFLAGS	= -Wall -fobjc-arc -mmacosx-version-min=10.10
 FFLAGS	= -framework Foundation -framework Cocoa
 OBJS	= cocoainput.o Logger.o DataManager.o MinecraftView.o
 LIBS	=

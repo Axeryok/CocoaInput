@@ -23,7 +23,7 @@ void replaceInstanceMethod(Class cls, SEL sel, SEL renamedSel, Class dataCls) {
 
 void initialize(LogFunction log,LogFunction error,LogFunction debug){
     initLogPointer(log, error, debug);
-    CIDebug([NSString stringWithFormat:@"Libcocoainput was built on %s %s.", __DATE__, __TIME__]);
+    CILog([NSString stringWithFormat:@"Libcocoainput was built on %s %s.", __DATE__, __TIME__]);
     CILog(@"CocoaInput is being initialized.Now running thread for modify GLFWview .");
     NSThread *thread=[[NSThread alloc]initWithTarget:[DataManager sharedManager] selector:@selector(modifyGLFWView) object:nil];
     [thread start];
