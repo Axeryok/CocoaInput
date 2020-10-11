@@ -9,10 +9,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import org.apache.commons.io.IOUtils;
 
-import javax.annotation.Nullable;
 import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -22,7 +20,7 @@ public class CocoaInput {
     private static CocoaInputController controller;
 
     public CocoaInput() throws Exception {
-        ModList.get().getModFileById("cocoainput").getConfig();
+//        ModList.get().getModFileById("cocoainput").getConfig();
         if(Platform.isMac()) {
             CocoaInput.applyController(new DarwinController());
         }
