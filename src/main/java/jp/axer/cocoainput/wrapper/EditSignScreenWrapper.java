@@ -3,13 +3,15 @@ package jp.axer.cocoainput.wrapper;
 import jp.axer.cocoainput.CocoaInput;
 import jp.axer.cocoainput.plugin.IMEOperator;
 import jp.axer.cocoainput.plugin.IMEReceiver;
+import jp.axer.cocoainput.util.ModLogger;
 import jp.axer.cocoainput.util.PreeditFormatter;
 import jp.axer.cocoainput.util.Rect;
 import jp.axer.cocoainput.util.WrapperUtil;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.EditSignScreen;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.block.Blocks;
+
+import java.lang.reflect.Field;
 
 public class EditSignScreenWrapper implements IMEReceiver {
     private EditSignScreen owner;
@@ -19,6 +21,7 @@ public class EditSignScreenWrapper implements IMEReceiver {
     private int lengthBeforeMarkedText;
 
     public EditSignScreenWrapper(EditSignScreen field) {
+        ModLogger.debug("EditSignScreen init: " + field.hashCode());
         owner = field;
         myIME = CocoaInput.getController().generateIMEOperator(this);
         myIME.setFocused(true);
@@ -27,9 +30,15 @@ public class EditSignScreenWrapper implements IMEReceiver {
     @Override
     public void insertText(String aString, int position1, int length1) {
         String text = owner.tileSign.getText(owner.editLine).getString();
-        owner.tileSign.setText(owner.editLine, new StringTextComponent(
-                new StringBuffer(text).replace(lengthBeforeMarkedText, lengthBeforeMarkedText + length, aString)
-                        .toString()));
+        String newEditLine = new StringBuffer(text).replace(lengthBeforeMarkedText, lengthBeforeMarkedText + length, aString)
+                .toString();
+        owner.tileSign.setText(owner.editLine, new StringTextComponent(newEditLine));
+        try {
+            Field stringArrayField = owner.getClass().getDeclaredField("field_238846_r_");
+            stringArrayField.setAccessible(true);
+            String[] util = (String[]) stringArrayField.get(owner);
+            util[owner.editLine] = newEditLine;
+        } catch (Exception e) {/* relax */}
         hasMarkedText = false;
         length = 0;
     }
@@ -42,12 +51,15 @@ public class EditSignScreenWrapper implements IMEReceiver {
             hasMarkedText = true;
             lengthBeforeMarkedText = text.length();
         }
-        owner.tileSign.setText(owner.editLine, new StringTextComponent(
-                new StringBuffer(text).replace(lengthBeforeMarkedText, lengthBeforeMarkedText + length, str)
-                        .toString()));
-       /* owner.tileSign.signText[owner.editLine] = new TextComponentString(
-                new StringBuffer(text).replace(lengthBeforeMarkedText, lengthBeforeMarkedText + length, str)
-                        .toString());*/
+        String newEditLine = new StringBuffer(text).replace(lengthBeforeMarkedText, lengthBeforeMarkedText + length, aString)
+                .toString();
+        owner.tileSign.setText(owner.editLine, new StringTextComponent(newEditLine));
+        try {
+            Field stringArrayField = owner.getClass().getDeclaredField("field_238846_r_");
+            stringArrayField.setAccessible(true);
+            String[] util = (String[]) stringArrayField.get(owner);
+            util[owner.editLine] = newEditLine;
+        } catch (Exception e) {/* relax */}
         length = str.length();
     }
 
@@ -63,7 +75,12 @@ public class EditSignScreenWrapper implements IMEReceiver {
         if (owner.tileSign.getBlockState().getBlock().getRegistryName().toString().contains("wall")) {
             y += 30;
         }
-        return new Rect(owner.width / 2 + fontRendererObj.getStringWidth(owner.tileSign.getText(owner.editLine).getString()) / 2, y, 0, 0);
+        return new Rect(
+                owner.field_230708_k_ / 2 + fontRendererObj.getStringWidth(owner.tileSign.getText(owner.editLine).getString()) / 2,
+                y,
+                0,
+                0
+        );
     }
 
 }

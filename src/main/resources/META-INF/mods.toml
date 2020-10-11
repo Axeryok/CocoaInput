@@ -9,12 +9,14 @@ modLoader="javafml" #mandatory
 loaderVersion="[25,)" #mandatory (24 is current forge version)
 # A URL to refer people to when problems occur with this mod
 issueTrackerURL="https://github.com/Axeryok/CocoaInput/issues" #optional
+# License
+license="Minecraft Mod Public License Japanese Transration" #mandatory
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
 # The modid of the mod
 modId="cocoainput" #mandatory
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version="${file.jarVersion}" #mandatory
+version="1.16.3-3.3.0" #mandatory
  # A display name for the mod
 displayName="CocoaInput" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification <here>
