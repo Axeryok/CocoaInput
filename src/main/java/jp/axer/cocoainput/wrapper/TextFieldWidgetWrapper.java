@@ -4,6 +4,7 @@ package jp.axer.cocoainput.wrapper;
 import jp.axer.cocoainput.CocoaInput;
 import jp.axer.cocoainput.plugin.IMEOperator;
 import jp.axer.cocoainput.plugin.IMEReceiver;
+import jp.axer.cocoainput.util.ModLogger;
 import jp.axer.cocoainput.util.PreeditFormatter;
 import jp.axer.cocoainput.util.Rect;
 import jp.axer.cocoainput.util.Tuple3;
@@ -16,16 +17,20 @@ public class TextFieldWidgetWrapper implements IMEReceiver {
     private boolean cursorVisible = true;
     private boolean preeditBegin = false;
     private int originalCursorPosition = 0;//絶対的
+    private boolean canLoseFocus = false;
 
     public TextFieldWidgetWrapper(TextFieldWidget field) {
+        ModLogger.debug("TextFieldWidget init: " + field.hashCode());
         owner = field;
         myIME = CocoaInput.getController().generateIMEOperator(this);
     }
 
+    public void setCanLoseFocus(boolean newParam) {
+        if (!newParam) setFocused(true);
+    }
+
     public void setFocused(boolean newParam) {
-        if (newParam != owner.isFocused()) {
-            myIME.setFocused(newParam);
-        }
+        myIME.setFocused(newParam);
     }
 
     @Override
@@ -82,10 +87,10 @@ public class TextFieldWidgetWrapper implements IMEReceiver {
     @Override
     public Rect getRect() {
         return new Rect(//{x,y}
-                (owner.fontRenderer.getStringWidth(owner.getText().substring(0, originalCursorPosition)) + (owner.enableBackgroundDrawing ? owner.x + 4 : owner.x)),
-                (owner.fontRenderer.FONT_HEIGHT + (owner.enableBackgroundDrawing ? owner.y + (owner.getHeight() - 8) / 2 : owner.y)),
-                owner.getWidth(),
-                owner.getHeight()
+                (owner.fontRenderer.getStringWidth(owner.getText().substring(0, originalCursorPosition)) + (owner.enableBackgroundDrawing ? owner.field_230690_l_ + 4 : owner.field_230690_l_)),
+                (owner.fontRenderer.FONT_HEIGHT + (owner.enableBackgroundDrawing ? owner.field_230691_m_ + (owner.func_238483_d_() - 8) / 2 : owner.field_230691_m_)),
+                owner.func_230998_h_(),
+                owner.func_238483_d_()
 
         );
     }

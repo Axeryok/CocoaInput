@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
 public class ModLogger {
-    public static boolean debugMode=false;
+    public static boolean debugMode=true;
 
     public static void log(String msg,Object...data){
         LogManager.getLogger("CocoaInput:Java").log( Level.INFO,msg, data);
