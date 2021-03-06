@@ -33,12 +33,8 @@ public class EditSignScreenWrapper implements IMEReceiver {
         String newEditLine = new StringBuffer(text).replace(lengthBeforeMarkedText, lengthBeforeMarkedText + length, aString)
                 .toString();
         owner.tileSign.setText(owner.editLine, new StringTextComponent(newEditLine));
-        try {
-            Field stringArrayField = owner.getClass().getDeclaredField("field_238846_r_");
-            stringArrayField.setAccessible(true);
-            String[] util = (String[]) stringArrayField.get(owner);
-            util[owner.editLine] = newEditLine;
-        } catch (Exception e) {/* relax */}
+        String[] util = owner.field_238846_r_;
+        util[owner.editLine] = newEditLine;
         hasMarkedText = false;
         length = 0;
     }
@@ -54,12 +50,8 @@ public class EditSignScreenWrapper implements IMEReceiver {
         String newEditLine = new StringBuffer(text).replace(lengthBeforeMarkedText, lengthBeforeMarkedText + length, aString)
                 .toString();
         owner.tileSign.setText(owner.editLine, new StringTextComponent(newEditLine));
-        try {
-            Field stringArrayField = owner.getClass().getDeclaredField("field_238846_r_");
-            stringArrayField.setAccessible(true);
-            String[] util = (String[]) stringArrayField.get(owner);
-            util[owner.editLine] = newEditLine;
-        } catch (Exception e) {/* relax */}
+        String[] util = owner.field_238846_r_;
+        util[owner.editLine] = newEditLine;
         length = str.length();
     }
 
@@ -76,7 +68,7 @@ public class EditSignScreenWrapper implements IMEReceiver {
             y += 30;
         }
         return new Rect(
-                owner.field_230708_k_ / 2 + fontRendererObj.getStringWidth(owner.tileSign.getText(owner.editLine).getString()) / 2,
+                owner.width / 2 + fontRendererObj.getStringWidth(owner.tileSign.getText(owner.editLine).getString()) / 2,
                 y,
                 0,
                 0
