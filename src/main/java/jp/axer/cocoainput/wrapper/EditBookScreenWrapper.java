@@ -77,14 +77,14 @@ public class EditBookScreenWrapper implements IMEReceiver {
         }
         if (owner.bookGettingSigned) {
             return new Rect(
-                    (fontRendererObj.getStringWidth(owner.bookTitle) / 2 + ((owner.field_230708_k_ - 192) / 2) + 36 + (116 - 0) / 2),
+                    (fontRendererObj.getStringWidth(owner.bookTitle) / 2 + ((owner.width - 192) / 2) + 36 + (116 - 0) / 2),
                     (50 + fontRendererObj.FONT_HEIGHT),
                     0,
                     0
             );
         } else {
-            CharacterManager manager = fontRendererObj.func_238420_b_();
-            List<ITextProperties> lines = manager.func_238365_g_(owner.getCurrPageText(), 116, Style.field_240709_b_);
+            CharacterManager manager = fontRendererObj.getCharacterManager();
+            List<ITextProperties> lines = manager.func_238365_g_(owner.getCurrPageText(), 116, Style.EMPTY);
             final String[] lastLine = new String[1];
             ITextProperties.ITextAcceptor acceptor = new ITextProperties.ITextAcceptor() {
                 @Override
@@ -93,9 +93,9 @@ public class EditBookScreenWrapper implements IMEReceiver {
                     return Optional.empty();
                 }
             };
-            lines.get(lines.size() - 1).func_230438_a_(acceptor);
+            lines.get(lines.size() - 1).getComponent(acceptor);
             return new Rect(
-                    (((owner.field_230708_k_ - 192) / 2) + 36 + fontRendererObj.getStringWidth(lastLine[0])),
+                    (((owner.width - 192) / 2) + 36 + fontRendererObj.getStringWidth(lastLine[0])),
                     (34 + lines.size() * fontRendererObj.FONT_HEIGHT),
                     0,
                     0

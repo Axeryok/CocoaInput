@@ -10,6 +10,16 @@ var Opcodes = org.objectweb.asm.Opcodes;
 
 function initializeCoreMod(){
     return{
+
+        'sharedconstants':{
+            'target':{
+                'type':'CLASS',
+                'name':'net.minecraft.util.SharedConstants'
+            },
+            'transformer': sharedconstants_transform
+        },
+
+
         'guitextfield':{
             'target':{
                 'type':'CLASS',
@@ -30,6 +40,21 @@ function initializeCoreMod(){
                 'name':'net.minecraft.client.gui.screen.EditBookScreen'
             },
             'transformer': guiscreenbook_transform
+        }
+    }
+}
+
+function sharedconstants_transform( node ) {
+    for( var i in node.methods ) {
+        var method = node.methods[ i ];
+        if( method.name == "func_71566_a" || method.name == "isAllowedCharacter"  ) {//コンストラクタの編集
+            for( var i = 0; i < method.instructions.size(); i ++ ) {
+                var insn = method.instructions.get( i );
+                if( insn.operand == 167) {
+		    insn.operand = 0;
+		    break;
+                }
+	    }
         }
     }
 }
