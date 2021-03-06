@@ -19,6 +19,7 @@ public class DarwinIMEOperator implements IMEOperator {
     Func_insertText insertText_p;
     Func_setMarkedText setMarkedText_p;
     Func_firstRectForCharacterRange firstRectForCharacterRange_p;
+    boolean isFocused = false;
 
     public DarwinIMEOperator(IMEReceiver field) {
         this.owner = field;
@@ -64,6 +65,7 @@ public class DarwinIMEOperator implements IMEOperator {
             }
 
         };
+        ModLogger.log("IMEOperator addInstance: " + uuid);
         Handle.INSTANCE.addInstance(uuid, insertText_p, setMarkedText_p, firstRectForCharacterRange_p);
     }
 
@@ -76,6 +78,10 @@ public class DarwinIMEOperator implements IMEOperator {
     }
 
     public void setFocused(boolean yn) {
-        Handle.INSTANCE.setIfReceiveEvent(uuid, yn == true ? 1 : 0);
+        if (yn != isFocused) {
+            ModLogger.log("IMEOperator.setFocused: " + (yn ? "true" : "false"));
+            Handle.INSTANCE.setIfReceiveEvent(uuid, yn ? 1 : 0);
+            isFocused = yn;
+        }
     }
 }
