@@ -1,6 +1,17 @@
 package jp.axer.cocoainput;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
+import org.apache.commons.io.IOUtils;
+
 import com.sun.jna.Platform;
+
 import jp.axer.cocoainput.arch.darwin.DarwinController;
 import jp.axer.cocoainput.arch.dummy.DummyController;
 import jp.axer.cocoainput.plugin.CocoaInputController;
@@ -9,11 +20,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import org.apache.commons.io.IOUtils;
-
-import java.io.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 @Mod("cocoainput")
 public class CocoaInput {
@@ -32,7 +38,7 @@ public class CocoaInput {
     }
 
     public static double getScreenScaledFactor() {
-        return Minecraft.getInstance().mainWindow.getGuiScaleFactor();
+    	return Minecraft.getInstance().getWindow().getGuiScale();
     }
 
     public static void applyController(CocoaInputController controller) throws IOException {
@@ -53,8 +59,8 @@ public class CocoaInput {
             ModLogger.log("Couldn't get library path. Is this debug mode?'");
             libFile = ClassLoader.getSystemResourceAsStream(libraryPath);
         }
-        File nativeDir = new File(Minecraft.getInstance().gameDir.getAbsolutePath().concat("/native"));
-        File copyLibFile = new File(Minecraft.getInstance().gameDir.getAbsolutePath().concat("/native/" + libraryName));
+        File nativeDir = new File(Minecraft.getInstance().gameDirectory.getAbsolutePath().concat("/native"));
+        File copyLibFile = new File(Minecraft.getInstance().gameDirectory.getAbsolutePath().concat("/native/" + libraryName));
         try {
             nativeDir.mkdir();
             FileOutputStream fos = new FileOutputStream(copyLibFile);

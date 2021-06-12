@@ -11,8 +11,6 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.EditSignScreen;
 import net.minecraft.util.text.StringTextComponent;
 
-import java.lang.reflect.Field;
-
 public class EditSignScreenWrapper implements IMEReceiver {
     private EditSignScreen owner;
     private IMEOperator myIME;
@@ -29,12 +27,12 @@ public class EditSignScreenWrapper implements IMEReceiver {
 
     @Override
     public void insertText(String aString, int position1, int length1) {
-        String text = owner.tileSign.getText(owner.editLine).getString();
+        String text = owner.sign.getMessage(owner.line).getString();
         String newEditLine = new StringBuffer(text).replace(lengthBeforeMarkedText, lengthBeforeMarkedText + length, aString)
                 .toString();
-        owner.tileSign.setText(owner.editLine, new StringTextComponent(newEditLine));
-        String[] util = owner.field_238846_r_;
-        util[owner.editLine] = newEditLine;
+        owner.sign.setMessage(owner.line, new StringTextComponent(newEditLine));
+        String[] util = owner.messages;
+        util[owner.line] = newEditLine;
         hasMarkedText = false;
         length = 0;
     }
@@ -42,16 +40,16 @@ public class EditSignScreenWrapper implements IMEReceiver {
     @Override
     public void setMarkedText(String aString, int position1, int length1, int position2, int length2) {
         String str = PreeditFormatter.formatMarkedText(aString, position1, length1)._1();
-        String text = owner.tileSign.getText(owner.editLine).getString();
+        String text = owner.sign.getMessage(owner.line).getString();
         if (hasMarkedText == false) {
             hasMarkedText = true;
             lengthBeforeMarkedText = text.length();
         }
         String newEditLine = new StringBuffer(text).replace(lengthBeforeMarkedText, lengthBeforeMarkedText + length, aString)
                 .toString();
-        owner.tileSign.setText(owner.editLine, new StringTextComponent(newEditLine));
-        String[] util = owner.field_238846_r_;
-        util[owner.editLine] = newEditLine;
+        owner.sign.setMessage(owner.line, new StringTextComponent(newEditLine));
+        String[] util = owner.messages;
+        util[owner.line] = newEditLine;
         length = str.length();
     }
 
@@ -63,12 +61,12 @@ public class EditSignScreenWrapper implements IMEReceiver {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        float y = 91 + (owner.editLine - 1) * (10);
-        if (owner.tileSign.getBlockState().getBlock().getRegistryName().toString().contains("wall")) {
+        float y = 91 + (owner.line - 1) * (10);
+        if (owner.sign.getBlockState().getBlock().getRegistryName().toString().contains("wall")) {
             y += 30;
         }
         return new Rect(
-                owner.width / 2 + fontRendererObj.getStringWidth(owner.tileSign.getText(owner.editLine).getString()) / 2,
+                owner.width / 2 + fontRendererObj.width(owner.sign.getMessage(owner.line).getString()) / 2,
                 y,
                 0,
                 0

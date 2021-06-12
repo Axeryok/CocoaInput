@@ -9,8 +9,6 @@ import jp.axer.cocoainput.util.PreeditFormatter;
 import jp.axer.cocoainput.util.Rect;
 import jp.axer.cocoainput.util.Tuple3;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.util.IReorderingProcessor;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.StringTextComponent;
 
 public class TextFieldWidgetWrapper implements IMEReceiver {
@@ -44,17 +42,17 @@ public class TextFieldWidgetWrapper implements IMEReceiver {
         preeditBegin = false;
         cursorVisible = true;
         if (aString.length() == 0) {
-            owner.text = (new StringBuffer(owner.getText())).replace(originalCursorPosition, originalCursorPosition + length, "").toString();
+            owner.value = (new StringBuffer(owner.getValue())).replace(originalCursorPosition, originalCursorPosition + length, "").toString();
             length = 0;
-            owner.setCursorPosition(originalCursorPosition);
-            owner.setSelectionPos(originalCursorPosition);
+            owner.moveCursorTo(originalCursorPosition);
+            owner.setHighlightPos(originalCursorPosition);
             return;
         }
-        owner.text = (new StringBuffer(owner.getText()))
+        owner.value = (new StringBuffer(owner.getValue()))
                 .replace(originalCursorPosition, originalCursorPosition + length, aString.substring(0, aString.length()))
                 .toString();
         length = 0;
-        owner.setCursorPosition(originalCursorPosition + aString.length());
+        owner.moveCursorTo(originalCursorPosition + aString.length());
         //owner.selectionEnd = owner.cursorPosition;
     }
 
@@ -64,37 +62,37 @@ public class TextFieldWidgetWrapper implements IMEReceiver {
             originalCursorPosition = owner.getCursorPosition();
             preeditBegin = true;
         }
-        owner.setTextFormatter ( ((abc,def) -> new StringTextComponent(abc).func_241878_f()     ));
+        owner.setFormatter( ((abc,def) -> new StringTextComponent(abc).getVisualOrderText()     ));
         Tuple3<String, Integer, Boolean> formattedText = PreeditFormatter.formatMarkedText(aString, position1, length1);
         String str = formattedText._1();
         int caretPosition = formattedText._2()+4;//相対値
         boolean hasCaret = formattedText._3();
-        owner.text = (new StringBuffer(owner.getText())).replace(originalCursorPosition, originalCursorPosition + length, str).toString();
+        owner.value= (new StringBuffer(owner.getValue())).replace(originalCursorPosition, originalCursorPosition + length, str).toString();
         length = str.length();
         if (hasCaret) {
             this.cursorVisible = true;
-            owner.setCursorPosition(originalCursorPosition + caretPosition);
-            owner.setSelectionPos(originalCursorPosition + caretPosition);
+            owner.moveCursorTo(originalCursorPosition + caretPosition);
+            owner.setHighlightPos(originalCursorPosition + caretPosition);
         } else {
             this.cursorVisible = false;
-            owner.cursorCounter = 6;
-            owner.setCursorPosition(originalCursorPosition);
+            owner.frame = 6;
+            owner.moveCursorTo(originalCursorPosition);
             //owner.selectionEnd=owner.cursorPosition;
         }
 
     }
 
     public void updateCursorCounter() {
-        if (cursorVisible) owner.cursorCounter++;
+        if (cursorVisible) owner.frame++;
     }
 
     @Override
     public Rect getRect() {
         return new Rect(//{x,y}
-                (owner.fontRenderer.getStringWidth(owner.getText().substring(0, originalCursorPosition)) + (owner.enableBackgroundDrawing ? owner.x + 4 : owner.x)),
-                (owner.fontRenderer.FONT_HEIGHT + (owner.enableBackgroundDrawing ? owner.y + (owner.getHeightRealms() - 8) / 2 : owner.y)),
+                (owner.font.width(owner.getValue().substring(0, originalCursorPosition)) + (owner.bordered ? owner.x + 4 : owner.x)),
+                (owner.font.lineHeight + (owner.bordered ? owner.y + (owner.getHeight() - 8) / 2 : owner.y)),
                 owner.getWidth(),
-                owner.getHeightRealms()
+                owner.getHeight()
 
         );
     }

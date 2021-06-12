@@ -1,5 +1,8 @@
 package jp.axer.cocoainput.wrapper;
 
+import java.util.List;
+import java.util.Optional;
+
 import jp.axer.cocoainput.CocoaInput;
 import jp.axer.cocoainput.plugin.IMEOperator;
 import jp.axer.cocoainput.plugin.IMEReceiver;
@@ -12,9 +15,6 @@ import net.minecraft.client.gui.screen.EditBookScreen;
 import net.minecraft.util.text.CharacterManager;
 import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.Style;
-
-import java.util.List;
-import java.util.Optional;
 
 public class EditBookScreenWrapper implements IMEReceiver {
     private IMEOperator myIME;
@@ -32,13 +32,13 @@ public class EditBookScreenWrapper implements IMEReceiver {
 
     @Override
     public void insertText(String aString, int position1, int length1) {
-        if (owner.bookGettingSigned) {
-            owner.bookTitle = new StringBuffer(owner.bookTitle).replace(lengthBeforeMarkedText,
+        if (owner.isSigning) {
+            owner.title = new StringBuffer(owner.title).replace(lengthBeforeMarkedText,
                     lengthBeforeMarkedText + length, aString).toString();
             hasMarkedText = false;
             length = 0;
         } else {
-            owner.func_214217_j(new StringBuffer(owner.getCurrPageText()).replace(
+            owner.setCurrentPageText(new StringBuffer(owner.getCurrentPageText()).replace(
                     lengthBeforeMarkedText, lengthBeforeMarkedText + length, aString).toString());
             hasMarkedText = false;
             length = 0;
@@ -48,20 +48,20 @@ public class EditBookScreenWrapper implements IMEReceiver {
     @Override
     public void setMarkedText(String aString, int position1, int length1, int position2, int length2) {
         String str = PreeditFormatter.formatMarkedText(aString, position1, length1)._1();
-        if (owner.bookGettingSigned) {
+        if (owner.isSigning) {
             if (hasMarkedText == false) {
                 hasMarkedText = true;
-                lengthBeforeMarkedText = owner.bookTitle.length();
+                lengthBeforeMarkedText = owner.title.length();
             }
-            owner.bookTitle = new StringBuffer(owner.bookTitle).replace(lengthBeforeMarkedText,
+            owner.title = new StringBuffer(owner.title).replace(lengthBeforeMarkedText,
                     lengthBeforeMarkedText + length, str).toString();
             length = str.length();
         } else {
             if (hasMarkedText == false) {
                 hasMarkedText = true;
-                lengthBeforeMarkedText = owner.getCurrPageText().length();
+                lengthBeforeMarkedText = owner.getCurrentPageText().length();
             }
-            owner.func_214217_j(new StringBuffer(owner.getCurrPageText()).replace(
+            owner.setCurrentPageText(new StringBuffer(owner.getCurrentPageText()).replace(
                     lengthBeforeMarkedText, lengthBeforeMarkedText + length, str).toString());
             length = str.length();
         }
@@ -75,16 +75,16 @@ public class EditBookScreenWrapper implements IMEReceiver {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (owner.bookGettingSigned) {
+        if (owner.isSigning) {
             return new Rect(
-                    (fontRendererObj.getStringWidth(owner.bookTitle) / 2 + ((owner.width - 192) / 2) + 36 + (116 - 0) / 2),
-                    (50 + fontRendererObj.FONT_HEIGHT),
+                    (fontRendererObj.width(owner.title) / 2 + ((owner.width - 192) / 2) + 36 + (116 - 0) / 2),
+                    (50 + fontRendererObj.lineHeight),
                     0,
                     0
             );
         } else {
-            CharacterManager manager = fontRendererObj.getCharacterManager();
-            List<ITextProperties> lines = manager.func_238365_g_(owner.getCurrPageText(), 116, Style.EMPTY);
+            CharacterManager manager = fontRendererObj.getSplitter();
+            List<ITextProperties> lines = manager.splitLines(owner.getCurrentPageText(), 116, Style.EMPTY);
             final String[] lastLine = new String[1];
             ITextProperties.ITextAcceptor acceptor = new ITextProperties.ITextAcceptor() {
                 @Override
@@ -93,10 +93,10 @@ public class EditBookScreenWrapper implements IMEReceiver {
                     return Optional.empty();
                 }
             };
-            lines.get(lines.size() - 1).getComponent(acceptor);
+            lines.get(lines.size() - 1).visit(acceptor);
             return new Rect(
-                    (((owner.width - 192) / 2) + 36 + fontRendererObj.getStringWidth(lastLine[0])),
-                    (34 + lines.size() * fontRendererObj.FONT_HEIGHT),
+                    (((owner.width - 192) / 2) + 36 + fontRendererObj.width(lastLine[0])),
+                    (34 + lines.size() * fontRendererObj.lineHeight),
                     0,
                     0
             );
