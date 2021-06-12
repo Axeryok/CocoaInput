@@ -78,7 +78,7 @@ function guitextfield_transform( node ) {
 
             }
         }
-        else if(method.name=="setFocused2"||method.name=="func_146195_b"){//setFocusedの編集,先頭にwrapper.setFocused(var1);を追加
+        else if(method.name=="setFocus"||method.name=="setFocused2"||method.name=="func_146195_b"){//setFocusedの編集,先頭にwrapper.setFocused(var1);を追加
             var insn = method.instructions.get(0);
             method.instructions.insertBefore( insn, new IntInsnNode( Opcodes.ALOAD, 0 ) );
             method.instructions.insertBefore( insn, new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/gui/widget/TextFieldWidget", "wrapper", "Ljp/axer/cocoainput/wrapper/TextFieldWidgetWrapper;") );
