@@ -32,10 +32,9 @@ public class TextFieldWidgetWrapper extends IMEReceiver {
     public void updateCursorCounter() {
         if (cursorVisible) owner.frame++;
     }
-    
+
     protected void setText(String text) {
     	owner.value=text;
-    	owner.onValueChange(text);
     }
 
 	protected String getText() {
@@ -57,7 +56,7 @@ public class TextFieldWidgetWrapper extends IMEReceiver {
 	protected void setSelectionPos(int p) {
 		owner.setHighlightPos(p);
 	}
-    
+
 
     @Override
     public Rect getRect() {
@@ -69,6 +68,12 @@ public class TextFieldWidgetWrapper extends IMEReceiver {
 
         );
     }
+
+	protected void notifyParent(String text) {
+		// TODO 自動生成されたメソッド・スタブ
+    	owner.onValueChange(text);
+
+	}
 
 
 }

@@ -35,6 +35,7 @@ public abstract class IMEReceiver {
 				.toString());
 		length = 0;
 		this.setCursorPos(originalCursorPosition + aString.length());
+		this.notifyParent(this.getText());
 		//owner.selectionEnd = owner.cursorPosition;
 	}
 
@@ -76,4 +77,6 @@ public abstract class IMEReceiver {
 	abstract protected void setCursorPos(int p);
 
 	abstract protected void setSelectionPos(int p);
+	
+	protected void notifyParent(String text) {};
 }
