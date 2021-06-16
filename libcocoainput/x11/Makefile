@@ -1,10 +1,10 @@
 CC	= gcc
-CFLAGS	= -Wall -fobjc-arc -mmacosx-version-min=10.10
-FFLAGS	= -framework Foundation -framework Cocoa
-OBJS	= cocoainput.o Logger.o DataManager.o MinecraftView.o
-LIBS	=
-TARGET	= libcocoainput.dylib
-DISTDIR	= ../../src/main/resources/darwin/
+CFLAGS	= -Wall -fPIC
+FFLAGS	= 
+OBJS	= libx11cocoainput.o logger.o
+LIBS	= 
+TARGET	= libx11cocoainput.so
+DISTDIR	= ../../src/main/resources/x11/
 RM	= rm
 CP	= cp
 
