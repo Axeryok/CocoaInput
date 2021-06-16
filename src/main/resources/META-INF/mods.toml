@@ -16,7 +16,7 @@ license="Minecraft Mod Public License Japanese Transration" #mandatory
 # The modid of the mod
 modId="cocoainput" #mandatory
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version="1.16.5-3.3.2" #mandatory
+version="${file.jarVersion}" #mandatory
  # A display name for the mod
 displayName="CocoaInput" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification <here>
@@ -24,12 +24,12 @@ displayName="CocoaInput" #mandatory
 # A URL for the "homepage" for this mod, displayed in the mod UI
 displayURL="https://axer.jp/" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
-logoFile="logo.png" #optional
+#logoFile="logo.png" #optional
 # A text field displayed in the mod UI
-credits="Logo was painted by RedWheat.This mod uses JavaNativeAccess(Apache License2)." #optional
+credits="This mod uses JavaNativeAccess(Apache License2)." #optional
 # A text field displayed in the mod UI
 authors="Axeryok" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Support IME input on macOS.
+Support IME input on macOS,Windows,X11(Linux).
 '''
