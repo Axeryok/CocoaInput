@@ -115,11 +115,11 @@ task buildCILib {
     }
 }
 
-gradle.taskGraph.whenReady {
-    runClient.doFirst{
-            buildCILib
-    }
-}   
+//gradle.taskGraph.whenReady {
+//    runClient.doFirst{
+//            buildCILib
+//    }
+//}   
 
 
 // Example for how to get properties into the manifest for reading by the runtime..

@@ -73,13 +73,13 @@ public class WinController implements CocoaInputController {
 
 	public WinController() {
 		Logger.log("This is Windows Controller");
-		MinecraftForge.EVENT_BUS.register(this);
 		try {
 			CocoaInput.copyLibrary("libwincocoainput.dll", "win/libwincocoainput.dll");
 		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
+		MinecraftForge.EVENT_BUS.register(this);
     	Handle.INSTANCE.initialize(org.lwjgl.glfw.GLFWNativeWin32.glfwGetWin32Window(Minecraft.getInstance().getWindow().getWindow()), pc, dc,rc, Logger.clangLog, Logger.clangError, Logger.clangDebug);
 
 	}

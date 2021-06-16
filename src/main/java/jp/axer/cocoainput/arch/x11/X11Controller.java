@@ -5,7 +5,6 @@ import java.lang.reflect.Field;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWNativeX11;
-import org.lwjgl.system.JNI;
 
 import com.sun.jna.Memory;
 import com.sun.jna.Pointer;
@@ -15,11 +14,8 @@ import jp.axer.cocoainput.CocoaInput;
 import jp.axer.cocoainput.plugin.CocoaInputController;
 import jp.axer.cocoainput.plugin.IMEOperator;
 import jp.axer.cocoainput.plugin.IMEReceiver;
-import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.InputMappings;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -80,7 +76,6 @@ public class X11Controller implements CocoaInputController {
 
 		setupKeyboardEvent();
 
-		MinecraftForge.EVENT_BUS.register(this);
 		Logger.log("This is X11 Controller");
 		CocoaInput.copyLibrary("libx11cocoainput.so", "x11/libx11cocoainput.so");
 		Logger.log("Call clang initializer");
@@ -88,6 +83,7 @@ public class X11Controller implements CocoaInputController {
 				Logger.clangLog, Logger.clangError, Logger.clangDebug);
 		Handle.INSTANCE.set_focus(0);
 		Logger.log("Finished clang initializer");
+		MinecraftForge.EVENT_BUS.register(this);
 		Logger.log("X11Controller finished initialize");
 
 	}
