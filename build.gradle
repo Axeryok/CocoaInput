@@ -15,7 +15,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '3.3.2'
+version = '4.0.0'
 group = 'jp.axer.cocoainput' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'CocoaInput-[1.16.5]'
 
@@ -115,11 +115,11 @@ task buildCILib {
     }
 }
 
-//gradle.taskGraph.whenReady {
-//    runClient.doFirst{
-//            buildCILib
-//    }
-//}   
+gradle.taskGraph.whenReady {
+    runClient.doFirst{
+            buildCILib
+    }
+}   
 
 
 // Example for how to get properties into the manifest for reading by the runtime..
