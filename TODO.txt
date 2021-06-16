@@ -1,4 +1,3 @@
 TODO:
-Fix behaviors of Sign and Book --- Cursor move
 More comment --- too complex to read due to less comment
 Refactoring --- needless to say
