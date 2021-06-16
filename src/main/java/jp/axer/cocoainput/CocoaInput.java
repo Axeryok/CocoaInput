@@ -13,6 +13,8 @@ import org.apache.commons.io.IOUtils;
 import com.sun.jna.Platform;
 
 import jp.axer.cocoainput.arch.darwin.DarwinController;
+import jp.axer.cocoainput.arch.win.WinController;
+import jp.axer.cocoainput.arch.x11.X11Controller;
 import jp.axer.cocoainput.arch.dummy.DummyController;
 import jp.axer.cocoainput.plugin.CocoaInputController;
 import jp.axer.cocoainput.util.ModLogger;
@@ -30,7 +32,14 @@ public class CocoaInput {
         if(Platform.isMac()) {
             CocoaInput.applyController(new DarwinController());
         }
+	else if(Platform.isWindows()) {
+	    CocoaInput.applyController(new WinController());
+        }
+	else if(Platform.isX11()){
+	    CocoaInput.applyController(new X11Controller());
+        }
         else{
+	    ModLogger.log("CocoaInput cannot find appropriate Controller in running OS.");
             CocoaInput.applyController(new DummyController());
         }
         MinecraftForge.EVENT_BUS.register(this);

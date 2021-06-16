@@ -19,7 +19,7 @@ version = '3.3.2'
 group = 'jp.axer.cocoainput' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'CocoaInput-[1.16.5]'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
@@ -96,6 +96,31 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
 }
+
+task buildCILib {
+    if(Os.isFamily(Os.FAMILY_MAC)){
+        String cm = "bash ./build_lib_for_mac.sh"
+        Process p = cm.execute()
+        p.waitFor()
+    }
+    else if(Os.isFamily(Os.FAMILY_WINDOWS)){
+        String cm = "bash ./build_lib_for_win.sh"
+        Process p = cm.execute()
+        p.waitFor()
+    }
+    else if(Os.isFamily(Os.FAMILY_UNIX)){
+        String cm = "bash ./build_lib_for_x11.sh"
+        Process p = cm.execute()
+        p.waitFor()
+    }
+}
+
+gradle.taskGraph.whenReady {
+    runClient.doFirst{
+            buildCILib
+    }
+}   
+
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
