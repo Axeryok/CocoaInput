@@ -88,6 +88,13 @@ static DataManager* instance = nil;
     }
     [DataManager sharedManager].hasPreeditText = NO;
     [DataManager sharedManager].isSentedInsertText = YES;
+    /*const char *sentString;
+    if ([aString isKindOfClass:[NSAttributedString class]]) {
+        sentString = [[aString string] cStringUsingEncoding:NSUTF8StringEncoding];
+    }
+    else{
+	sentString = [aString cStringUsingEncoding:NSUTF8StringEncoding];
+    }*/
     [[DataManager sharedManager] activeView].insertText("",0,0);
     CIDebug([NSString stringWithFormat:@"MarkedText was determined:\"%@\"",aString]);
     [self org_insertText:aString replacementRange:replacementRange];//GLFWのオリジナルメソッドはCharEventを発行するので利用する
