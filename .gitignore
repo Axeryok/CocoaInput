@@ -20,6 +20,8 @@
 !build_lib_for_mac.sh
 !build_lib_for_win.sh
 !build_lib_for_x11.sh
+!build_lib_all.sh
+!build_cocoainput_all_platform.sh
 !TODO.txt
 
 libcocoainput/build
