@@ -6,6 +6,7 @@ import jp.axer.cocoainput.plugin.IMEReceiver;
 import jp.axer.cocoainput.util.ModLogger;
 import jp.axer.cocoainput.util.Rect;
 import jp.axer.cocoainput.util.WrapperUtil;
+import net.minecraft.block.StandingSignBlock;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.EditSignScreen;
 import net.minecraft.util.text.StringTextComponent;
@@ -21,7 +22,7 @@ public class EditSignScreenWrapper extends IMEReceiver {
         myIME = CocoaInput.getController().generateIMEOperator(this);
         myIME.setFocused(true);
     }
-    
+
     protected void setText(String text) {
     	owner.sign.setMessage(owner.line,new StringTextComponent(text));
     	String [] util = owner.messages;
@@ -49,6 +50,7 @@ public class EditSignScreenWrapper extends IMEReceiver {
 
     @Override
     public Rect getRect() {
+
         FontRenderer fontRendererObj = null;
         try {
             fontRendererObj = WrapperUtil.makeFontRenderer(owner);
@@ -56,7 +58,7 @@ public class EditSignScreenWrapper extends IMEReceiver {
             e.printStackTrace();
         }
         float y = 91 + (owner.line - 1) * (10);
-        if (owner.sign.getBlockState().getBlock().getRegistryName().toString().contains("wall")) {
+        if (!(owner.sign.getBlockState().getBlock() instanceof StandingSignBlock)) {
             y += 30;
         }
         return new Rect(

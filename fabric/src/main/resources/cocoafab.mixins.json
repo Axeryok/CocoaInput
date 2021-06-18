@@ -1,0 +1,6 @@
+{
+	"package":"jp.axer.cocoainput.mixin",
+	"mixins":[
+		"MinecraftMixin"	],
+	"required":true
+}

@@ -23,7 +23,7 @@ group = 'jp.axer.cocoainput' // http://maven.apache.org/guides/mini/guide-naming
 archivesBaseName = 'CocoaInput-[1.16.5]'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
-
+	
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
     // The mappings can be changed at any time, and must be in the following format.
@@ -35,7 +35,7 @@ minecraft {
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     // accessTransformer = file('build/resources/main/META-INF/accesstransformer.cfg')
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    accessTransformer = file('src/forge/resources/META-INF/accesstransformer.cfg')
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
@@ -51,6 +51,7 @@ minecraft {
 			arg "-mixin.config=cocoainput.mixins.json"
 
 			sourceSets.main.java.srcDirs+=['src/forge/java']
+			sourceSets.main.resources.srcDirs+=['src/forge/resources']
             mods {
                 examplemod {
                     source sourceSets.main
