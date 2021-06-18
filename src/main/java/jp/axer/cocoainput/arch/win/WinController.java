@@ -15,9 +15,6 @@ import jp.axer.cocoainput.plugin.IMEReceiver;
 import jp.axer.cocoainput.util.Rect;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class WinController implements CocoaInputController {
 
@@ -79,8 +76,7 @@ public class WinController implements CocoaInputController {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
-		MinecraftForge.EVENT_BUS.register(this);
-    	Handle.INSTANCE.initialize(org.lwjgl.glfw.GLFWNativeWin32.glfwGetWin32Window(Minecraft.getInstance().getWindow().getWindow()), pc, dc,rc, Logger.clangLog, Logger.clangError, Logger.clangDebug);
+		Handle.INSTANCE.initialize(org.lwjgl.glfw.GLFWNativeWin32.glfwGetWin32Window(Minecraft.getInstance().getWindow().getWindow()), pc, dc,rc, Logger.clangLog, Logger.clangError, Logger.clangDebug);
 
 	}
 
@@ -90,9 +86,8 @@ public class WinController implements CocoaInputController {
 		// TODO 自動生成されたメソッド・スタブ
 		return new WinIMEOperator(arg0);
 	}
-	@SubscribeEvent
-	public void didChangeGui(GuiOpenEvent event) {
-		Screen gui = event.getGui();
+	@Override
+	public void screenOpenNotify(Screen gui) {
 		try {
 			Field wrapper = gui.getClass().getField("wrapper");
 			wrapper.setAccessible(true);
