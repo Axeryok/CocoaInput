@@ -5,17 +5,20 @@ buildscript {
         maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
         mavenCentral()
+        maven { url='https://repo.spongepowered.org/maven' }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+    	classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
+apply plugin: 'org.spongepowered.mixin'
 
-version = '4.0.0'
+version = '4.0.1'
 group = 'jp.axer.cocoainput' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'CocoaInput-[1.16.5]'
 
@@ -30,7 +33,7 @@ minecraft {
     // Simply re-run your setup task after changing the mappings to update your workspace.
     mappings channel: 'official', version: '1.16.5'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-    
+
     // accessTransformer = file('build/resources/main/META-INF/accesstransformer.cfg')
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -45,7 +48,9 @@ minecraft {
 
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
+			arg "-mixin.config=cocoainput.mixins.json"
 
+			sourceSets.main.java.srcDirs+=['src/forge/java']
             mods {
                 examplemod {
                     source sourceSets.main
@@ -71,6 +76,10 @@ minecraft {
     }
 }
 
+mixin {
+    add sourceSets.main, "cocoainput.refmap.json"
+}
+
 dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
@@ -94,6 +103,7 @@ dependencies {
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    annotationProcessor 'org.spongepowered:mixin:0.8:processor'
 
 }
 
@@ -119,7 +129,7 @@ gradle.taskGraph.whenReady {
     runClient.doFirst{
             buildCILib
     }
-}   
+}
 
 
 // Example for how to get properties into the manifest for reading by the runtime..
@@ -137,7 +147,8 @@ jar {
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"Axeryok",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+            "MixinConfigs":"cocoainput.mixins.json"
         ])
     }
 }
