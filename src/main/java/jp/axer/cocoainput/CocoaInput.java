@@ -21,14 +21,13 @@ import jp.axer.cocoainput.util.ModLogger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 
-
 public class CocoaInput {
 	private static CocoaInputController controller;
 	private static String zipsource;
-	
-	public CocoaInput(String loader,String zipfile) {
-		ModLogger.log("Modloader:"+loader);
-		CocoaInput.zipsource=zipfile;
+
+	public CocoaInput(String loader, String zipfile) {
+		ModLogger.log("Modloader:" + loader);
+		CocoaInput.zipsource = zipfile;
 		try {
 			if (Platform.isMac()) {
 				CocoaInput.applyController(new DarwinController());
@@ -58,21 +57,25 @@ public class CocoaInput {
 	public static CocoaInputController getController() {
 		return CocoaInput.controller;
 	}
-	
+
 	public void distributeScreen(Screen sc) {
-		if(CocoaInput.getController()!=null) {
+		if (CocoaInput.getController() != null) {
 			CocoaInput.getController().screenOpenNotify(sc);
 		}
 	}
 
 	public static void copyLibrary(String libraryName, String libraryPath) throws IOException {
 		InputStream libFile;
-		try {//Modファイルを検出し、jar内からライブラリを取り出す
-			ZipFile jarfile = new ZipFile(CocoaInput.zipsource);
-			libFile = jarfile.getInputStream(new ZipEntry(libraryPath));
-		} catch (FileNotFoundException e) {//存在しない場合はデバッグモードであるのでクラスパスからライブラリを取り出す
-			ModLogger.log("Couldn't get library path. Is this debug mode?'");
-			libFile = ClassLoader.getSystemResourceAsStream(libraryPath);
+		if (zipsource == null) {//Fabric case
+			libFile = CocoaInput.class.getResourceAsStream("/" + libraryPath);
+		} else {
+			try {//Modファイルを検出し、jar内からライブラリを取り出す
+				ZipFile jarfile = new ZipFile(CocoaInput.zipsource);
+				libFile = jarfile.getInputStream(new ZipEntry(libraryPath));
+			} catch (FileNotFoundException e) {//存在しない場合はデバッグモードであるのでクラスパスからライブラリを取り出す
+				ModLogger.log("Couldn't get library path. Is this debug mode?'");
+				libFile = ClassLoader.getSystemResourceAsStream(libraryPath);
+			}
 		}
 		File nativeDir = new File(Minecraft.getInstance().gameDirectory.getAbsolutePath().concat("/native"));
 		File copyLibFile = new File(
