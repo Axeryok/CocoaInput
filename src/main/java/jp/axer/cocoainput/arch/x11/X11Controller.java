@@ -16,9 +16,6 @@ import jp.axer.cocoainput.plugin.IMEOperator;
 import jp.axer.cocoainput.plugin.IMEReceiver;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class X11Controller implements CocoaInputController {
 
@@ -83,7 +80,6 @@ public class X11Controller implements CocoaInputController {
 				Logger.clangLog, Logger.clangError, Logger.clangDebug);
 		Handle.INSTANCE.set_focus(0);
 		Logger.log("Finished clang initializer");
-		MinecraftForge.EVENT_BUS.register(this);
 		Logger.log("X11Controller finished initialize");
 
 	}
@@ -94,9 +90,8 @@ public class X11Controller implements CocoaInputController {
 		return new X11IMEOperator(arg0);
 	}
 
-	@SubscribeEvent
-	public void didChangeGui(GuiOpenEvent event) {
-		Screen gui = event.getGui();
+	@Override
+	public void screenOpenNotify(Screen gui) {
 		try {
 			Field wrapper = gui.getClass().getField("wrapper");
 			wrapper.setAccessible(true);

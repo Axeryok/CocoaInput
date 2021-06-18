@@ -19,23 +19,16 @@ import jp.axer.cocoainput.arch.x11.X11Controller;
 import jp.axer.cocoainput.plugin.CocoaInputController;
 import jp.axer.cocoainput.util.ModLogger;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraft.client.gui.screen.Screen;
 
-@Mod("cocoainput")
+
 public class CocoaInput {
 	private static CocoaInputController controller;
-
-	public CocoaInput() throws Exception {
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-		MinecraftForge.EVENT_BUS.register(this);
-
-	}
-
-	private void setup(final FMLCommonSetupEvent event) {
+	private static String zipsource;
+	
+	public CocoaInput(String loader,String zipfile) {
+		ModLogger.log("Modloader:"+loader);
+		CocoaInput.zipsource=zipfile;
 		try {
 			if (Platform.isMac()) {
 				CocoaInput.applyController(new DarwinController());
@@ -65,12 +58,17 @@ public class CocoaInput {
 	public static CocoaInputController getController() {
 		return CocoaInput.controller;
 	}
+	
+	public void distributeScreen(Screen sc) {
+		if(CocoaInput.getController()!=null) {
+			CocoaInput.getController().screenOpenNotify(sc);
+		}
+	}
 
 	public static void copyLibrary(String libraryName, String libraryPath) throws IOException {
 		InputStream libFile;
 		try {//Modファイルを検出し、jar内からライブラリを取り出す
-			ZipFile jarfile = new ZipFile(
-					ModList.get().getModFileById("cocoainput").getFile().getFilePath().toString());
+			ZipFile jarfile = new ZipFile(CocoaInput.zipsource);
 			libFile = jarfile.getInputStream(new ZipEntry(libraryPath));
 		} catch (FileNotFoundException e) {//存在しない場合はデバッグモードであるのでクラスパスからライブラリを取り出す
 			ModLogger.log("Couldn't get library path. Is this debug mode?'");
