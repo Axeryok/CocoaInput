@@ -1,8 +1,7 @@
 #!/bin/bash
-rm -r src/autogen/java
-rm -r src/autogen/resources
-cp -r ../src/main/java/ src/autogen/java
-cp -r ../src/main/resources src/autogen/resources
+rm -r src/autogen
+mkdir -p src/autogen/
+cp -r ../src/main/* src/autogen/
 mv src/autogen/resources/cocoainput.mixins.json src/autogen/java
 cd src/autogen/java
 find . -type f -print0 | xargs -0 sed -i -e 's/gui.screen/gui.screens/g'
