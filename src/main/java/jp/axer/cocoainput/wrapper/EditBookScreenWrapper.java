@@ -18,7 +18,7 @@ import net.minecraft.util.text.Style;
 public class EditBookScreenWrapper extends IMEReceiver {
     private IMEOperator myIME;
     private EditBookScreen owner;
-    
+
     public EditBookScreenWrapper(EditBookScreen field) {
         ModLogger.log("EditBookScreen init: " + field.hashCode());
         owner = field;
@@ -44,7 +44,9 @@ public class EditBookScreenWrapper extends IMEReceiver {
 		}
 	}
 
-	protected void setCursorInvisible() {} //TODO
+	protected void setCursorInvisible() {
+		owner.frameTick=6;
+	} //TODO
 
 	protected int getCursorPos() {
 		if(owner.isSigning) {
@@ -72,8 +74,8 @@ public class EditBookScreenWrapper extends IMEReceiver {
 			owner.pageEdit.setSelectionRange(p, p);
 		}
 	}
-    
-    
+
+
     @Override
     public Rect getRect() {
         FontRenderer fontRendererObj = null;
@@ -108,6 +110,10 @@ public class EditBookScreenWrapper extends IMEReceiver {
                     0
             );
         }
+    }
+
+    public int renewCursorCounter() {
+        return owner.frameTick+(cursorVisible?1:0);
     }
 
 }

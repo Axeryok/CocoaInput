@@ -4,7 +4,9 @@ mkdir -p src/autogen/
 cp -r ../src/main/* src/autogen/
 mv src/autogen/resources/cocoainput.mixins.json src/autogen/java
 cd src/autogen/java
-find . -type f -print0 | xargs -0 sed -i -e 's/gui.screen/gui.screens/g'
+find . -type f -print0 | xargs -0 sed -i -e 's/gui\/screen\/EditSign/gui\/screens\/inventory\/SignEdit/g'
+find . -type f -print0 | xargs -0 sed -i -e 's/gui\/screen\/EditBook/gui\/screens\/inventory\/BookEdit/g'
+find . -type f -print0 | xargs -0 sed -i -e 's/gui.screen\./gui.screens\./g'
 find . -type f -print0 | xargs -0 sed -i -e 's/screens.EditSignScreen/screens.inventory.SignEditScreen/g'
 find . -type f -print0 | xargs -0 sed -i -e 's/screens.EditBookScreen/screens.inventory.BookEditScreen/g'
 find . -type f -print0 | xargs -0 sed -i -e 's/EditSignScreen/SignEditScreen/g'

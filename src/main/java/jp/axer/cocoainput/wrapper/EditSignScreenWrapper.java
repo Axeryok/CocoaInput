@@ -33,7 +33,9 @@ public class EditSignScreenWrapper extends IMEReceiver {
 		return owner.sign.getMessage(owner.line).getString();
 	}
 
-	protected void setCursorInvisible() {} //TODO
+	protected void setCursorInvisible() {
+		owner.frame=6;
+	} //TODO
 
 	protected int getCursorPos() {
 		return owner.signField.getCursorPos();
@@ -68,6 +70,9 @@ public class EditSignScreenWrapper extends IMEReceiver {
                 0,
                 0
         );
+    }
+    public int renewCursorCounter() {
+        return owner.frame+(cursorVisible?1:0);
     }
 
 }

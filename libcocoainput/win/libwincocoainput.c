@@ -37,7 +37,17 @@ LRESULT compositionLocationNotify(HWND hWnd){
 LRESULT CALLBACK (*glfwWndProc)(HWND,UINT,WPARAM,LPARAM);
 LRESULT CALLBACK wrapper_wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam){
 	switch(msg){
+		case WM_IME_NOTIFY:{
+			if(wParam==IMN_OPENCANDIDATE){
+				compositionLocationNotify(hWnd);
+				return TRUE;
+			}
+			else{
+				break;
+			}
+		}
 		case WM_IME_STARTCOMPOSITION:{
+			compositionLocationNotify(hWnd);
 			return TRUE;
 		}
 		case WM_IME_ENDCOMPOSITION:{
@@ -88,7 +98,7 @@ LRESULT CALLBACK wrapper_wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 					int selected_length=0;
 					int i;
 					for(i=0;i<attrSize;i++){
-						if(attributes[i]&(ATTR_TARGET_NOTCONVERTED|ATTR_TARGET_CONVERTED)){
+						if(attributes[i]&(ATTR_TARGET_CONVERTED)){
 							if(selected_begin==0){
 								selected_begin=i;
 							}
@@ -147,6 +157,7 @@ void set_focus(int flag){
 	CILog("setFocused:%d",flag);
 	if(flag){
 		ImmAssociateContext(hwnd,himc);
+		compositionLocationNotify(hwnd);
 	}
 	else{
 		himc=ImmAssociateContext(hwnd,0);

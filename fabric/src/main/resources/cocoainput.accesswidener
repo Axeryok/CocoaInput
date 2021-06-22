@@ -5,6 +5,7 @@ accessible field net/minecraft/client/gui/components/EditBox value Ljava/lang/St
 accessible field net/minecraft/client/gui/components/EditBox frame I
 accessible method net/minecraft/client/gui/components/EditBox onValueChange (Ljava/lang/String;)V 
 accessible field net/minecraft/client/gui/screens/inventory/SignEditScreen line I
+accessible field net/minecraft/client/gui/screens/inventory/SignEditScreen frame I
 accessible field net/minecraft/client/gui/screens/inventory/SignEditScreen sign Lnet/minecraft/world/level/block/entity/SignBlockEntity;
 accessible field net/minecraft/client/gui/screens/inventory/SignEditScreen messages [Ljava/lang/String;
 accessible field net/minecraft/client/gui/screens/inventory/SignEditScreen signField Lnet/minecraft/client/gui/font/TextFieldHelper;
@@ -12,6 +13,7 @@ accessible method net/minecraft/client/gui/screens/inventory/BookEditScreen setC
 accessible method net/minecraft/client/gui/screens/inventory/BookEditScreen getCurrentPageText ()Ljava/lang/String; 
 accessible field net/minecraft/client/gui/screens/inventory/BookEditScreen title Ljava/lang/String;
 accessible field net/minecraft/client/gui/screens/inventory/BookEditScreen isSigning Z
+accessible field net/minecraft/client/gui/screens/inventory/BookEditScreen frameTick I
 accessible field net/minecraft/client/gui/screens/inventory/BookEditScreen pageEdit Lnet/minecraft/client/gui/font/TextFieldHelper;
 accessible field net/minecraft/client/gui/screens/inventory/BookEditScreen titleEdit Lnet/minecraft/client/gui/font/TextFieldHelper;
 accessible field net/minecraft/client/gui/screens/Screen font Lnet/minecraft/client/gui/Font;
