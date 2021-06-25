@@ -1,6 +1,6 @@
 CC	= gcc
 CFLAGS	= -Wall -fPIC
-FFLAGS	= 
+FFLAGS	= -lX11
 OBJS	= libx11cocoainput.o logger.o
 LIBS	= 
 TARGET	= libx11cocoainput.so
@@ -14,7 +14,7 @@ install: $(TARGET)
 	$(CP) -f $(TARGET) $(DISTDIR)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $(FFLAGS) $(LIBS) -shared -o $@ $(OBJS)
+	$(CC) $(OBJS) $(CFLAGS) $(FFLAGS) $(LIBS) -shared -o $@
 
 .c.o:
 	$(CC) $(CFLAGS) $(LIBS) -c $<
