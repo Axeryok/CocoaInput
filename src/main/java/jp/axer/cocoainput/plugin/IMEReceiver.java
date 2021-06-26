@@ -1,8 +1,11 @@
 package jp.axer.cocoainput.plugin;
 
+import jp.axer.cocoainput.CocoaInput;
+import jp.axer.cocoainput.arch.win.Logger;
 import jp.axer.cocoainput.util.PreeditFormatter;
 import jp.axer.cocoainput.util.Rect;
 import jp.axer.cocoainput.util.Tuple3;
+import net.minecraft.client.Minecraft;
 
 public abstract class IMEReceiver {
 
@@ -16,11 +19,25 @@ public abstract class IMEReceiver {
 	 * positionの位置から文字数lengthの範囲という意味
 	 */
 	public void insertText(String aString, int position1, int length1) {//確定文字列 現状aString以外の引数は意味をなしてない
+		if (true) {
+			Logger.log("just comming:(" + aString + ") now:(" + getText() + ")");
+		}
 		if (!preeditBegin) {
 			originalCursorPosition = this.getCursorPos();
 		}
 		preeditBegin = false;
 		cursorVisible = true;
+		this.setText((new StringBuffer(this.getText()))
+				.replace(originalCursorPosition, originalCursorPosition + length, "").toString());
+		length = 0;
+		this.setCursorPos(originalCursorPosition);
+		this.setSelectionPos(originalCursorPosition);
+		if (CocoaInput.config.isNativeCharTyped()) {
+			this.insertTextNative(aString);
+		} else {
+			this.insertTextEmurated(aString);
+		}
+		/*
 		if (aString.length() == 0) {
 			this.setText((new StringBuffer(this.getText()))
 					.replace(originalCursorPosition, originalCursorPosition + length, "").toString());
@@ -37,6 +54,7 @@ public abstract class IMEReceiver {
 		this.setCursorPos(originalCursorPosition + aString.length());
 		this.notifyParent(this.getText());
 		//owner.selectionEnd = owner.cursorPosition;
+		 */
 	}
 
 	public void setMarkedText(String aString, int position1, int length1, int position2, int length2) {
@@ -44,13 +62,25 @@ public abstract class IMEReceiver {
 			originalCursorPosition = this.getCursorPos();
 			preeditBegin = true;
 		}
-		Tuple3<String, Integer, Boolean> formattedText = PreeditFormatter.formatMarkedText(aString, position1, length1);
-		String str = formattedText._1();
-		int caretPosition = formattedText._2() + 4;//相対値
-		boolean hasCaret = formattedText._3();
+		int caretPosition;
+		boolean hasCaret;
+		String commitString;
+		if (CocoaInput.config.isAdvancedPreeditDraw()) {
+			Tuple3<String, Integer, Boolean> formattedText = PreeditFormatter.formatMarkedText(aString, position1,
+					length1);
+			commitString = formattedText._1();
+			caretPosition = formattedText._2() + 4;//相対値
+			hasCaret = formattedText._3();
+			
+		}
+		else {
+			hasCaret=true;
+			caretPosition=0;
+			commitString=PreeditFormatter.SECTION+"n"+aString+PreeditFormatter.SECTION+"r";
+		}
 		this.setText((new StringBuffer(this.getText()))
-				.replace(originalCursorPosition, originalCursorPosition + length, str).toString());
-		length = str.length();
+				.replace(originalCursorPosition, originalCursorPosition + length, commitString).toString());
+		length = commitString.length();
 		if (hasCaret) {
 			this.cursorVisible = true;
 			this.setCursorPos(originalCursorPosition + caretPosition);
@@ -64,7 +94,7 @@ public abstract class IMEReceiver {
 		}
 	}
 
-	public  abstract Rect getRect();
+	public abstract Rect getRect();
 
 	abstract protected void setText(String text);
 
@@ -77,6 +107,24 @@ public abstract class IMEReceiver {
 	abstract protected void setCursorPos(int p);
 
 	abstract protected void setSelectionPos(int p);
-	
-	protected void notifyParent(String text) {};
+
+	protected void insertTextNative(String text) {
+		for (char c : text.toCharArray()) {
+			Minecraft instance = Minecraft.getInstance();
+			instance.keyboardHandler.charTyped(instance.getWindow().getWindow(), c, 0);
+		}
+	}
+
+	protected void insertTextEmurated(String aString) {
+		this.setText((new StringBuffer(this.getText()))
+				.replace(this.getCursorPos(), this.getCursorPos(),
+						aString.substring(0, aString.length()))
+				.toString());
+		length = 0;
+		this.setCursorPos(this.getCursorPos() + aString.length());
+		this.notifyParent(this.getText());
+	}
+
+	protected void notifyParent(String text) {
+	};
 }

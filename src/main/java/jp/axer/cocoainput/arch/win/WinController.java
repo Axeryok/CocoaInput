@@ -23,7 +23,6 @@ public class WinController implements CocoaInputController {
 	PreeditCallback pc = new PreeditCallback() {
 		@Override
 		public void invoke(WString str, int cursor, int length) {
-			// TODO 自動生成されたメソッド・スタブ
 			if(focusedOperator!=null) {
 				Logger.log("marked "+str.toString()+" "+cursor+" "+length);
 				focusedOperator.owner.setMarkedText(str.toString(), cursor, length,0,0);
@@ -33,10 +32,9 @@ public class WinController implements CocoaInputController {
 	DoneCallback dc = new DoneCallback() {
 		@Override
 		public void invoke(WString str) {
-			// TODO 自動生成されたメソッド・スタブ
 			if(focusedOperator!=null) {
+				Logger.log("done ("+str.toString()+")");
 				focusedOperator.owner.insertText(str.toString(), 0, 0);
-				Logger.log("done %s",str.toString());
 			}
 		}
 	};
@@ -44,7 +42,6 @@ public class WinController implements CocoaInputController {
 	RectCallback rc = new RectCallback() {
 		@Override
 		public int invoke(Pointer ret) {
-			// TODO 自動生成されたメソッド・スタブ
 			if(focusedOperator!=null) {
 				Logger.log("Rect callback");
 				Rect point = focusedOperator.owner.getRect();
@@ -73,7 +70,6 @@ public class WinController implements CocoaInputController {
 		try {
 			CocoaInput.copyLibrary("libwincocoainput.dll", "win/libwincocoainput.dll");
 		} catch (IOException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 		Handle.INSTANCE.initialize(org.lwjgl.glfw.GLFWNativeWin32.glfwGetWin32Window(Minecraft.getInstance().getWindow().getWindow()), pc, dc,rc, Logger.clangLog, Logger.clangError, Logger.clangDebug);
@@ -83,7 +79,6 @@ public class WinController implements CocoaInputController {
 
 	@Override
 	public IMEOperator generateIMEOperator(IMEReceiver arg0) {
-		// TODO 自動生成されたメソッド・スタブ
 		return new WinIMEOperator(arg0);
 	}
 	@Override
