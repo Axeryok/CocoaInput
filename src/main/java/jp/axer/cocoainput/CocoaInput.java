@@ -17,6 +17,7 @@ import jp.axer.cocoainput.arch.dummy.DummyController;
 import jp.axer.cocoainput.arch.win.WinController;
 import jp.axer.cocoainput.arch.x11.X11Controller;
 import jp.axer.cocoainput.plugin.CocoaInputController;
+import jp.axer.cocoainput.util.ConfigPack;
 import jp.axer.cocoainput.util.ModLogger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
@@ -24,7 +25,8 @@ import net.minecraft.client.gui.screen.Screen;
 public class CocoaInput {
 	private static CocoaInputController controller;
 	private static String zipsource;
-
+	public static ConfigPack config = ConfigPack.defaultConfig;
+	
 	public CocoaInput(String loader, String zipfile) {
 		ModLogger.log("Modloader:" + loader);
 		CocoaInput.zipsource = zipfile;

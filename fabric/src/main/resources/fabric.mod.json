@@ -20,12 +20,14 @@
   "entrypoints": {
     "client": [
       "jp.axer.cocoainput.loader.FabricLoader"
+    ],
+    "modmenu":[
+      "jp.axer.cocoainput.loader.CocoaInputModMenu"
     ]
   },
 
   "depends": {
     "fabricloader": ">=0.11.3",
-    "fabric": "*",
     "minecraft": "1.17.x",
     "java": ">=16"
   },
