@@ -23,6 +23,7 @@
 !build_lib_all.sh
 !build_cocoainput_all_platform.sh
 !TODO.txt
+!LICENSE
 
 libcocoainput/build
 
