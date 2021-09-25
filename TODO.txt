@@ -1,3 +1,0 @@
-TODO:
-More comment --- too complex to read due to less comment
-Refactoring --- needless to say

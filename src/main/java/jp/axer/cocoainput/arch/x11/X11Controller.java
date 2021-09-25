@@ -15,7 +15,7 @@ import jp.axer.cocoainput.plugin.CocoaInputController;
 import jp.axer.cocoainput.plugin.IMEOperator;
 import jp.axer.cocoainput.plugin.IMEReceiver;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 
 public class X11Controller implements CocoaInputController {
 

@@ -1,4 +1,4 @@
-package jp.axer.cocoainput.loader;
+package jp.axer.cocoainput.util;
 
 import jp.axer.cocoainput.util.ConfigPack;
 

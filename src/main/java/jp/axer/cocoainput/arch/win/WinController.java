@@ -14,7 +14,7 @@ import jp.axer.cocoainput.plugin.IMEOperator;
 import jp.axer.cocoainput.plugin.IMEReceiver;
 import jp.axer.cocoainput.util.Rect;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 
 public class WinController implements CocoaInputController {
 

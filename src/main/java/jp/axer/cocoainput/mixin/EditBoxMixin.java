@@ -5,16 +5,16 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import jp.axer.cocoainput.wrapper.TextFieldWidgetWrapper;
-import net.minecraft.client.gui.widget.TextFieldWidget;
+import jp.axer.cocoainput.wrapper.EditBoxWrapper;
+import net.minecraft.client.gui.components.EditBox;
 
-@Mixin(TextFieldWidget.class)
-public class TextFieldWidgetMixin {
-	 TextFieldWidgetWrapper wrapper;
+@Mixin(EditBox.class)
+public class EditBoxMixin {
+	 EditBoxWrapper wrapper;
 	 
 	 @Inject(method="<init>*",at=@At("RETURN"))
 	 private void init(CallbackInfo ci) {
-		 wrapper = new TextFieldWidgetWrapper((TextFieldWidget)(Object)this);
+		 wrapper = new EditBoxWrapper((EditBox)(Object)this);
 	 }
 	 
 	 @Inject(method="setFocus",at=@At("HEAD"))

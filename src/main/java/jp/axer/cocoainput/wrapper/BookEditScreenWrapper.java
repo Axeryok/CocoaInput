@@ -9,18 +9,18 @@ import jp.axer.cocoainput.plugin.IMEReceiver;
 import jp.axer.cocoainput.util.ModLogger;
 import jp.axer.cocoainput.util.Rect;
 import jp.axer.cocoainput.util.WrapperUtil;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.screen.EditBookScreen;
-import net.minecraft.util.text.CharacterManager;
-import net.minecraft.util.text.ITextProperties;
-import net.minecraft.util.text.Style;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.screens.inventory.BookEditScreen;
+import net.minecraft.client.StringSplitter;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.network.chat.Style;
 
-public class EditBookScreenWrapper extends IMEReceiver {
+public class BookEditScreenWrapper extends IMEReceiver {
     private IMEOperator myIME;
-    private EditBookScreen owner;
+    private BookEditScreen owner;
 
-    public EditBookScreenWrapper(EditBookScreen field) {
-        ModLogger.log("EditBookScreen init: " + field.hashCode());
+    public BookEditScreenWrapper(BookEditScreen field) {
+        ModLogger.log("BookEditScreen init: " + field.hashCode());
         owner = field;
         myIME = CocoaInput.getController().generateIMEOperator(this);
         myIME.setFocused(true);
@@ -78,9 +78,9 @@ public class EditBookScreenWrapper extends IMEReceiver {
 
     @Override
     public Rect getRect() {
-        FontRenderer fontRendererObj = null;
+        Font fontRendererObj = null;
         try {
-            fontRendererObj = WrapperUtil.makeFontRenderer(owner);
+            fontRendererObj = WrapperUtil.makeFont(owner);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -92,10 +92,10 @@ public class EditBookScreenWrapper extends IMEReceiver {
                     0
             );
         } else {
-            CharacterManager manager = fontRendererObj.getSplitter();
-            List<ITextProperties> lines = manager.splitLines(owner.getCurrentPageText(), 116, Style.EMPTY);
+            StringSplitter manager = fontRendererObj.getSplitter();
+            List<FormattedText> lines = manager.splitLines(owner.getCurrentPageText(), 116, Style.EMPTY);
             final String[] lastLine = new String[1];
-            ITextProperties.ITextAcceptor acceptor = new ITextProperties.ITextAcceptor() {
+            FormattedText.ContentConsumer acceptor = new FormattedText.ContentConsumer() {
                 @Override
                 public Optional accept(String p_accept_1_) {
                     lastLine[0] = p_accept_1_;
