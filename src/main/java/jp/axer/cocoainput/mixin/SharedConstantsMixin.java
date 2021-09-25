@@ -3,7 +3,7 @@ package jp.axer.cocoainput.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
-import net.minecraft.util.SharedConstants;
+import net.minecraft.SharedConstants;
 
 
 @Mixin(SharedConstants.class)

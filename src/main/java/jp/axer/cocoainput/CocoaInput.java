@@ -20,7 +20,7 @@ import jp.axer.cocoainput.plugin.CocoaInputController;
 import jp.axer.cocoainput.util.ConfigPack;
 import jp.axer.cocoainput.util.ModLogger;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 
 public class CocoaInput {
 	private static CocoaInputController controller;

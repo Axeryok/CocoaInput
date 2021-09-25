@@ -2,9 +2,9 @@
 	"package":"jp.axer.cocoainput.mixin",
 	"mixins":[
 		"SharedConstantsMixin",
-		"TextFieldWidgetMixin",
-		"EditSignScreenMixin",
-		"EditBookScreenMixin"
+		"EditBoxMixin",
+		"SignEditScreenMixin",
+		"BookEditScreenMixin"
 	],
 	"refmap":"cocoainput.refmap.json",
 	"required":true

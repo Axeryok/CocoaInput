@@ -6,31 +6,31 @@ import jp.axer.cocoainput.plugin.IMEReceiver;
 import jp.axer.cocoainput.util.ModLogger;
 import jp.axer.cocoainput.util.Rect;
 import jp.axer.cocoainput.util.WrapperUtil;
-import net.minecraft.block.StandingSignBlock;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.screen.EditSignScreen;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.screens.inventory.SignEditScreen;
+import net.minecraft.network.chat.TextComponent;
 
-public class EditSignScreenWrapper extends IMEReceiver {
-    private EditSignScreen owner;
+public class SignEditScreenWrapper extends IMEReceiver {
+    private SignEditScreen owner;
     private IMEOperator myIME;
 
 
-    public EditSignScreenWrapper(EditSignScreen field) {
-        ModLogger.debug("EditSignScreen init: " + field.hashCode());
+    public SignEditScreenWrapper(SignEditScreen field) {
+        ModLogger.debug("SignEditScreen init: " + field.hashCode());
         owner = field;
         myIME = CocoaInput.getController().generateIMEOperator(this);
         myIME.setFocused(true);
     }
 
     protected void setText(String text) {
-    	owner.sign.setMessage(owner.line,new StringTextComponent(text));
+    	owner.sign.setMessage(owner.line,new TextComponent(text));
     	String [] util = owner.messages;
     	util[owner.line]=text;
     }
 
 	protected String getText() {
-		return owner.sign.getMessage(owner.line).getString();
+		return owner.sign.getMessage(owner.line,false).getString();
 	}
 
 	protected void setCursorInvisible() {
@@ -53,9 +53,9 @@ public class EditSignScreenWrapper extends IMEReceiver {
     @Override
     public Rect getRect() {
 
-        FontRenderer fontRendererObj = null;
+        Font fontRendererObj = null;
         try {
-            fontRendererObj = WrapperUtil.makeFontRenderer(owner);
+            fontRendererObj = WrapperUtil.makeFont(owner);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,8 +64,8 @@ public class EditSignScreenWrapper extends IMEReceiver {
             y += 30;
         }
         return new Rect(
-        		owner.width/2+fontRendererObj.width(owner.sign.getMessage(owner.line).toString().substring(0, originalCursorPosition))/2,
-//                owner.width / 2 + fontRendererObj.width(owner.sign.getMessage(owner.line).getString()) / 2,
+        		owner.width/2+fontRendererObj.width(owner.sign.getMessage(owner.line,false).toString().substring(0, originalCursorPosition))/2,
+//                owner.width / 2 + fontRendererObj.width(owner.sign.getMessage(owner.line,false).getString()) / 2,
                 y,
                 0,
                 0

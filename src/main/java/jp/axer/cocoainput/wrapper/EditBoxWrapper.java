@@ -6,15 +6,15 @@ import jp.axer.cocoainput.plugin.IMEOperator;
 import jp.axer.cocoainput.plugin.IMEReceiver;
 import jp.axer.cocoainput.util.ModLogger;
 import jp.axer.cocoainput.util.Rect;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.network.chat.TextComponent;
 
-public class TextFieldWidgetWrapper extends IMEReceiver {
+public class EditBoxWrapper extends IMEReceiver {
     private IMEOperator myIME;
-    private TextFieldWidget owner;
+    private EditBox owner;
 
-    public TextFieldWidgetWrapper(TextFieldWidget field) {
-        ModLogger.debug("TextFieldWidget init: " + field.hashCode());
+    public EditBoxWrapper(EditBox field) {
+        ModLogger.debug("EditBox init: " + field.hashCode());
         owner = field;
         myIME = CocoaInput.getController().generateIMEOperator(this);
     }
@@ -24,7 +24,7 @@ public class TextFieldWidgetWrapper extends IMEReceiver {
     }
 
     public void setFocused(boolean newParam) {
-    	owner.setFormatter( ((abc,def) -> new StringTextComponent(abc).getVisualOrderText()     ));
+    	owner.setFormatter( ((abc,def) -> new TextComponent(abc).getVisualOrderText()     ));
         myIME.setFocused(newParam);
     }
 

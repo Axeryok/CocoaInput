@@ -1,4 +1,4 @@
-package jp.axer.cocoainput.loader;
+package jp.axer.cocoainput.util;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

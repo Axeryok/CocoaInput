@@ -1,2 +1,0 @@
-#!/bin/bash
-cmd.exe /c gradlew "$@"

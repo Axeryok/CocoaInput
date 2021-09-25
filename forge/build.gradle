@@ -8,7 +8,7 @@ buildscript {
         maven { url='https://repo.spongepowered.org/maven' }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     	classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
     }
 }
@@ -20,9 +20,10 @@ apply plugin: 'org.spongepowered.mixin'
 
 version = '4.0.4'
 group = 'jp.axer.cocoainput' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'CocoaInput-1.16.5-forge'
+archivesBaseName = 'CocoaInput-1.17.1-forge'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+// Mojang ships Java 16 to end users in 1.17+ instead of Java 8 in 1.16 or lower, so your mod should target Java 16.
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 	
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
@@ -31,11 +32,11 @@ minecraft {
     // stable_#            Stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'official', version: '1.16.5'
+    mappings channel: 'official', version: '1.17.1'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     // accessTransformer = file('build/resources/main/META-INF/accesstransformer.cfg')
-    accessTransformer = file('src/forge/resources/META-INF/accesstransformer.cfg')
+    accessTransformer = file('../src/forge/resources/META-INF/accesstransformer.cfg')
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
@@ -50,8 +51,10 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 			arg "-mixin.config=cocoainput.mixins.json"
 
-			sourceSets.main.java.srcDirs+=['src/forge/java']
-			sourceSets.main.resources.srcDirs+=['src/forge/resources']
+			sourceSets.main.java.srcDirs+=['../src/forge/java']
+			sourceSets.main.java.srcDirs+=['../src/main/java']
+			sourceSets.main.resources.srcDirs+=['../src/forge/resources']
+			sourceSets.main.resources.srcDirs+=['../src/main/resources']
             mods {
                 examplemod {
                     source sourceSets.main
@@ -85,7 +88,7 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.16.5-36.1.31'
+    minecraft 'net.minecraftforge:forge:1.17.1-37.0.71'
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -104,42 +107,13 @@ dependencies {
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-    annotationProcessor 'org.spongepowered:mixin:0.8:processor'
+    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
 
-}
-
-task buildCILib {
-    if(Os.isFamily(Os.FAMILY_MAC)){
-        String cm = "bash ./build_lib_for_mac.sh"
-        Process p = cm.execute()
-        p.waitFor()
-    }
-    else if(Os.isFamily(Os.FAMILY_WINDOWS)){
-        String cm = "bash ./build_lib_for_win.sh"
-        Process p = cm.execute()
-        p.waitFor()
-    }
-    else if(Os.isFamily(Os.FAMILY_UNIX)){
-        String cm = "bash ./build_lib_for_x11.sh"
-        Process p = cm.execute()
-        p.waitFor()
-    }
-}
-
-gradle.taskGraph.whenReady {
-    runClient.doFirst{
-            buildCILib
-    }
 }
 
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
-    if(Os.isFamily(Os.FAMILY_MAC)){
-        String cm = "bash ./build_lib_for_mac.sh"
-        Process p = cm.execute()
-        p.waitFor()
-    }
     manifest {
         attributes([
             "Specification-Title": "CocoaInput",
