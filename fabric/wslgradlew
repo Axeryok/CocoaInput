@@ -1,2 +1,2 @@
 #!/bin/bash
-cmd.exe /c 'SET JAVA_HOME=C:\Program Files\AdoptOpenJDK\jdk-16.0.1.9-hotspot&gradlew '"$@"
+cmd.exe /c 'SET JAVA_HOME=C:\Program Files\Eclipse Adoptium\jdk-17.0.1.12-hotspot&gradlew '"$@"

@@ -3,10 +3,10 @@ package jp.axer.cocoainput.loader;
 import jp.axer.cocoainput.CocoaInput;
 import jp.axer.cocoainput.util.ModLogger;
 import jp.axer.cocoainput.util.FCConfig;
-import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.client.event.ScreenOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fmlclient.ConfigGuiHandler;
+import net.minecraftforge.client.ConfigGuiHandler;
 
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -35,7 +35,7 @@ public class ForgeLoader {
 			ModLogger.log("ConfigPack:"+CocoaInput.config.isAdvancedPreeditDraw()+" "+CocoaInput.config.isNativeCharTyped());
 	}
 	@SubscribeEvent
-    public void didChangeGui(GuiOpenEvent event) {
-		this.instance.distributeScreen(event.getGui());
+    public void didChangeGui(ScreenOpenEvent event) {
+		this.instance.distributeScreen(event.getScreen());
 	}
 }

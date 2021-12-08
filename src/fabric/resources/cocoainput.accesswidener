@@ -1,4 +1,4 @@
-accessWidener	v1	named
+accessWidener v1 named
 accessible field net/minecraft/client/gui/components/EditBox font Lnet/minecraft/client/gui/Font;
 accessible field net/minecraft/client/gui/components/EditBox bordered Z
 accessible field net/minecraft/client/gui/components/EditBox value Ljava/lang/String;
