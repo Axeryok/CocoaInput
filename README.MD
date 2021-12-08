@@ -13,7 +13,7 @@ To compile them, run one of below scripts which is your platform.
     - build_lib_for_mac.sh - For macOS
     - build_lib_for_x11.sh - For Linux
     - build_lib_for_win.sh - For Windows
-    - (build_lib_all.sh - For all platform)
+    - (build_lib_all.sh - For all platform, You should create remote_build.sh to build macOS lib remotely.)
 3. Compile Forge Mod<br />
 Type below command.Forge mod will be located in "fabric/build/libs".
 ```Bash
@@ -23,7 +23,7 @@ Type below command.Forge mod will be located in "fabric/build/libs".
 Type below command.Fabric mod will be located in "fabric/build/libs".
 ```Bash
 cd fabric
-./preprocess.sh && ./gradlew build
+./gradlew build
 ```
 
 ## Installing
