@@ -6,6 +6,5 @@
 		"SignEditScreenMixin",
 		"BookEditScreenMixin"
 	],
-	"refmap":"cocoainput.refmap.json",
 	"required":true
 }
