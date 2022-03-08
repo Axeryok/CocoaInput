@@ -4,17 +4,17 @@
   "version": "${version}",
 
   "name": "CocoaInput",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "A best way to input characters with native mac IM in Minecraft",
   "authors": [
     "Axeryok"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/cocoainput",
+    "sources": "https://github.com/Axeryok/CocoaInput"
   },
 
   "license": "MMPLJ",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/cocoainput/icon.png",
 
   "environment": "*",
   "entrypoints": {
