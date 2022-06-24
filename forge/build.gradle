@@ -111,6 +111,19 @@ dependencies {
 
 }
 
+tasks.withType(JavaCompile).configureEach {
+	// ensure that the encoding is set to UTF-8, no matter what the system default is
+	// this fixes some edge cases with special characters not displaying correctly
+	// see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
+	// If Javadoc is generated, this must be specified in that task too.
+	it.options.encoding = "UTF-8"
+
+	// Minecraft 1.17 (21w19a) upwards uses Java 16.
+	it.options.release = 17
+
+	// Check for details.
+    //it.options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
