@@ -9,7 +9,6 @@ import jp.axer.cocoainput.util.Rect;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 
-
 public class EditBoxWrapper extends IMEReceiver {
     private IMEOperator myIME;
     private EditBox owner;
