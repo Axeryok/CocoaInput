@@ -135,8 +135,8 @@ public class TinyConfig {
                 value = f.apply(s);
                 inLimits = value.doubleValue() >= min && value.doubleValue() <= max;
                 info.error = inLimits? null : new AbstractMap.SimpleEntry<>(t, Component.literal(value.doubleValue() < min ?
-                        "則cMinimum " + (isNumber? "value" : "length") + (cast? " is " + (int)min : " is " + min) :
-                        "則cMaximum " + (isNumber? "value" : "length") + (cast? " is " + (int)max : " is " + max)));
+                        "§cMinimum " + (isNumber? "value" : "length") + (cast? " is " + (int)min : " is " + min) :
+                        "§cMaximum " + (isNumber? "value" : "length") + (cast? " is " + (int)max : " is " + max)));
             }
 
             info.tempValue = s;
