@@ -9,7 +9,7 @@ import jp.axer.cocoainput.util.WrapperUtil;
 import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.inventory.SignEditScreen;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 
 public class SignEditScreenWrapper extends IMEReceiver {
     private SignEditScreen owner;
@@ -24,7 +24,7 @@ public class SignEditScreenWrapper extends IMEReceiver {
     }
 
     protected void setText(String text) {
-    	owner.sign.setMessage(owner.line,new TextComponent(text));
+    	owner.sign.setMessage(owner.line,Component.literal(text));
     	String [] util = owner.messages;
     	util[owner.line]=text;
     }
