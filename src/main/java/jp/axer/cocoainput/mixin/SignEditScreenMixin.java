@@ -21,6 +21,7 @@ public class SignEditScreenMixin {
 	 
 	 @Redirect(method="tick",at = @At(value="FIELD", target="Lnet/minecraft/client/gui/screens/inventory/SignEditScreen;frame:I",opcode=Opcodes.PUTFIELD))
 	 private void injectCurosr(SignEditScreen esc,int n) {
+		 if (wrapper == null) wrapper = new SignEditScreenWrapper((SignEditScreen)(Object)this);	// May come before init() is called by stendhal-1.3.3-1.19.jar
 		 esc.frame=wrapper.renewCursorCounter();
 	 }
 }
