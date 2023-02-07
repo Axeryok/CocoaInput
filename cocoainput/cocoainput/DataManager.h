@@ -13,6 +13,7 @@
 @property NSMutableDictionary* dic;
 @property MinecraftView* activeView;
 @property NSView* openglView;
+@property NSWindow* openglWindow;
 @property void (*toggleFullScreen)();
 + (instancetype)sharedManager;
 - (void)keyDown:(NSEvent*)theEvent;

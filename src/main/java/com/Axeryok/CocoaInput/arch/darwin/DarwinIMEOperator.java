@@ -62,9 +62,6 @@ public class DarwinIMEOperator implements IMEOperator{
 				buff[2]*=factor;
 				buff[3]*=factor;
 				
-				buff[0]+=org.lwjgl.opengl.Display.getX();
-				buff[1]=Handle.INSTANCE.invertYCoordinate(org.lwjgl.opengl.Display.getY()+buff[1]);
-				
 				
 				Pointer ret=new Memory(Float.BYTES*4);
 				ret.write(0,buff,0,4);

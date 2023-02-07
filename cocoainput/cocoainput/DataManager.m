@@ -12,6 +12,7 @@ static DataManager* instance = nil;
 
 @implementation DataManager
 @synthesize openglView;
+@synthesize openglWindow;
 @synthesize activeView;
 @synthesize dic;
 
