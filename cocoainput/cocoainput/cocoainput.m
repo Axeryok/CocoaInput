@@ -13,10 +13,15 @@ void initialize(void (*log)(const char*),
                 void (*debug)(const char*)
                 ) {
   initLogPointer(log, error, debug);
-  while(1){
-      [DataManager sharedManager].openglView=[[NSApp keyWindow] contentView];
-      if([[[DataManager sharedManager].openglView className]isEqualToString:@"MacOSXOpenGLView"]==YES)break;
-  }
+  [[NSApp orderedWindows] enumerateObjectsUsingBlock:^(NSWindow *obj, NSUInteger idx, BOOL *stop) {
+    NSView *view=[obj contentView];
+    NSString *windowstr=[NSString stringWithFormat:@"%@",view];
+      if([[view className]isEqualToString:@"MacOSXOpenGLView"]==YES){
+          [DataManager sharedManager].openglWindow=obj;
+          [DataManager sharedManager].openglView=view;
+          //プロセス下のWindowのみ降ってくるのでopenglのWindow・Viewを抽出
+      }
+  }];
   NSView* mainView = [DataManager sharedManager].openglView;
   CIDebug(@"Replacing KeyWindow's keyDown method with new one.");
   replaceInstanceMethod([mainView class], @selector(keyDown:),
@@ -75,7 +80,8 @@ void removeInstance(const char* uuid) {
 void refreshInstance(void) {
   CIDebug(@"All textfields has been removed.");
   if([DataManager sharedManager].activeView){
-    [[[DataManager sharedManager].activeView inputContext] deactivate];
+    [[[DataManager sharedManager].activeView inputContext] performSelectorOnMainThread:@selector(deactivate) withObject:nil waitUntilDone:YES];
+    //deactivateもactivateと同様
   }
   NSDictionary* instances = [[DataManager sharedManager] dic];
   [[NSTextInputContext currentInputContext] discardMarkedText];
@@ -110,7 +116,8 @@ void setIfReceiveEvent(const char* uuid, int yn) {
     [[[[[DataManager sharedManager] dic]
         objectForKey:[[NSString alloc] initWithCString:uuid
                                               encoding:NSUTF8StringEncoding]]
-        inputContext] deactivate];
+        inputContext] performSelectorOnMainThread:@selector(deactivate) withObject:nil waitUntilDone:YES];
+        //deactivateもactivateと同様
     if ([DataManager sharedManager].activeView != nil &&
         [[[[DataManager sharedManager] dic]
             objectForKey:[[NSString alloc]

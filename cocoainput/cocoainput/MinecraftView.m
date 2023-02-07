@@ -7,6 +7,7 @@
 //
 
 #import "MinecraftView.h"
+#import "DataManager.h"
 #define SPLIT_NSRANGE(x) (int)(x.location), (int)(x.length)
 #define MAKE_NSRECT_FROM_ARRAY(x) NSMakeRect(x[0], x[1], x[2], x[3])
 
@@ -70,8 +71,10 @@
     return NSMakeRect(0, 0, 0, 0);
   }
   float* rect = self.firstRectForCharacterRange();
-
-  return MAKE_NSRECT_FROM_ARRAY(rect);
+  NSWindow *window=[DataManager sharedManager].openglWindow;
+  NSRect gameFrame=[window contentRectForFrameRect:[window frame]];
+  return NSMakeRect(rect[0]+NSMinX(gameFrame),gameFrame.size.height-rect[1]+NSMinY(gameFrame),rect[2], rect[3]);
+  //initializeでWindowを発見できるのでそれを利用
 }
 
 - (BOOL)hasMarkedText {

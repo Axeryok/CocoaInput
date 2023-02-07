@@ -3,7 +3,7 @@ echo "Build libcocoainput for macOS"
 cd cocoainput/cocoainput
 
 #Build
-gcc -shared -o libcocoainput.dylib cocoainput.m Logger.m MinecraftView.m DataManager.m -framework Foundation -framework Cocoa -fobjc-arc
+gcc -shared -o libcocoainput.dylib cocoainput.m Logger.m MinecraftView.m DataManager.m -framework Foundation -framework Cocoa -fobjc-arc -arch x86_64 -arch arm64
 
 #ErrorCheck
 if [ "$?" -eq 0 ]
