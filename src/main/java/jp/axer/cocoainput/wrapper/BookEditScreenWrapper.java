@@ -21,6 +21,7 @@ public class BookEditScreenWrapper extends IMEReceiver {
 
     public BookEditScreenWrapper(BookEditScreen field) {
         ModLogger.log("BookEditScreen init: " + field.hashCode());
+        this.allowTextDecoration = () -> !owner.isSigning;
         owner = field;
         myIME = CocoaInput.getController().generateIMEOperator(this);
         myIME.setFocused(true);

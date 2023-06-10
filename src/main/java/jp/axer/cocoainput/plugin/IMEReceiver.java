@@ -1,5 +1,8 @@
 package jp.axer.cocoainput.plugin;
 
+import java.util.function.BooleanSupplier;
+import org.jetbrains.annotations.Nullable;
+
 import jp.axer.cocoainput.CocoaInput;
 import jp.axer.cocoainput.arch.win.Logger;
 import jp.axer.cocoainput.util.PreeditFormatter;
@@ -13,6 +16,7 @@ public abstract class IMEReceiver {
 	protected boolean cursorVisible = true;
 	private boolean preeditBegin = false;
 	protected int originalCursorPosition = 0;
+	protected @Nullable BooleanSupplier allowTextDecoration;
 
 	/*
 	 * position1 length1は下線と強調変換のため必須 position2 length2は意味をなしてない
@@ -65,7 +69,12 @@ public abstract class IMEReceiver {
 		int caretPosition;
 		boolean hasCaret;
 		String commitString;
-		if (CocoaInput.config.isAdvancedPreeditDraw()) {
+		if (allowTextDecoration != null && !allowTextDecoration.getAsBoolean()) {
+			hasCaret = false;
+			caretPosition = 0;
+			commitString = aString;
+		}
+		else if (CocoaInput.config.isAdvancedPreeditDraw()) {
 			Tuple3<String, Integer, Boolean> formattedText = PreeditFormatter.formatMarkedText(aString, position1,
 					length1);
 			commitString = formattedText._1();

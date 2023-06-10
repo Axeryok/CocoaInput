@@ -3,11 +3,11 @@ package jp.axer.cocoainput.loader;
 import jp.axer.cocoainput.CocoaInput;
 import jp.axer.cocoainput.util.ModLogger;
 import jp.axer.cocoainput.util.FCConfig;
-import net.minecraftforge.client.event.ScreenOpenEvent;
+import net.minecraftforge.client.event.ScreenEvent.Opening;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.client.ConfigGuiHandler;
-
+import net.minecraftforge.client.ConfigScreenHandler;
+import net.minecraftforge.client.ConfigScreenHandler.ConfigScreenFactory;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -30,12 +30,12 @@ public class ForgeLoader {
 			ModLogger.log("Forge config setup");
 			ModLogger.log("Config path:"+FMLPaths.CONFIGDIR.get().resolve("cocoainput.json").toString());
 			FCConfig.init("cocoainput",FMLPaths.CONFIGDIR.get().resolve("cocoainput.json"), FCConfig.class);
-			ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, ()->new ConfigGuiHandler.ConfigGuiFactory((mc,modListScreen)->new FCConfig().getScreen(modListScreen)));
+			ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, ()->new ConfigScreenFactory((mc,modListScreen)->new FCConfig().getScreen(modListScreen)));
 			CocoaInput.config=new FCConfig();
 			ModLogger.log("ConfigPack:"+CocoaInput.config.isAdvancedPreeditDraw()+" "+CocoaInput.config.isNativeCharTyped());
 	}
 	@SubscribeEvent
-    public void didChangeGui(ScreenOpenEvent event) {
+    public void didChangeGui(Opening event) {
 		this.instance.distributeScreen(event.getScreen());
 	}
 }

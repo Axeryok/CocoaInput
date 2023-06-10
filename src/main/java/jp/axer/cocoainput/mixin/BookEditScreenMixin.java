@@ -20,7 +20,7 @@ public class BookEditScreenMixin {
 	 }
 	 
 	 @Redirect(method="tick",at = @At(value="FIELD", target="Lnet/minecraft/client/gui/screens/inventory/BookEditScreen;frameTick:I",opcode=Opcodes.PUTFIELD))
-	 private void injectCurosr(BookEditScreen esc,int n) {
+	 private void injectCursor(BookEditScreen esc,int n) {
 		 esc.frameTick=wrapper.renewCursorCounter();
 	 }
 }
